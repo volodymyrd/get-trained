@@ -1,0 +1,25 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea/
+.gradle/
+get-trained-backend.iml
+gradlew
+gradlew.bat
+local.properties
+gradle/
+classes/
+backend-batch/target
+backend-batch/out
+backend-notif/out/
+backend-notif/target/
+backend-shared/target/
+backend-shared/out/
+frontend/target/
+frontend/out/
+get-trained-app/out
+get-trained-app/target
+get-trained-web/out
+get-trained-web/target
+
+#System Files
+.DS_Store
+Thumbs.db

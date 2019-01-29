@@ -1,0 +1,49 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        mavenLocal()
+        maven { url "http://repo.spring.io/release" }
+        maven { url "http://repo.spring.io/milestone" }
+        maven { url "http://repo.spring.io/snapshot" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${versions.spring_boot}")
+    }
+}
+
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+apply plugin: 'war'
+war {
+    def cmd = "git rev-parse --short HEAD"
+    def proc = cmd.execute()
+    ext.revision = proc.text.trim()
+
+    manifest {
+        attributes(
+                "Implementation-Version": version + " build: " + ext.revision,
+                "releases-date": new Date().format("yyyy-MM-dd'T 'HH:mm:ss.SSSZZ"),
+                "Specification-Vendor": "GetTrained",
+                "Specification-Title": "GetTrained-App-Web"
+        )
+    }
+
+    archiveName = 'gettrained.war'
+}
+
+dependencies {
+    compile project(":frontend")
+    
+    compile libs.javax
+
+    providedRuntime libs.tomcat_embed
+}
+
+springBoot {
+    mainClassName = 'online.gettrained.frontend.app.Application'
+}
+
+bootRun {
+    systemProperty "spring.config.location", "classpath:application-dev.properties"
+}

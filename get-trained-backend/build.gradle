@@ -1,0 +1,158 @@
+//remote deploy
+plugins {
+    id 'org.hidetake.ssh' version '2.9.0'
+}
+
+defaultTasks 'clean', 'build'
+
+subprojects {
+    ext {
+        versions = [
+                junit              : '4.12',
+                jstl               : '1.2',
+                spring_boot        : '2.1.2.RELEASE',
+                spring_secure      : '5.1.3.RELEASE',
+                ldap               : '2.3.2.RELEASE',
+                spring_shell       : '2.0.0.RELEASE',
+                hibernate_validator: '6.0.13.Final',
+                caffeine_cache     : '2.6.2',
+                hibernate_envers   : '5.3.7.Final',
+                mysql              : '8.0.13',
+                postgresql         : '42.2.5',
+                hsqldb             : '2.3.4',
+                liquibase          : '3.5.5',
+                json               : '2.9.7',
+                quartz             : '2.3.0',
+                commons_math3      : '3.6.1',
+                lucene             : '7.3.0',
+                poi                : '3.17',
+                logback            : '1.2.3',
+                slf4j              : '1.7.25',
+                guava              : '20.0',
+                httpcomp           : '4.5.3',
+                hikari             : '3.2.0',
+                gcp                : '1.57.0',
+                gcp_speech         : '0.75.0-beta',
+                gcp_logback_logging: '0.75.0-alpha'
+        ]
+
+        libs = [:]
+
+        libs.javax = ["javax.servlet:jstl:${versions.jstl}"]
+
+        libs.spring_boot_web = ["org.springframework.boot:spring-boot-starter-web:${versions.spring_boot}"]
+
+        libs.spring_boot_jpa = "org.springframework.boot:spring-boot-starter-data-jpa:${versions.spring_boot}"
+        libs.hibernate_validator = "org.hibernate:hibernate-validator:${versions.hibernate_validator}"
+
+        libs.spring_boot_security = "org.springframework.boot:spring-boot-starter-security:${versions.spring_boot}"
+
+        libs.spring_ldap = ["org.springframework.ldap:spring-ldap-core:${versions.ldap}",
+                            "org.springframework.security:spring-security-ldap:${versions.spring_secure}"]
+
+        libs.spring_boot_mail = "org.springframework.boot:spring-boot-starter-mail:${versions.spring_boot}"
+
+        libs.spring_boot_batch = "org.springframework.boot:spring-boot-starter-batch:${versions.spring_boot}"
+
+        libs.caffeine_cache = ["com.github.ben-manes.caffeine:caffeine:${versions.caffeine_cache}"]
+
+        libs.database_mysql = "mysql:mysql-connector-java:${versions.mysql}"
+
+        libs.database_postgresql = "org.postgresql:postgresql:${versions.postgresql}"
+
+        libs.database_hsqldb = "org.hsqldb:hsqldb:${versions.hsqldb}"
+
+        libs.liquibase = "org.liquibase:liquibase-core:${versions.liquibase}"
+
+        libs.test = ["org.springframework.boot:spring-boot-starter-test:${versions.spring_boot}"]
+
+        libs.test_secure = "org.springframework.security:spring-security-test:${versions.spring_secure}"
+
+        libs.tomcat_embed = ["org.springframework.boot:spring-boot-starter-tomcat:${versions.spring_boot}",
+                             "org.apache.tomcat.embed:tomcat-embed-jasper"]
+
+        libs.json = ["com.fasterxml.jackson.core:jackson-core:${versions.json}",
+                     "com.fasterxml.jackson.core:jackson-annotations:${versions.json}",
+                     "com.fasterxml.jackson.core:jackson-databind:${versions.json}"]
+
+        libs.csv = "com.fasterxml.jackson.dataformat:jackson-dataformat-csv:${versions.json}"
+
+        libs.envers = "org.hibernate:hibernate-envers:${versions.hibernate_envers}"
+
+        libs.production = ["org.springframework.boot:spring-boot-starter-actuator:${versions.spring_boot}"]
+
+        libs.quartz = "org.quartz-scheduler:quartz:${versions.quartz}"
+
+        libs.shell = "org.springframework.shell:spring-shell-starter:${versions.spring_shell}"
+
+        libs.stat = "org.apache.commons:commons-math3:${versions.commons_math3}"
+
+        libs.lucene = ["org.apache.lucene:lucene-analyzers-common:${versions.lucene}",
+                       "org.apache.lucene:lucene-queryparser:${versions.lucene}"]
+
+        libs.poi = ["org.apache.poi:poi:${versions.poi}", "org.apache.poi:poi-ooxml:${versions.poi}"]
+
+        libs.logback = ["ch.qos.logback:logback-core:${versions.logback}",
+                        "ch.qos.logback:logback-classic:${versions.logback}"]
+
+        libs.slf4j = ["org.slf4j:slf4j-api:${versions.slf4j}"]
+
+        libs.httpcomp = ["org.apache.httpcomponents:httpclient:${versions.httpcomp}"]
+
+        libs.guava = ["com.google.guava:guava:${versions.guava}"]
+
+        libs.gcp_pub_sub = ["com.google.cloud:google-cloud-pubsub:${versions.gcp}"]
+
+        libs.gcp_storage = ["com.google.cloud:google-cloud-storage:${versions.gcp}"]
+
+        libs.gcp_bigquery = ["com.google.cloud:google-cloud-bigquery:${versions.gcp}"]
+
+        libs.hikari = ["com.zaxxer:HikariCP:${versions.hikari}"]
+
+        libs.gcp_speech = ["com.google.cloud:google-cloud-speech:${versions.gcp_speech}"]
+
+        libs.gcp_logback_logging =
+                ["com.google.cloud:google-cloud-logging-logback:${versions.gcp_logback_logging}"]
+    }
+
+    apply plugin: 'java'
+
+    //gradle htmlDependencyReport
+    apply plugin: 'project-report'
+
+    sourceCompatibility = targetCompatibility = 1.8
+
+    compileJava {
+        options.encoding = "UTF-8"
+    }
+    compileTestJava {
+        options.encoding = "UTF-8"
+    }
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "http://repo.spring.io/release" }
+    }
+
+    task wrapper(type: Wrapper) {
+        gradleVersion = '4.2.1'
+    }
+
+    buildDir = 'target'
+
+    version = 'beta'
+
+    test {
+        testLogging {
+            afterSuite { desc, result ->
+                if (!desc.parent) { // will match the outermost suite
+                    println "Results: " +
+                            "${result.resultType} (${result.testCount} tests, " +
+                            "${result.successfulTestCount} successes, ${result.failedTestCount} failures, " +
+                            "${result.skippedTestCount} skipped)"
+                }
+            }
+        }
+    }
+}
