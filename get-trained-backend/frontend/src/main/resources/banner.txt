@@ -1,0 +1,22 @@
+
+
+                                                                                                                                                                                       dddddddd
+        GGGGGGGGGGGGG                             tttt          TTTTTTTTTTTTTTTTTTTTTTT                                        iiii                                                    d::::::d
+     GGG::::::::::::G                          ttt:::t          T:::::::::::::::::::::T                                       i::::i                                                   d::::::d
+   GG:::::::::::::::G                          t:::::t          T:::::::::::::::::::::T                                        iiii                                                    d::::::d
+  G:::::GGGGGGGG::::G                          t:::::t          T:::::TT:::::::TT:::::T                                                                                                d:::::d
+ G:::::G       GGGGGG    eeeeeeeeeeee    ttttttt:::::ttttttt    TTTTTT  T:::::T  TTTTTTrrrrr   rrrrrrrrr     aaaaaaaaaaaaa   iiiiiii nnnn  nnnnnnnn        eeeeeeeeeeee        ddddddddd:::::d
+G:::::G                ee::::::::::::ee  t:::::::::::::::::t            T:::::T        r::::rrr:::::::::r    a::::::::::::a  i:::::i n:::nn::::::::nn    ee::::::::::::ee    dd::::::::::::::d
+G:::::G               e::::::eeeee:::::eet:::::::::::::::::t            T:::::T        r:::::::::::::::::r   aaaaaaaaa:::::a  i::::i n::::::::::::::nn  e::::::eeeee:::::ee d::::::::::::::::d
+G:::::G    GGGGGGGGGGe::::::e     e:::::etttttt:::::::tttttt            T:::::T        rr::::::rrrrr::::::r           a::::a  i::::i nn:::::::::::::::ne::::::e     e:::::ed:::::::ddddd:::::d
+G:::::G    G::::::::Ge:::::::eeeee::::::e      t:::::t                  T:::::T         r:::::r     r:::::r    aaaaaaa:::::a  i::::i   n:::::nnnn:::::ne:::::::eeeee::::::ed::::::d    d:::::d
+G:::::G    GGGGG::::Ge:::::::::::::::::e       t:::::t                  T:::::T         r:::::r     rrrrrrr  aa::::::::::::a  i::::i   n::::n    n::::ne:::::::::::::::::e d:::::d     d:::::d
+G:::::G        G::::Ge::::::eeeeeeeeeee        t:::::t                  T:::::T         r:::::r             a::::aaaa::::::a  i::::i   n::::n    n::::ne::::::eeeeeeeeeee  d:::::d     d:::::d
+ G:::::G       G::::Ge:::::::e                 t:::::t    tttttt        T:::::T         r:::::r            a::::a    a:::::a  i::::i   n::::n    n::::ne:::::::e           d:::::d     d:::::d
+  G:::::GGGGGGGG::::Ge::::::::e                t::::::tttt:::::t      TT:::::::TT       r:::::r            a::::a    a:::::a i::::::i  n::::n    n::::ne::::::::e          d::::::ddddd::::::dd
+   GG:::::::::::::::G e::::::::eeeeeeee        tt::::::::::::::t      T:::::::::T       r:::::r            a:::::aaaa::::::a i::::::i  n::::n    n::::n e::::::::eeeeeeee   d:::::::::::::::::d
+     GGG::::::GGG:::G  ee:::::::::::::e          tt:::::::::::tt      T:::::::::T       r:::::r             a::::::::::aa:::ai::::::i  n::::n    n::::n  ee:::::::::::::e    d:::::::::ddd::::d
+        GGGGGG   GGGG    eeeeeeeeeeeeee            ttttttttttt        TTTTTTTTTTT       rrrrrrr              aaaaaaaaaa  aaaaiiiiiiii  nnnnnn    nnnnnn    eeeeeeeeeeeeee     ddddddddd   ddddd
+
+GetTrained Web: ${application.version}
+Spring boot: ${spring-boot.version}
