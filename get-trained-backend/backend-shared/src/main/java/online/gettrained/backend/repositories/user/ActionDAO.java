@@ -27,35 +27,6 @@ public class ActionDAO extends BaseRepository {
         .getSingleResult()).intValue() > 0;
   }
 
-  public boolean isAllowedForUser(Long companyId, Long userId, List<Id> actionIds) {
-    if (companyId == null || userId == null || actionIds == null || actionIds.isEmpty()) {
-      throw new IllegalArgumentException("Parameters must set");
-    }
-    return ((BigInteger) getEntityManager().createNativeQuery(
-        "SELECT COUNT(ura.ACTION_ID) FROM USR_ROLES_ACTIONS ura "
-            + " INNER JOIN ORG_MEMBERS_ROLES mr ON mr.REF_ROLE_ID=ura.REF_ROLE_ID "
-            + " INNER JOIN ORG_MEMBERS m ON m.ID=mr.REF_MEMBER_ID "
-            + " WHERE m.REF_COMPANY_ID=:companyId AND m.REF_USER_ID=:userId AND ura.ACTION_ID IN :actionIds")
-        .setParameter("companyId", companyId)
-        .setParameter("userId", userId)
-        .setParameter("actionIds", buildActionNamesSet(actionIds))
-        .getSingleResult()).intValue() > 0;
-  }
-
-  public boolean isAllowedForMember(Long memberId, List<Id> actionIds) {
-    if (memberId == null || actionIds == null || actionIds.isEmpty()) {
-      throw new IllegalArgumentException("Parameters must set");
-    }
-    return ((BigInteger) getEntityManager().createNativeQuery(
-        "SELECT COUNT(ura.ACTION_ID) FROM USR_ROLES_ACTIONS ura "
-            + " INNER JOIN ORG_MEMBERS_ROLES mr ON mr.REF_ROLE_ID=ura.REF_ROLE_ID "
-            + " INNER JOIN ORG_MEMBERS m ON m.ID=mr.REF_MEMBER_ID "
-            + " WHERE m.ID=:memberId AND ura.ACTION_ID IN :actionIds")
-        .setParameter("memberId", memberId)
-        .setParameter("actionIds", buildActionNamesSet(actionIds))
-        .getSingleResult()).intValue() > 0;
-  }
-
   private Set<String> buildActionNamesSet(List<Id> actionIds) {
     Set<String> set = actionIds.stream().map(Enum::name).collect(Collectors.toSet());
     set.add(Id.BERIZE_ALL.name());

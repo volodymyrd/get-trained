@@ -1,0 +1,646 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+  <changeSet id="1" author="Volodymyr Dotsenko">
+    <comment>Local for COMMON</comment>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">common.lang.name</column>
+      <column name="MODULE">COMMON</column>
+      <column name="LOCAL_TEXT">Language</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">UA</column>
+      <column name="LOCAL_KEY">common.lang.name</column>
+      <column name="MODULE">COMMON</column>
+      <column name="LOCAL_TEXT">Мова</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">common.lang.name</column>
+      <column name="MODULE">COMMON</column>
+      <column name="LOCAL_TEXT">Язык</column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">common.submit</column>
+      <column name="MODULE">COMMON</column>
+      <column name="LOCAL_TEXT">Submit</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">UA</column>
+      <column name="LOCAL_KEY">common.submit</column>
+      <column name="MODULE">COMMON</column>
+      <column name="LOCAL_TEXT">Відправити</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">common.submit</column>
+      <column name="MODULE">COMMON</column>
+      <column name="LOCAL_TEXT">Отправить</column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">common.save</column>
+      <column name="MODULE">COMMON</column>
+      <column name="LOCAL_TEXT">Save</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">UA</column>
+      <column name="LOCAL_KEY">common.save</column>
+      <column name="MODULE">COMMON</column>
+      <column name="LOCAL_TEXT">Зберегти</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">common.save</column>
+      <column name="MODULE">COMMON</column>
+      <column name="LOCAL_TEXT">Сохранить</column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">common.cancel</column>
+      <column name="MODULE">COMMON</column>
+      <column name="LOCAL_TEXT">Cancel</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">UA</column>
+      <column name="LOCAL_KEY">common.cancel</column>
+      <column name="MODULE">COMMON</column>
+      <column name="LOCAL_TEXT">Скасувати</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">common.cancel</column>
+      <column name="MODULE">COMMON</column>
+      <column name="LOCAL_TEXT">Отмена</column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">common.change</column>
+      <column name="MODULE">COMMON</column>
+      <column name="LOCAL_TEXT">Change</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">UA</column>
+      <column name="LOCAL_KEY">common.change</column>
+      <column name="MODULE">COMMON</column>
+      <column name="LOCAL_TEXT">Змінити</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">common.change</column>
+      <column name="MODULE">COMMON</column>
+      <column name="LOCAL_TEXT">Изменить</column>
+    </insert>
+  </changeSet>
+
+  <changeSet id="2" author="Volodymyr Dotsenko">
+    <comment>Local for AUTH</comment>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">auth.txt.email</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Email</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">auth.txt.email</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Email</column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">auth.txt.password</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Password</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">auth.txt.password</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Пароль</column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">auth.error.wrong_credential</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Wrong email or password</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">auth.error.wrong_credential</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Неверный Email или пароль</column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">auth.error.email</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Wrong email</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">auth.error.email</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Неверный email</column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">auth.txt.signin</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Sign In</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">auth.txt.signin</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Вход</column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">auth.txt.signup</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Sign Up</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">auth.txt.signup</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Регистрация</column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">auth.btn.signin</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Sign In</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">auth.btn.signin</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Войти</column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">auth.btn.signup</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Sign Up</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">auth.btn.signup</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Зарегистрироваться</column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">auth.txt.forgot_password</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Forgot password?</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">auth.txt.forgot_password</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Забыли пароль?</column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">auth.error.password</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Please, type your password</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">auth.error.password</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Пожалуйста, введите свой пароль</column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">auth.txt.first_name</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">First Name</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">auth.txt.first_name</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Имя</column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">auth.reg.error.password</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Please enter new password with length not less than {0} characters
+      </column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">auth.reg.error.password</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Пожалуйста введите новый пароль длиной не менеее {0} символов
+      </column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">auth.reg.hint.password</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Minimum {0} characters</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">auth.reg.hint.password</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Минимум {0} символов</column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">auth.error.email_exist</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Such email is already exist</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">auth.error.email_exist</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Такой email уже существует</column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">auth.error.undefined</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Undefined error</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">auth.error.undefined</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Неопределенная ошибка</column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">auth.txt.ldap.custom.message</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">
+        Do you have questions or issues with the application, please contact to
+      </column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">UA</column>
+      <column name="LOCAL_KEY">auth.txt.ldap.custom.message</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">
+        У вас є питання чи проблеми з програмою, будь ласка, зв'яжіться з
+      </column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">auth.txt.ldap.custom.message</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">
+        У вас есть вопросы или проблемы с приложением, пожалуйста, свяжитесь с
+      </column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">auth.error.not_finished_registration</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">
+        You did not finish the registration, we have sent you an email with a reference to finish
+        the registration
+      </column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">auth.error.not_finished_registration</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">
+        Вы не завершили регистрацию, на Ваш емейл отправлено письмо с информацией как завершить
+        регистрацию
+      </column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">auth.reg.message.success</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">
+        Success registration. We have sent you an email with a reference to finish the registration
+      </column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">auth.reg.message.success</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">
+        Успешная регистрация. На Ваш емейл отправлено письмо для завершения регистрации
+      </column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">auth.txt.restorepassword</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">
+        Restore password
+      </column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">auth.txt.restorepassword</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">
+        Восстановление пароля
+      </column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">auth.btn.getnewpassword</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">
+        Receive a new password
+      </column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">auth.btn.getnewpassword</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">
+        Прислать новый пароль
+      </column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">auth.resetpassword.message.success</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">
+        Success reset password. We have sent you an email with a new password
+      </column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">auth.resetpassword.message.success</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">
+        Пароль успешно сброшен. На Ваш емейл отправлено письмо с новым паролем
+      </column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">auth.error.email_not_found</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">
+        Email not found
+      </column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">auth.error.email_not_found</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">
+        Емейл не найден
+      </column>
+    </insert>
+  </changeSet>
+
+  <changeSet id="3" author="Volodymyr Dotsenko">
+    <comment>Local for USER_PROFILE</comment>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">profile.txt.firstname</column>
+      <column name="MODULE">USER_PROFILE</column>
+      <column name="LOCAL_TEXT">First Name</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">UA</column>
+      <column name="LOCAL_KEY">profile.txt.firstname</column>
+      <column name="MODULE">USER_PROFILE</column>
+      <column name="LOCAL_TEXT">Ім'я</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">profile.txt.firstname</column>
+      <column name="MODULE">USER_PROFILE</column>
+      <column name="LOCAL_TEXT">Имя</column>
+    </insert>
+  </changeSet>
+</databaseChangeLog>

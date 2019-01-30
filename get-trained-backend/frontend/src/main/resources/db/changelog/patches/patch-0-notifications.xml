@@ -1,0 +1,303 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+  <changeSet id="1" author="Volodymyr Dotsenko">
+    <comment>The notification channels</comment>
+    <insert tableName="NOTIF_CHANNELS">
+      <column name="CHANNEL">SMS</column>
+      <column name="DESCRIPTION">SMS channel</column>
+    </insert>
+    <insert tableName="NOTIF_CHANNELS">
+      <column name="CHANNEL">EMAIL</column>
+      <column name="DESCRIPTION">EMAIL channel</column>
+    </insert>
+    <insert tableName="NOTIF_CHANNELS">
+      <column name="CHANNEL">PUSH</column>
+      <column name="DESCRIPTION">PUSH channel</column>
+    </insert>
+    <insert tableName="NOTIF_CHANNELS">
+      <column name="CHANNEL">SYSTEM</column>
+      <column name="DESCRIPTION">SYSTEM channel</column>
+    </insert>
+  </changeSet>
+  <changeSet id="4" author="Volodymyr Dotsenko">
+    <comment>The notification event groups</comment>
+    <insert tableName="NOTIF_EVENT_GROUPS">
+      <column name="CODE">SYSTEM</column>
+      <column name="LOCAL_KEY_NAME">system.notif.event_groups.system.name</column>
+      <column name="LOCAL_KEY_DESCRIPTION">system.notif.event_groups.system.description</column>
+      <column name="DEFAULT_NAME">System</column>
+      <column name="DEFAULT_DESCRIPTION">Group of the system events with the SYSTEM scope</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">system.notif.event_groups.system.name</column>
+      <column name="MODULE">SYSTEM</column>
+      <column name="LOCAL_TEXT">System</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">system.notif.event_groups.system.description</column>
+      <column name="MODULE">SYSTEM</column>
+      <column name="LOCAL_TEXT">Group of the system events with the SYSTEM scope</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">UA</column>
+      <column name="LOCAL_KEY">system.notif.event_groups.system.name</column>
+      <column name="MODULE">SYSTEM</column>
+      <column name="LOCAL_TEXT">Системні</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">UA</column>
+      <column name="LOCAL_KEY">system.notif.event_groups.system.description</column>
+      <column name="MODULE">SYSTEM</column>
+      <column name="LOCAL_TEXT">Група системних подій із скоупом SYSTEM</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">system.notif.event_groups.system.name</column>
+      <column name="MODULE">SYSTEM</column>
+      <column name="LOCAL_TEXT">Системные</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">system.notif.event_groups.system.description</column>
+      <column name="MODULE">SYSTEM</column>
+      <column name="LOCAL_TEXT">Группа системных событий со скоупом SYSTEM</column>
+    </insert>
+  </changeSet>
+
+  <changeSet id="5" author="Volodymyr Dotsenko">
+    <comment>The notification events</comment>
+    <insert tableName="NOTIF_EVENTS">
+      <column name="EVENT">CONFIRM_REGISTRATION</column>
+      <column name="SCOPE">SYSTEM</column>
+      <column name="REF_GROUP_CODE">SYSTEM</column>
+      <column name="DEFAULT_LANG_CODE">EN</column>
+      <column name="DEFAULT_DESCRIPTION">Confirm registration event</column>
+      <column name="DAYS_NUMBER">0</column>
+      <column name="SINGLETON" valueBoolean="true"/>
+    </insert>
+    <insert tableName="NOTIF_EVENTS">
+      <column name="EVENT">SUCCESS_REGISTRATION</column>
+      <column name="SCOPE">SYSTEM</column>
+      <column name="REF_GROUP_CODE">SYSTEM</column>
+      <column name="DEFAULT_LANG_CODE">EN</column>
+      <column name="DEFAULT_DESCRIPTION">Success registration event</column>
+      <column name="DAYS_NUMBER">0</column>
+      <column name="SINGLETON" valueBoolean="true"/>
+    </insert>
+    <insert tableName="NOTIF_EVENTS">
+      <column name="EVENT">SUCCESS_LOGIN</column>
+      <column name="SCOPE">SYSTEM</column>
+      <column name="REF_GROUP_CODE">SYSTEM</column>
+      <column name="DEFAULT_LANG_CODE">EN</column>
+      <column name="DEFAULT_DESCRIPTION">Success login event</column>
+      <column name="DAYS_NUMBER">0</column>
+      <column name="SINGLETON" valueBoolean="true"/>
+    </insert>
+    <insert tableName="NOTIF_EVENTS">
+      <column name="EVENT">RESTORE_PASSWORD</column>
+      <column name="SCOPE">SYSTEM</column>
+      <column name="REF_GROUP_CODE">SYSTEM</column>
+      <column name="DEFAULT_LANG_CODE">EN</column>
+      <column name="DEFAULT_DESCRIPTION">Restore password event</column>
+      <column name="DAYS_NUMBER">0</column>
+      <column name="SINGLETON" valueBoolean="true"/>
+    </insert>
+    <insert tableName="NOTIF_EVENTS">
+      <column name="EVENT">ADMIN_SYSTEM_METRICS</column>
+      <column name="SCOPE">SYSTEM</column>
+      <column name="REF_GROUP_CODE">SYSTEM</column>
+      <column name="DEFAULT_LANG_CODE">EN</column>
+      <column name="DEFAULT_DESCRIPTION">System metrics</column>
+      <column name="DAYS_NUMBER">0</column>
+      <column name="SINGLETON" valueBoolean="true"/>
+    </insert>
+  </changeSet>
+
+  <changeSet id="10" author="Volodymyr Dotsenko">
+    <comment>The view message templates for SYSTEM</comment>
+    <insert tableName="NOTIF_MESSAGE_VIEW_TEMPLATES">
+      <column name="ID">-1</column>
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="CHANNEL">EMAIL</column>
+      <column name="DESCRIPTION">Global view template for SYSTEM messages</column>
+      <column name="AUTHOR_ID">-1</column>
+      <column name="VIEW_TEMPLATE">
+        <![CDATA[
+          <div style="margin: 0 auto; background-color: #d3eae9;">
+              <div style="background-color: transparent;">
+                  <div style="background-color: transparent;">
+                      <div style="border-collapse: collapse; display: table; width: 100%;">
+                          <div style="background-color: transparent; border: 1px solid #EDEDED;">
+                              <div style="margin-right: 0px; margin-left: 0px;" align="center">&nbsp;</div>
+                              <div style="margin-right: 0px; margin-left: 0px;" align="center">&nbsp;</div>
+                              <div style="margin-right: 0px; margin-left: 0px;" align="center"><img
+                                      style="text-decoration: none; clear: both; display: block; border: 0; height: auto; width: 120px; max-width: 93px;"
+                                      title="Logo" src="${companyLogo}" alt="Logo" width="120" align="center"
+                                      border="0"/></div>
+                              <div style="margin-right: 20px; margin-left: 20px;">
+                                  <div style="line-height: 20px; font-size: 1px;">&nbsp;</div>
+                                  <div style="font-size: 12px; line-height: 14px; font-family: inherit; color: #555555; text-align: left;">
+                                      <p style="margin: 0; font-size: 12px; line-height: 14px; text-align: center;">&nbsp;</p>
+                                      <p style="margin: 0; font-size: 12px; line-height: 14px; text-align: center;">
+                                          <span style="font-size: 24px; line-height: 28px; color: #000000;">${title}</span>
+                                      </p>
+                                      <p style="margin: 0; font-size: 12px; line-height: 14px; text-align: center;">&nbsp;</p>
+                                      <p style="margin: 0; font-size: 12px; line-height: 14px; text-align: center;">&nbsp;</p>
+                                      <p style="margin: 0; font-size: 12px; line-height: 14px; text-align: center;">&nbsp;</p>
+                                      <p style="margin: 0; font-size: 12px; line-height: 14px; text-align: center;">&nbsp;</p>
+                                  </div>
+                              </div>
+                              <div style="margin-right: 20px; margin-left: 20px;">
+                                  <div style="line-height: 10px; font-size: 1px;">&nbsp;</div>
+                                  <div style="line-height: 10px; font-size: 1px;">&nbsp;</div>
+                                  <div style="line-height: 14px; text-align: left;">
+                                      ${body}
+                                  </div>
+                              </div>
+                              <div style="margin-right: 10px; margin-left: 10px;" align="center">
+                                  <div style="line-height: 10px; font-size: 1px;">&nbsp;</div>
+                              </div>
+                              <div style="margin-right: 20px; margin-left: 20px;">
+                                  <div style="line-height: 20px; font-size: 1px;">&nbsp;</div>
+                              </div>
+                              <div style="line-height: 15px; font-size: 1px;">&nbsp;</div>
+                          </div>
+                      </div>
+                  </div>
+                  <div style="background-color: transparent;">
+                      <div>
+                          <div style="border-collapse: collapse; display: table; width: 100%;">
+                              <div>
+                                  <div style="background-color: transparent; border: 0px solid transparent;">
+                                      <div style="line-height: 10px; font-size: 1px;">&nbsp;</div>
+                                      <div style="margin-right: 10px; margin-left: 10px;">
+                                          <div style="line-height: 10px; font-size: 1px;">&nbsp;</div>
+                                          <div style="line-height: 10px; font-size: 1px;">&nbsp;</div>
+                                          <div style="font-size: 12px; line-height: 14px; font-family: inherit; color: #555555; text-align: left;">
+                                              ${footer}
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        ]]>
+      </column>
+    </insert>
+    <insert tableName="NOTIF_MESSAGE_VIEW_TEMPLATE_LOCALS">
+      <column name="REF_TEMPLATE_ID">-1</column>
+      <column name="LANG_CODE">EN</column>
+      <column name="FOOTER">
+        <![CDATA[
+          <p style="margin: 0; font-size: 11px; line-height: 14px; text-align: center;">
+              <span style="color: #555555;">
+                  <span style="font-size: 11px;">
+                    This letter is generated automatically,
+                  </span>
+              </span>
+          </p>
+          <p style="margin: 0; font-size: 11px; line-height: 14px; text-align: center;">
+              <span style="color: #555555;">
+                  <span style="font-size: 11px;">please don't reply on it.</span>
+              </span>
+          </p>
+          <p style="margin: 0; font-size: 8px; line-height: 12px; text-align: center;">
+              <span style="color: #555555;">
+                  <span style="font-size: 8px;">© Berize. All rights reserved.</span>
+              </span>
+          </p>
+          <p style="margin: 0; font-size: 11px; line-height: 14px; text-align: center;">
+              &nbsp;</p>
+          <p style="margin: 0; font-size: 11px; line-height: 14px; text-align: center;">
+              &nbsp;</p>
+        ]]>
+      </column>
+    </insert>
+    <insert tableName="NOTIF_MESSAGE_VIEW_TEMPLATE_LOCALS">
+      <column name="REF_TEMPLATE_ID">-1</column>
+      <column name="LANG_CODE">UA</column>
+      <column name="FOOTER">
+        <![CDATA[
+          <p style="margin: 0; font-size: 11px; line-height: 14px; text-align: center;">
+              <span style="color: #555555;">
+                  <span style="font-size: 11px;">
+                    Це повідомлення створено автоматично,
+                  </span>
+              </span>
+          </p>
+          <p style="margin: 0; font-size: 11px; line-height: 14px; text-align: center;">
+              <span style="color: #555555;">
+                  <span style="font-size: 11px;">будь ласка, не відповідайте на нього.</span>
+              </span>
+          </p>
+          <p style="margin: 0; font-size: 8px; line-height: 12px; text-align: center;">
+              <span style="color: #555555;">
+                  <span style="font-size: 8px;">© Berize. Всі права захищені.</span>
+              </span>
+          </p>
+          <p style="margin: 0; font-size: 11px; line-height: 14px; text-align: center;">
+              &nbsp;</p>
+          <p style="margin: 0; font-size: 11px; line-height: 14px; text-align: center;">
+              &nbsp;</p>
+        ]]>
+      </column>
+    </insert>
+    <insert tableName="NOTIF_MESSAGE_VIEW_TEMPLATE_LOCALS">
+      <column name="REF_TEMPLATE_ID">-1</column>
+      <column name="LANG_CODE">RU</column>
+      <column name="FOOTER">
+        <![CDATA[
+          <p style="margin: 0; font-size: 11px; line-height: 14px; text-align: center;">
+              <span style="color: #555555;">
+                  <span style="font-size: 11px;">
+                    Это сообщение создано автоматически,
+                  </span>
+              </span>
+          </p>
+          <p style="margin: 0; font-size: 11px; line-height: 14px; text-align: center;">
+              <span style="color: #555555;">
+                  <span style="font-size: 11px;">пожалуйста, не отвечайте на него.</span>
+              </span>
+          </p>
+          <p style="margin: 0; font-size: 8px; line-height: 12px; text-align: center;">
+              <span style="color: #555555;">
+                  <span style="font-size: 8px;">© Berize. Все права защищены.</span>
+              </span>
+          </p>
+          <p style="margin: 0; font-size: 11px; line-height: 14px; text-align: center;">
+              &nbsp;</p>
+          <p style="margin: 0; font-size: 11px; line-height: 14px; text-align: center;">
+              &nbsp;</p>
+        ]]>
+      </column>
+    </insert>
+  </changeSet>
+</databaseChangeLog>

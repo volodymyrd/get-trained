@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+  <changeSet id="1" author="Volodymyr Dotsenko">
+    <comment>The list of actions</comment>
+
+    <insert tableName="USR_ACTIONS">
+      <column name="ID">LOCALS_R</column>
+      <column name="DEFAULT_LANG_CODE">EN</column>
+      <column name="DEFAULT_DESCRIPTION">Allow reading localization</column>
+    </insert>
+
+    <insert tableName="USR_ACTIONS">
+      <column name="ID">LOCALS_RW</column>
+      <column name="DEFAULT_LANG_CODE">EN</column>
+      <column name="DEFAULT_DESCRIPTION">Allow reading, changing and deleting localization</column>
+    </insert>
+
+    <insert tableName="USR_ACTIONS">
+      <column name="ID">USERS_R</column>
+      <column name="DEFAULT_LANG_CODE">EN</column>
+      <column name="DEFAULT_DESCRIPTION">Allow reading information about users</column>
+    </insert>
+
+    <insert tableName="USR_ACTIONS">
+      <column name="ID">USERS_RW</column>
+      <column name="DEFAULT_LANG_CODE">EN</column>
+      <column name="DEFAULT_DESCRIPTION">Allow reading and changing information about users</column>
+    </insert>
+
+    <insert tableName="USR_ACTIONS">
+      <column name="ID">FILE_RW</column>
+      <column name="DEFAULT_LANG_CODE">EN</column>
+      <column name="DEFAULT_DESCRIPTION">Access for uploading/downloading and delete file</column>
+    </insert>
+
+    <insert tableName="USR_ACTIONS">
+      <column name="ID">FILE_R</column>
+      <column name="DEFAULT_LANG_CODE">EN</column>
+      <column name="DEFAULT_DESCRIPTION">Access for downloading file</column>
+    </insert>
+
+    <insert tableName="USR_ACTIONS">
+      <column name="ID">NOTIF_SYS_TEMPL_RW</column>
+      <column name="DEFAULT_LANG_CODE">EN</column>
+      <column name="DEFAULT_DESCRIPTION">Read-write notification template(s) with SYSTEM scope
+      </column>
+    </insert>
+  </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+  <changeSet id="1" author="Volodymyr Dotsenko">
+    <comment>Languages</comment>
+
+    <insert tableName="LOCAL_LANGUAGES">
+      <column name="CODE">EN</column>
+      <column name="IS_DEFAULT" valueBoolean="true"/>
+      <column name="IS_SUPPORTED" valueBoolean="true"/>
+    </insert>
+    <insert tableName="LOCAL_LANGUAGES">
+      <column name="CODE">UA</column>
+      <column name="IS_DEFAULT" valueBoolean="false"/>
+      <column name="IS_SUPPORTED" valueBoolean="true"/>
+    </insert>
+    <insert tableName="LOCAL_LANGUAGES">
+      <column name="CODE">RU</column>
+      <column name="IS_DEFAULT" valueBoolean="false"/>
+      <column name="IS_SUPPORTED" valueBoolean="true"/>
+    </insert>
+    <insert tableName="LOCAL_LANGUAGES">
+      <column name="CODE">PL</column>
+      <column name="IS_DEFAULT" valueBoolean="false"/>
+      <column name="IS_SUPPORTED" valueBoolean="true"/>
+    </insert>
+  </changeSet>
+
+  <changeSet id="2" author="Volodymyr Dotsenko">
+    <comment>Languages locals for UA</comment>
+
+    <insert tableName="LOCAL_LANGUAGE_LOCALS">
+      <column name="LANG_CODE">UA</column>
+      <column name="LANG_CODE_LOCAL">EN</column>
+      <column name="NAME">Ukrainian</column>
+    </insert>
+
+    <insert tableName="LOCAL_LANGUAGE_LOCALS">
+      <column name="LANG_CODE">UA</column>
+      <column name="LANG_CODE_LOCAL">UA</column>
+      <column name="NAME">Українcька</column>
+    </insert>
+
+    <insert tableName="LOCAL_LANGUAGE_LOCALS">
+      <column name="LANG_CODE">UA</column>
+      <column name="LANG_CODE_LOCAL">RU</column>
+      <column name="NAME">Украинский</column>
+    </insert>
+  </changeSet>
+
+  <changeSet id="3" author="Volodymyr Dotsenko">
+    <comment>Languages locals for EN</comment>
+
+    <insert tableName="LOCAL_LANGUAGE_LOCALS">
+      <column name="LANG_CODE">EN</column>
+      <column name="LANG_CODE_LOCAL">EN</column>
+      <column name="NAME">English</column>
+    </insert>
+
+    <insert tableName="LOCAL_LANGUAGE_LOCALS">
+      <column name="LANG_CODE">EN</column>
+      <column name="LANG_CODE_LOCAL">UA</column>
+      <column name="NAME">Англійська</column>
+    </insert>
+
+    <insert tableName="LOCAL_LANGUAGE_LOCALS">
+      <column name="LANG_CODE">EN</column>
+      <column name="LANG_CODE_LOCAL">RU</column>
+      <column name="NAME">Английский</column>
+    </insert>
+  </changeSet>
+
+  <changeSet id="4" author="Volodymyr Dotsenko">
+    <comment>Languages locals for RU</comment>
+
+    <insert tableName="LOCAL_LANGUAGE_LOCALS">
+      <column name="LANG_CODE">RU</column>
+      <column name="LANG_CODE_LOCAL">EN</column>
+      <column name="NAME">Russian</column>
+    </insert>
+
+    <insert tableName="LOCAL_LANGUAGE_LOCALS">
+      <column name="LANG_CODE">RU</column>
+      <column name="LANG_CODE_LOCAL">UA</column>
+      <column name="NAME">Російська</column>
+    </insert>
+
+    <insert tableName="LOCAL_LANGUAGE_LOCALS">
+      <column name="LANG_CODE">RU</column>
+      <column name="LANG_CODE_LOCAL">RU</column>
+      <column name="NAME">Русский</column>
+    </insert>
+  </changeSet>
+
+  <changeSet id="5" author="Volodymyr Dotsenko">
+    <comment>Languages locals for PL</comment>
+
+    <insert tableName="LOCAL_LANGUAGE_LOCALS">
+      <column name="LANG_CODE">PL</column>
+      <column name="LANG_CODE_LOCAL">EN</column>
+      <column name="NAME">Polish</column>
+    </insert>
+
+    <insert tableName="LOCAL_LANGUAGE_LOCALS">
+      <column name="LANG_CODE">PL</column>
+      <column name="LANG_CODE_LOCAL">UA</column>
+      <column name="NAME">Польський</column>
+    </insert>
+
+    <insert tableName="LOCAL_LANGUAGE_LOCALS">
+      <column name="LANG_CODE">PL</column>
+      <column name="LANG_CODE_LOCAL">RU</column>
+      <column name="NAME">Польский</column>
+    </insert>
+
+    <insert tableName="LOCAL_LANGUAGE_LOCALS">
+      <column name="LANG_CODE">PL</column>
+      <column name="LANG_CODE_LOCAL">PL</column>
+      <column name="NAME">Polskie</column>
+    </insert>
+  </changeSet>
+</databaseChangeLog>

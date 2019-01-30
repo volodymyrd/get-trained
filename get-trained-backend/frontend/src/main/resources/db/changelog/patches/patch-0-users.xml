@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+  <changeSet id="-1" author="Volodymyr Dotsenko">
+    <comment>Drop the persistent_logins table if exist</comment>
+
+    <sql>drop table if exists persistent_logins</sql>
+  </changeSet>
+  <changeSet id="0" author="Volodymyr Dotsenko">
+    <comment>Create the persistent_logins table</comment>
+
+    <sql>
+      create table persistent_logins (username varchar(64) not null, series varchar(64) primary key,
+      token
+      varchar(64) not null, last_used timestamp not null)
+    </sql>
+  </changeSet>
+
+  <changeSet id="2" author="Volodymyr Dotsenko">
+    <comment>Create FK for BLOB_DATA</comment>
+    <sql>
+      ALTER TABLE USR_PROFILES ADD CONSTRAINT FK_PROFILES_BLOB_DATA_ID FOREIGN KEY (BLOB_DATA_ID)
+      REFERENCES
+      BLOB_DATA(ID);
+    </sql>
+  </changeSet>
+
+  <changeSet id="10" author="Volodymyr Dotsenko">
+    <comment>User initial data</comment>
+
+    <insert tableName="USR_PROFILES">
+      <column name="ID">-1</column>
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="FIRST_NAME">Admin</column>
+      <column name="LAST_NAME">GetTrained</column>
+      <column name="FULL_NAME">Admin GetTrained</column>
+    </insert>
+
+    <insert tableName="USR_PROFILES">
+      <column name="ID">-2</column>
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="FIRST_NAME">Trainer</column>
+      <column name="LAST_NAME">GetTrained</column>
+      <column name="FULL_NAME">Trainer GetTrained</column>
+    </insert>
+
+    <insert tableName="USR_PROFILES">
+      <column name="ID">-3</column>
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="FIRST_NAME">Trainee</column>
+      <column name="LAST_NAME">GetTrained</column>
+      <column name="FULL_NAME">Trainee GetTrained</column>
+    </insert>
+
+    <insert tableName="USR_USERS">
+      <column name="ID">-1</column>
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="USER_NAME">admin_get-trained</column>
+      <column name="EMAIL">admin@get-trained.online</column>
+      <!-- get-trained_admin -->
+      <column name="PASSWORD">$2a$10$NqIVm1yugPhdrNsTzQkG7.gt1L3Vdjzf1WtGUMKskeLxsv/T7v7Va</column>
+      <column name="EXPIRED" valueDate="9999-12-31 00:00:00"/>
+      <column name="LOCKED" valueBoolean="false"/>
+      <column name="AGREED_WITH_TAC" valueBoolean="true"/>
+      <column name="STATUS">REGISTERED</column>
+      <column name="REF_PROFILE_ID">-1</column>
+    </insert>
+
+    <insert tableName="USR_USERS">
+      <column name="ID">-2</column>
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="USER_NAME">trainer_get-trained</column>
+      <column name="EMAIL">trainer@get-trained.online</column>
+      <!-- get-trained_trainer -->
+      <column name="PASSWORD">$2a$10$dpTm3vk3Ft6KpWI9y.VD4eo2LOoWKvfeTw7orZXi/w01eS0W6eA2i</column>
+      <column name="EXPIRED" valueDate="9999-12-31 00:00:00"/>
+      <column name="LOCKED" valueBoolean="false"/>
+      <column name="AGREED_WITH_TAC" valueBoolean="true"/>
+      <column name="STATUS">REGISTERED</column>
+      <column name="REF_PROFILE_ID">-2</column>
+    </insert>
+
+    <insert tableName="USR_USERS">
+      <column name="ID">-3</column>
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="USER_NAME">trainee_get-trained</column>
+      <column name="EMAIL">trainee@get-trained.online</column>
+      <!-- get-trained_trainee -->
+      <column name="PASSWORD">$2a$10$C.rgAbVrixy0nCMZWBjLiOpVwTGCtfpTaUvSOOOjo6S7034XFYr36</column>
+      <column name="EXPIRED" valueDate="9999-12-31 00:00:00"/>
+      <column name="LOCKED" valueBoolean="false"/>
+      <column name="AGREED_WITH_TAC" valueBoolean="true"/>
+      <column name="STATUS">REGISTERED</column>
+      <column name="REF_PROFILE_ID">-3</column>
+    </insert>
+
+    <insert tableName="USR_ROLES">
+      <column name="ID">-2</column>
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="NAME">ROLE_ADMIN</column>
+      <column name="DEFAULT_LANG_CODE">EN</column>
+      <column name="DEFAULT_DESCRIPTION">The role for the administrators of Berize system</column>
+      <column name="SCOPE">SYSTEM</column>
+    </insert>
+    <insert tableName="USR_ROLE_LOCALS">
+      <column name="REF_ROLE_ID">-2</column>
+      <column name="LANG_CODE">EN</column>
+      <column name="DESCRIPTION">The role for the administrators of Berize system</column>
+    </insert>
+    <insert tableName="USR_ROLE_LOCALS">
+      <column name="REF_ROLE_ID">-2</column>
+      <column name="LANG_CODE">UA</column>
+      <column name="DESCRIPTION">Роль адміністраторів системи Berize</column>
+    </insert>
+    <insert tableName="USR_ROLE_LOCALS">
+      <column name="REF_ROLE_ID">-2</column>
+      <column name="LANG_CODE">RU</column>
+      <column name="DESCRIPTION">Роль для администраторов системы Berize</column>
+    </insert>
+
+    <insert tableName="USR_ROLES">
+      <column name="ID">-3</column>
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="NAME">ROLE_USER</column>
+      <column name="DEFAULT_LANG_CODE">EN</column>
+      <column name="DEFAULT_DESCRIPTION">The role for all valid users</column>
+      <column name="SCOPE">SYSTEM</column>
+    </insert>
+    <insert tableName="USR_ROLE_LOCALS">
+      <column name="REF_ROLE_ID">-3</column>
+      <column name="LANG_CODE">EN</column>
+      <column name="DESCRIPTION">The role for all valid users</column>
+    </insert>
+    <insert tableName="USR_ROLE_LOCALS">
+      <column name="REF_ROLE_ID">-3</column>
+      <column name="LANG_CODE">UA</column>
+      <column name="DESCRIPTION">Роль для всіх дійсних користувачів</column>
+    </insert>
+    <insert tableName="USR_ROLE_LOCALS">
+      <column name="REF_ROLE_ID">-3</column>
+      <column name="LANG_CODE">RU</column>
+      <column name="DESCRIPTION">Роль для всех действительных пользователей</column>
+    </insert>
+
+    <insert tableName="USR_ROLES">
+      <column name="ID">-4</column>
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="NAME">ROLE_TRAINER</column>
+      <column name="DEFAULT_LANG_CODE">EN</column>
+      <column name="DEFAULT_DESCRIPTION">The role for all trainers</column>
+      <column name="SCOPE">SYSTEM</column>
+    </insert>
+    <insert tableName="USR_ROLE_LOCALS">
+      <column name="REF_ROLE_ID">-4</column>
+      <column name="LANG_CODE">EN</column>
+      <column name="DESCRIPTION">The role for all trainers</column>
+    </insert>
+    <insert tableName="USR_ROLE_LOCALS">
+      <column name="REF_ROLE_ID">-4</column>
+      <column name="LANG_CODE">UA</column>
+      <column name="DESCRIPTION">Роль для всіх тренерів</column>
+    </insert>
+    <insert tableName="USR_ROLE_LOCALS">
+      <column name="REF_ROLE_ID">-4</column>
+      <column name="LANG_CODE">RU</column>
+      <column name="DESCRIPTION">Роль для всех тренеров</column>
+    </insert>
+
+    <insert tableName="USR_ROLES">
+      <column name="ID">-100</column>
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="NAME">ACTUATOR</column>
+      <column name="DEFAULT_LANG_CODE">EN</column>
+      <column name="DEFAULT_DESCRIPTION">The role to use the spring Actuator</column>
+      <column name="SCOPE">SYSTEM</column>
+    </insert>
+
+    <insert tableName="USR_USERS_ROLES">
+      <column name="REF_USER_ID">-1</column>
+      <column name="REF_ROLE_ID">-2</column>
+    </insert>
+
+    <insert tableName="USR_USERS_ROLES">
+      <column name="REF_USER_ID">-1</column>
+      <column name="REF_ROLE_ID">-3</column>
+    </insert>
+
+    <insert tableName="USR_USERS_ROLES">
+      <column name="REF_USER_ID">-1</column>
+      <column name="REF_ROLE_ID">-100</column>
+    </insert>
+
+    <insert tableName="USR_USERS_ROLES">
+      <column name="REF_USER_ID">-2</column>
+      <column name="REF_ROLE_ID">-3</column>
+    </insert>
+
+    <insert tableName="USR_USERS_ROLES">
+      <column name="REF_USER_ID">-2</column>
+      <column name="REF_ROLE_ID">-4</column>
+    </insert>
+
+    <insert tableName="USR_USERS_ROLES">
+      <column name="REF_USER_ID">-3</column>
+      <column name="REF_ROLE_ID">-3</column>
+    </insert>
+  </changeSet>
+
+  <changeSet id="12" author="Volodymyr Dotsenko">
+    <comment>Assigns actions to the ROLE_ADMIN(-2) role</comment>
+    <insert tableName="USR_ROLES_ACTIONS">
+      <column name="REF_ROLE_ID">-2</column>
+      <column name="ACTION_ID">NOTIF_SYS_TEMPL_RW</column>
+    </insert>
+    <insert tableName="USR_ROLES_ACTIONS">
+      <column name="REF_ROLE_ID">-2</column>
+      <column name="ACTION_ID">LOCALS_RW</column>
+    </insert>
+    <insert tableName="USR_ROLES_ACTIONS">
+      <column name="REF_ROLE_ID">-2</column>
+      <column name="ACTION_ID">USERS_RW</column>
+    </insert>
+  </changeSet>
+
+  <changeSet id="13" author="Volodymyr Dotsenko">
+    <comment>Assigns actions to the ROLE_USER(-3) role</comment>
+    <insert tableName="USR_ROLES_ACTIONS">
+      <column name="REF_ROLE_ID">-3</column>
+      <column name="ACTION_ID">FILE_R</column>
+    </insert>
+  </changeSet>
+
+  <changeSet id="14" author="Volodymyr Dotsenko">
+    <comment>Assigns actions to the ROLE_TUTOR(-4) role</comment>
+    <insert tableName="USR_ROLES_ACTIONS">
+      <column name="REF_ROLE_ID">-4</column>
+      <column name="ACTION_ID">FILE_R</column>
+    </insert>
+  </changeSet>
+</databaseChangeLog>

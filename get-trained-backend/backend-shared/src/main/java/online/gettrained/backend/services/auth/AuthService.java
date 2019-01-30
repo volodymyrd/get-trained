@@ -9,7 +9,6 @@ import online.gettrained.backend.domain.user.UserAction.Id;
  */
 public interface AuthService {
 
-
   User getCurrentUser();
 
   User getCurrentUserOrException();
@@ -19,12 +18,4 @@ public interface AuthService {
   boolean isAllowedForUser(Long userId, Id actionId);
 
   boolean isAllowedForUser(Long userId, List<Id> actionIds);
-
-  boolean isAllowedForUser(Long companyId, Long userId, Id actionId);
-
-  boolean isAllowedForUser(Long companyId, Long userId, List<Id> actionIds);
-
-  boolean isAllowedForMember(Long memberId, Id actionId);
-
-  boolean isAllowedForMember(Long memberId, List<Id> actionIds);
 }

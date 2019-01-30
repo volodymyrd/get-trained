@@ -17,5 +17,13 @@
   <property name="now_minus_1_day" value="${now} - INTERVAL 1 DAY" dbms="mysql"/>
   <property name="now_minus_1_day" value="${now} - interval '1 day'" dbms="postgresql"/>
 
-  <!--patch 2-->
+  <include file="patches/patch-0-languages.xml" relativeToChangelogFile="true"/>
+  <include file="patches/patch-0-countries.xml" relativeToChangelogFile="true"/>
+  <include file="patches/patch-0-actions.xml" relativeToChangelogFile="true"/>
+  <include file="patches/patch-0-users.xml" relativeToChangelogFile="true"/>
+  <include file="patches/patch-0-settings.xml" relativeToChangelogFile="true"/>
+  <include file="patches/patch-0-local.xml" relativeToChangelogFile="true"/>
+  <include file="patches/patch-0-notifications.xml" relativeToChangelogFile="true"/>
+  <include file="patches/patch-0-notification-message-templates.xml"
+    relativeToChangelogFile="true"/>
 </databaseChangeLog>

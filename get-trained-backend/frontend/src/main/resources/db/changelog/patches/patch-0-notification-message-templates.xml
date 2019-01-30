@@ -1,0 +1,118 @@
+<?xml version="1.1" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+  <changeSet author="Volodymyr Dotsenko" id="1">
+    <insert tableName="NOTIF_MESSAGE_TEMPLATES">
+      <column name="id" valueNumeric="-4"/>
+      <column name="date_create" valueDate="${now}"/>
+      <column name="version" valueNumeric="0"/>
+      <column name="description" value="System metrics"/>
+      <column name="author_id" valueNumeric="-1"/>
+      <column name="channel" value="EMAIL"/>
+      <column name="event" value="ADMIN_SYSTEM_METRICS"/>
+    </insert>
+    <insert tableName="NOTIF_MESSAGE_TEMPLATES">
+      <column name="id" valueNumeric="-2"/>
+      <column name="date_create" valueDate="${now}"/>
+      <column name="version" valueNumeric="0"/>
+      <column name="description" value="Success registration"/>
+      <column name="author_id" valueNumeric="-1"/>
+      <column name="channel" value="EMAIL"/>
+      <column name="event" value="SUCCESS_REGISTRATION"/>
+    </insert>
+    <insert tableName="NOTIF_MESSAGE_TEMPLATES">
+      <column name="id" valueNumeric="-1"/>
+      <column name="date_create" valueDate="${now}"/>
+      <column name="version" valueNumeric="0"/>
+      <column name="description" value="Confirm registration template (User activation)"/>
+      <column name="author_id" valueNumeric="-1"/>
+      <column name="channel" value="EMAIL"/>
+      <column name="event" value="CONFIRM_REGISTRATION"/>
+    </insert>
+    <insert tableName="NOTIF_MESSAGE_TEMPLATES">
+      <column name="id" valueNumeric="-3"/>
+      <column name="date_create" valueDate="${now}"/>
+      <column name="version" valueNumeric="0"/>
+      <column name="description" value="Restore passsword"/>
+      <column name="author_id" valueNumeric="-1"/>
+      <column name="channel" value="EMAIL"/>
+      <column name="event" value="RESTORE_PASSWORD"/>
+    </insert>
+  </changeSet>
+
+  <changeSet author="Volodymyr Dotsenko" id="2">
+    <insert tableName="NOTIF_MESSAGE_TEMPLATE_LOCALS">
+      <column name="ref_template_id" valueNumeric="-4"/>
+      <column name="body" value="&lt;p&gt;${systemMetrics}&lt;/p&gt;"/>
+      <column name="title" value="System metrics"/>
+      <column name="lang_code" value="EN"/>
+    </insert>
+    <insert tableName="NOTIF_MESSAGE_TEMPLATE_LOCALS">
+      <column name="ref_template_id" valueNumeric="-1"/>
+      <column name="body"
+        value="&lt;p&gt;Добрий день, ${firstName}!&lt;/p&gt;&#10;&lt;p&gt;Ви отримали цей електронний лист, оскільки Ви пройшли реєстрацію на сайті &lt;a href=&quot;${HOME_URL}&quot;&gt;Berize&lt;/a&gt;.&lt;/p&gt;&#10;&lt;p&gt;Якщо це не Ви, просто проігноруйте цей лист.&lt;/p&gt;&#10;&lt;p&gt;Щоб завершити реєстрацію, перейдіть &lt;a href=&quot;${URL}&quot;&gt;за цим посиланням&lt;/a&gt; або скопіюйте цей код ${URL} у Ваш браузер.&lt;/p&gt;&#10;&lt;p&gt;&lt;strong&gt; З найкращими побажаннями, Команда Berize&lt;/strong&gt;&lt;/p&gt;"/>
+      <column name="title" value="Будь ласка, підтвердіть Вашу реєстрацію"/>
+      <column name="lang_code" value="UA"/>
+    </insert>
+    <insert tableName="NOTIF_MESSAGE_TEMPLATE_LOCALS">
+      <column name="ref_template_id" valueNumeric="-1"/>
+      <column name="body"
+        value="&lt;p&gt;Здравствуйте, ${firstName}!&lt;/p&gt;&#10;&lt;p&gt;Вы получили это электронное письмо, поскольку прошли регистрацию на сайте &lt;a href=&quot;${HOME_URL}&quot;&gt;Berize&lt;/a&gt;.&lt;/p&gt;&#10;&lt;p&gt;Если это не Вы, просто проигнорируйте это письмо.&lt;/p&gt;&#10;&lt;p&gt;Чтобы завершить регистрацию, пожалуйста перейдите &lt;a href=&quot;${URL}&quot;&gt;по этой ссылке&lt;/a&gt; или скопируйте этот код ${URL} в Ваш браузер.&lt;/p&gt;&#10;&lt;p&gt;&lt;strong&gt; С наилучшими пожеланиями, Команда Berize&lt;/strong&gt;&lt;/p&gt;"/>
+      <column name="title" value="Пожалуйста, подтвердите Вашу регистрацию"/>
+      <column name="lang_code" value="RU"/>
+    </insert>
+    <insert tableName="NOTIF_MESSAGE_TEMPLATE_LOCALS">
+      <column name="ref_template_id" valueNumeric="-1"/>
+      <column name="body"
+        value="&lt;p&gt;Dear ${firstName},&lt;/p&gt;&#10;&lt;p&gt;You have received this email, because you passed a registration on the &lt;a href=&quot;${HOME_URL}&quot;&gt;Berize&lt;/a&gt; website.&lt;/p&gt;&#10;&lt;p&gt;If it was not you, please ignore this letter.&lt;/p&gt;&#10;&lt;p&gt;To finish the registration please follow this &lt;a href=&quot;${URL}&quot;&gt;link&lt;/a&gt; or copy this code ${URL} and past it to your browser.&lt;/p&gt;&#10;&lt;p&gt;Best regards,&lt;/p&gt;&#10;&lt;p&gt;Berize team&lt;/p&gt;"/>
+      <column name="title" value="Please, confirm your registration "/>
+      <column name="lang_code" value="EN"/>
+    </insert>
+    <insert tableName="NOTIF_MESSAGE_TEMPLATE_LOCALS">
+      <column name="ref_template_id" valueNumeric="-3"/>
+      <column name="body"
+        value="&lt;p&gt;Dear ${firstName},&lt;/p&gt;&#10;&lt;p&gt;You have requested a new password for the Berize system.&lt;/p&gt;&#10;&lt;p&gt;Your new password is &lt;strong&gt;${autoGeneratedPassword}&lt;/strong&gt;&lt;/p&gt;&#10;&lt;p&gt;Please do not forget to change it after you login to the system.&lt;/p&gt;&#10;&lt;p&gt;&lt;strong&gt; Best regards, Berize team &lt;/strong&gt;&lt;/p&gt;"/>
+      <column name="title" value="Your password has been reset"/>
+      <column name="lang_code" value="EN"/>
+    </insert>
+    <insert tableName="NOTIF_MESSAGE_TEMPLATE_LOCALS">
+      <column name="ref_template_id" valueNumeric="-3"/>
+      <column name="body"
+        value="&lt;p&gt;Здравствуйте, ${firstName}!&lt;/p&gt;&#10;&lt;p&gt;Вы запросили восстановление пароля для входа в систему Berize.&lt;/p&gt;&#10;&lt;p&gt;Ваш новый пароль:&lt;strong&gt; ${autoGeneratedPassword}&lt;/strong&gt;&lt;/p&gt;&#10;&lt;p&gt;Пожалуйста, не забудьте сменить его после входа в систему.&lt;/p&gt;&#10;&lt;p&gt;&lt;strong&gt; С наилучшими пожеланиями, Команда Berize &lt;/strong&gt;&lt;/p&gt;"/>
+      <column name="title" value="Ваш пароль был восстановлен"/>
+      <column name="lang_code" value="RU"/>
+    </insert>
+    <insert tableName="NOTIF_MESSAGE_TEMPLATE_LOCALS">
+      <column name="ref_template_id" valueNumeric="-3"/>
+      <column name="body"
+        value="&lt;p&gt;Добрий день!&lt;/p&gt;&#10;&lt;p&gt;${firstName}, Ви запросили відновлення пароля для входу в систему Berize.&lt;/p&gt;&#10;&lt;p&gt;Ваш новий пароль: &lt;strong&gt;${autoGeneratedPassword}&lt;/strong&gt;&lt;/p&gt;&#10;&lt;p&gt;Будь ласка, не забудьте змінити його після входу в систему.&lt;/p&gt;&#10;&lt;p&gt;&lt;strong&gt;З найкращими побажаннями, Команда Berize &lt;/strong&gt;&lt;/p&gt;"/>
+      <column name="title" value="Ваш пароль був змінений"/>
+      <column name="lang_code" value="UA"/>
+    </insert>
+    <insert tableName="NOTIF_MESSAGE_TEMPLATE_LOCALS">
+      <column name="ref_template_id" valueNumeric="-2"/>
+      <column name="body"
+        value="&lt;p&gt;Здравствуйте, ${firstName}!&lt;br /&gt;&lt;br /&gt;Поздравляем, вы успешно зарегистрировались на сайте Berize.&lt;br /&gt;&lt;br /&gt;Теперь вы можете начать пользоваться нашими услугами!&lt;br /&gt;&lt;br /&gt;&lt;strong&gt;С наилучшими пожеланиями, команда Berize&lt;/strong&gt;&lt;/p&gt;"/>
+      <column name="title" value="Подтверждение регистрации"/>
+      <column name="lang_code" value="RU"/>
+    </insert>
+    <insert tableName="NOTIF_MESSAGE_TEMPLATE_LOCALS">
+      <column name="ref_template_id" valueNumeric="-2"/>
+      <column name="body"
+        value="&lt;p&gt;Dear ${firstName},&lt;/p&gt;&#10;&lt;p&gt;Congratulations, you have successfully registered on the &lt;a href=&quot;${HOME_URL}&quot;&gt;Berize&lt;/a&gt; website.&lt;/p&gt;&#10;&lt;p&gt;Now you can start using our services!&lt;/p&gt;&#10;&lt;p&gt;&lt;strong&gt; Best regards, Berize team &lt;/strong&gt;&lt;/p&gt;"/>
+      <column name="title" value="Registration Confirmation"/>
+      <column name="lang_code" value="EN"/>
+    </insert>
+    <insert tableName="NOTIF_MESSAGE_TEMPLATE_LOCALS">
+      <column name="ref_template_id" valueNumeric="-2"/>
+      <column name="body"
+        value="&lt;p&gt;Вітаємо, ${firstName}!&lt;br /&gt;&lt;br /&gt;Ви успішно зареєструвалися на сайті Berize.&lt;br /&gt;&lt;br /&gt;Тепер ви можете почати користуватися нашими послугами!&lt;strong&gt;&lt;br /&gt;&lt;br /&gt;З найкращими побажаннями, команда Berize&lt;br /&gt;&lt;/strong&gt;&lt;/p&gt;"/>
+      <column name="title" value="Підтвердження реєстрації"/>
+      <column name="lang_code" value="UA"/>
+    </insert>
+  </changeSet>
+</databaseChangeLog>

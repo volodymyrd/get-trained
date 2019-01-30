@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+  <changeSet id="1" author="Volodymyr Dotsenko">
+    <comment>Frontend settings</comment>
+
+    <insert tableName="LOCAL_SETTINGS">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="SETTING_TYPE">FRONTEND</column>
+      <column name="SETTING_KEY">f_min_password_length</column>
+      <column name="SETTING_VALUE">7</column>
+    </insert>
+
+    <insert tableName="LOCAL_SETTINGS">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="SETTING_TYPE">FRONTEND</column>
+      <column name="SETTING_KEY">f_content_auto_save_interval_sec</column>
+      <column name="SETTING_VALUE">30</column>
+    </insert>
+  </changeSet>
+</databaseChangeLog>
