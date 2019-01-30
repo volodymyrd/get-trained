@@ -76,7 +76,7 @@ public class MailNotificationHandler implements NotificationHandler {
     }
     String from = (String) parameters.get(FROM);
     if (from == null || from.isEmpty()) {
-      String noreplayAddress = applicationCommonProperties.getMailNoreplayAddress();
+      String noreplayAddress = applicationCommonProperties.getMailNoreplyAddress();
       LOG.warn("Parameter {} not set, using default {}", FROM, noreplayAddress);
       from = noreplayAddress;
     }
@@ -90,3 +90,4 @@ public class MailNotificationHandler implements NotificationHandler {
     LOG.info("Message was sent successfully for {} sec.", sec);
   }
 }
+

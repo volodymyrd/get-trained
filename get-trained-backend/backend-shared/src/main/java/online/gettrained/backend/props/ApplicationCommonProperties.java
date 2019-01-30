@@ -20,7 +20,7 @@ public class ApplicationCommonProperties {
   private final Integer appThreadPoolSize;
   private final Integer appMaxThreadPoolSize;
 
-  private final String mailNoreplayAddress;
+  private final String mailNoreplyAddress;
   private final String mailBccAddresses;
   private final String mailAdminEmails;
 
@@ -64,7 +64,7 @@ public class ApplicationCommonProperties {
       @Value("${user.prop.scheduling.batch.tasks.max_pool_size:}") Integer tasksMaxBatchPoolSize,
       @Value("${user.prop.app.thread.pool_size:}") Integer appThreadPoolSize,
       @Value("${user.prop.app.max.thread.pool_size:}") Integer appMaxThreadPoolSize,
-      @Value("${user.prop.mail.noreplay.address}") String mailNoreplayAddress,
+      @Value("${user.prop.mail.noreply.address}") String mailNoreplyAddress,
       @Value("${user.prop.mail.bcc.addresses}") String mailBccAddresses,
       @Value("${user.prop.admin_emails:}") String mailAdminEmails,
       @Value("${spring.servlet.multipart.max-file-size}") String multipartMaxFileSize,
@@ -97,7 +97,7 @@ public class ApplicationCommonProperties {
     this.tasksMaxBatchPoolSize = tasksMaxBatchPoolSize;
     this.appThreadPoolSize = appThreadPoolSize;
     this.appMaxThreadPoolSize = appMaxThreadPoolSize;
-    this.mailNoreplayAddress = mailNoreplayAddress;
+    this.mailNoreplyAddress = mailNoreplyAddress;
     this.mailBccAddresses = mailBccAddresses;
     this.mailAdminEmails = mailAdminEmails;
     this.multipartMaxFileSize = multipartMaxFileSize;
@@ -154,8 +154,8 @@ public class ApplicationCommonProperties {
     return appMaxThreadPoolSize;
   }
 
-  public String getMailNoreplayAddress() {
-    return mailNoreplayAddress;
+  public String getMailNoreplyAddress() {
+    return mailNoreplyAddress;
   }
 
   public String getMailBccAddresses() {
