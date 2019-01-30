@@ -9,5 +9,8 @@ export default {
     container: {
       flex: 1,
     },
+    header: {
+      paddingTop: 0,
+    },
   },
 }

@@ -2,6 +2,7 @@ import { applyMiddleware, compose, createStore } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import { persistReducer, persistStore } from 'redux-persist'
 import immutableTransform from 'redux-persist-transform-immutable'
+import { composeWithDevTools } from 'redux-devtools-extension'
 
 /**
  * This import defaults to localStorage for web and AsyncStorage for react-native.
@@ -27,9 +28,7 @@ const persistConfig = {
   /**
    * Blacklist state that we do not need/want to persist
    */
-  blacklist: [
-    // 'auth',
-  ],
+  blacklist: ['auth'],
 }
 
 export default (rootReducer, rootSaga) => {
@@ -41,6 +40,10 @@ export default (rootReducer, rootSaga) => {
   middleware.push(sagaMiddleware)
 
   enhancers.push(applyMiddleware(...middleware))
+
+  enhancers.push(
+    __DEV__ ? composeWithDevTools(applyMiddleware(...middleware)) : applyMiddleware(...middleware)
+  )
 
   // Redux persist
   const persistedReducer = persistReducer(persistConfig, rootReducer)
