@@ -83,6 +83,11 @@ public class ValidatorUtilsTest {
   }
 
   @Test
+  public void testValidateEmailSuccess15() {
+    assertTrue(isEmail("trainer@get-trained.online"));
+  }
+
+  @Test
   public void testValidateWrongEmail() {
     assertFalse(isEmail("volodymyrdotsenko"));
   }
