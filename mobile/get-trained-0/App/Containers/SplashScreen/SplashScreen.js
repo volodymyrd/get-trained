@@ -6,6 +6,7 @@ import MainActions from '../../Stores/Main/Actions'
 
 class SplashScreen extends React.Component {
   componentDidMount() {
+    this.props.getLocale()
     this.props.fetchAccess()
   }
 
@@ -36,6 +37,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  getLocale: () => dispatch(MainActions.getLocale()),
   fetchAccess: () => dispatch(MainActions.fetchAccess()),
 })
 

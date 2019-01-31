@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Form, Item, Input, Label, Text, Button, Spinner} from 'native-base'
+import {Form, Text, Button, Spinner} from 'native-base'
 import Email from "App/Components/Email";
 import Password from "../../../Components/Password";
 

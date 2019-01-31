@@ -6,6 +6,11 @@ import { createActions } from 'reduxsauce'
  * @see https://github.com/infinitered/reduxsauce#createactions
  */
 const { Types, Creators } = createActions({
+  fetchMetadata: ['langCode'],
+  fetchMetadataLoading: null,
+  fetchMetadataSuccess: ['metadata'],
+  fetchMetadataFailure: null,
+
   toggleAuthType: ['authType'],
   fetchAuthentication: ['email', 'password', 'lang'],
   fetchAuthenticationLoading: null,

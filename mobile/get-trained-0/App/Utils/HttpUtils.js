@@ -34,7 +34,7 @@ export const signIn = (email, password, lang) => {
     lang: lang,
   })
 
-  return apiClient.post('auth/signin').then((response) => {
+  return apiClient.post('fe/auth/signin').then((response) => {
     if (response.ok) {
       return response
     }

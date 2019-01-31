@@ -8,6 +8,22 @@ import { INITIAL_STATE } from './InitialState'
 import { createReducer } from 'reduxsauce'
 import { AuthTypes } from './Actions'
 
+export const fetchMetadataLoading = (state) =>
+  state.merge({
+    fetchingMetadata: true,
+  })
+
+export const fetchMetadataSuccess = (state, { metadata }) =>
+  state.merge({
+    fetchingMetadata: false,
+    metadata,
+  })
+
+export const fetchMetadataFailure = (state) =>
+  state.merge({
+    fetchingMetadata: false,
+  })
+
 export const toggleAuthType = (state, { authType }) =>
   state.merge({
     authType,
@@ -15,18 +31,18 @@ export const toggleAuthType = (state, { authType }) =>
 
 export const fetchAuthenticationLoading = (state) =>
   state.merge({
-    fetching: { authenticating: true },
+    fetchingAuthenticating: true,
   })
 
 export const fetchAuthenticationSuccess = (state) =>
   state.merge({
-    fetching: { authenticating: false },
+    fetchingAuthenticating: false,
     authenticated: true,
   })
 
 export const fetchAuthenticationFailure = (state) =>
   state.merge({
-    fetching: { authenticating: false },
+    fetchingAuthenticating: false,
     authenticated: false,
   })
 
@@ -34,6 +50,10 @@ export const fetchAuthenticationFailure = (state) =>
  * @see https://github.com/infinitered/reduxsauce#createreducer
  */
 export const auth = createReducer(INITIAL_STATE, {
+  [AuthTypes.FETCH_METADATA_LOADING]: fetchMetadataLoading,
+  [AuthTypes.FETCH_METADATA_SUCCESS]: fetchMetadataSuccess,
+  [AuthTypes.FETCH_METADATA_FAILURE]: fetchMetadataFailure,
+
   [AuthTypes.TOGGLE_AUTH_TYPE]: toggleAuthType,
 
   [AuthTypes.FETCH_AUTHENTICATION_LOADING]: fetchAuthenticationLoading,

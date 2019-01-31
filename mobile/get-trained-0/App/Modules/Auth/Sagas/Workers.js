@@ -1,7 +1,20 @@
 import { put, call } from 'redux-saga/effects'
+import { error, success } from 'App/Components/Notification'
+import { MainService } from 'App/Services/MainService'
 import AuthActions from '../Stores/Actions'
 import { AuthService } from '../AuthService'
-import { error, success } from 'App/Components/Notification'
+
+export function* fetchMetadata({ langCode }) {
+  yield put(AuthActions.fetchMetadataLoading())
+
+  const metadata = yield call(MainService.fetchMetadata, langCode, 'AUTH')
+
+  if (metadata && metadata.data) {
+    yield put(AuthActions.fetchMetadataSuccess(metadata.data))
+  } else {
+    yield put(AuthActions.fetchMetadataFailure())
+  }
+}
 
 export function* fetchAuthentication({ email, password, lang }) {
   yield put(AuthActions.fetchAuthenticationLoading())

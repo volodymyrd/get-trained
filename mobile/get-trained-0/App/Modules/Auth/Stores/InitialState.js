@@ -10,7 +10,9 @@ export const AuthType = {
 }
 
 export const INITIAL_STATE = Map({
+  fetchingMetadata: false,
   authType: 'signIn', // AuthType
-  fetching: Map({ authenticating: false }),
+  fetchingAuthenticating: false,
+  metadata: {},
   authenticated: false,
 })

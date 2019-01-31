@@ -10,8 +10,8 @@ import {
   Title,
   Text,
   Button,
-  Icon,
 } from 'native-base';
+import Loading from "App/Components/Loading";
 import {AuthType} from '../Stores/InitialState'
 import AuthActions from '../Stores/Actions'
 import SignIn from "../Components/SignIn";
@@ -21,9 +21,15 @@ import styles from './AuthScreenStyle'
 
 class AuthScreen extends React.Component {
 
+  componentDidMount() {
+    if (this.props.langCode) {
+      this.props.fetchMetadata(this.props.langCode)
+    }
+  }
+
   componentDidUpdate(prevProps) {
-    if (prevProps.fetching.get('authenticating')
-        && !this.props.fetching.get('authenticating')) {
+    if (prevProps.fetchingAuthenticating
+        && !this.props.fetchingAuthenticating) {
       if (this.props.authenticated) {
         this.props.navigation.navigate('App')
       }
@@ -35,7 +41,18 @@ class AuthScreen extends React.Component {
   }
 
   render() {
-    const {authType, toggleAuthType, fetching} = this.props
+    const {
+      langCode,
+      metadata,
+      authType,
+      toggleAuthType,
+      fetchingMetadata,
+      fetchingAuthenticating,
+    } = this.props
+
+    if (!langCode || fetchingMetadata || !metadata) {
+      return <Loading/>
+    }
 
     return (
         <Container>
@@ -49,13 +66,13 @@ class AuthScreen extends React.Component {
           </Header>
           <Content>
             {authType === AuthType.SIGN_IN
-            && <SignIn loading={fetching.get('authenticating')}
+            && <SignIn loading={fetchingAuthenticating}
                        authenticationHandler={this.authenticationHandler}/>}
             {authType === AuthType.SIGN_UP
-            && <SignUp loading={fetching.authenticating}
+            && <SignUp loading={fetchingAuthenticating}
                        authenticationHandler={this.authenticationHandler}/>}
             {authType === 'restorePassword'
-            && <RestorePassword loading={fetching.authenticating}
+            && <RestorePassword loading={fetchingAuthenticating}
                                 authenticationHandler={this.authenticationHandler}/>}
           </Content>
           <Footer>
@@ -80,12 +97,16 @@ class AuthScreen extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+  langCode: state.main.get('langCode'),
+  fetchingMetadata: state.auth.root.get('fetchingMetadata'),
+  metadata: state.auth.root.get('metadata'),
   authType: state.auth.root.get('authType'),
-  fetching: state.auth.root.get('fetching'),
+  fetchingAuthenticating: state.auth.root.get('fetchingAuthenticating'),
   authenticated: state.auth.root.get('authenticated'),
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  fetchMetadata: (langCode) => dispatch(AuthActions.fetchMetadata(langCode)),
   toggleAuthType: (authType) => dispatch(AuthActions.toggleAuthType(authType)),
   authenticate: (email, password) => dispatch(
       AuthActions.fetchAuthentication(email, password, "EN")),

@@ -51,7 +51,7 @@ class RootScreen extends Component {
 const mapStateToProps = (state) => ({})
 
 const mapDispatchToProps = (dispatch) => ({
-  startup: () => dispatch(StartupActions.startup()),
+  // startup: () => dispatch(StartupActions.startup()),
 })
 
 export default connect(
