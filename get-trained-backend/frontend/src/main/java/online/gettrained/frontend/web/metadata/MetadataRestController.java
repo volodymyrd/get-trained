@@ -77,7 +77,7 @@ public class MetadataRestController {
 
     Language language = Utils.getLanguage(lang, request, localizationService);
     if (user != null) {
-      if (user.getProfile() != null) {
+      if (user.getProfile() != null && user.getProfile().getAvatarId() != null) {
         user.getProfile().setAvatarUrl(blobDataService.getFileUrl(user.getProfile().getAvatarId()));
       }
     }

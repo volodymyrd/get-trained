@@ -14,7 +14,7 @@ buildscript {
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-jar {
+bootJar {
     def cmd = "git rev-parse --short HEAD"
     def proc = cmd.execute()
     ext.revision = proc.text.trim()
@@ -29,6 +29,7 @@ jar {
     }
 
     archiveName = 'gettrained.jar'
+    launchScript()
 }
 
 dependencies {

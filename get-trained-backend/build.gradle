@@ -156,3 +156,43 @@ subprojects {
         }
     }
 }
+
+def app = "gettrained.jar"
+def war = "ROOT.war"
+def war_path = "get-trained-web/target/libs/" + war
+def app_path = "get-trained-app/target/libs/" + app
+
+//remote deploy
+remotes {
+    devServer {
+        host = '95.179.164.90'
+        port = 22
+        user = 'volodymyrd'
+        password = 'Get_Trained-Online@2019'
+        //identity = file('/Users/vova/.ssh/vultr/get_trained_online/id_rsa')
+        knownHosts = allowAnyHosts
+    }
+}
+
+task deploy {
+    doLast {
+        ssh.run {
+            session(remotes.devServer) {
+                println('stop server...')
+                execute('/home/volodymyrd/app/stop.sh')
+
+                println('remove app...')
+                execute ('rm /home/volodymyrd/app/' + app)
+
+                println('copy app-file...')
+                put from: app_path, into: '/home/volodymyrd/app/'
+
+                println('set executable...')
+                execute('chmod +x /home/volodymyrd/app/' + app)
+
+                println('start server...')
+                execute('/home/volodymyrd/app/start.sh')
+            }
+        }
+    }
+}
