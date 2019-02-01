@@ -12,7 +12,7 @@ const { Types, Creators } = createActions({
   fetchMetadataFailure: null,
 
   toggleAuthType: ['authType'],
-  fetchAuthentication: ['email', 'password', 'lang'],
+  fetchAuthentication: ['email', 'password', 'lang', 'messages'],
   fetchAuthenticationLoading: null,
   fetchAuthenticationSuccess: null,
   fetchAuthenticationFailure: null,

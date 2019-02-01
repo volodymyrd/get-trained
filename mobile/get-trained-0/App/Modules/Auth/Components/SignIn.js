@@ -55,15 +55,24 @@ class SignIn extends React.Component {
   }
 
   render() {
-    const {loading, authenticationHandler} = this.props
+    const {
+      loading,
+      authenticationHandler,
+      txtEmail,
+      txtPassword,
+      txtBtn,
+      minPasswordLength,
+    } = this.props
+
     const {buttonDisabled, email, password} = this.state
 
     return (
         <Form>
-          <Email
-              onValid={this._emailValid}
-              onInValid={this._emailInValid}/>
-          <Password name='Password'
+          <Email txtEmail={txtEmail}
+                 onValid={this._emailValid}
+                 onInValid={this._emailInValid}/>
+          <Password txtPassword={txtPassword}
+                    minLength={minPasswordLength}
                     onValid={this._passwordValid}
                     onInValid={this._passwordInValid}/>
           <Button
@@ -73,7 +82,7 @@ class SignIn extends React.Component {
               onPress={() => authenticationHandler(email, password)}
               disabled={buttonDisabled || loading}
           >
-            {loading ? <Spinner color='blue'/> : <Text>Sign in</Text>}
+            {loading ? <Spinner color='blue'/> : <Text>{txtBtn}</Text>}
           </Button>
         </Form>
     )
@@ -81,6 +90,10 @@ class SignIn extends React.Component {
 }
 
 SignIn.propTypes = {
+  txtEmail: PropTypes.string.isRequired,
+  txtPassword: PropTypes.string.isRequired,
+  txtBtn: PropTypes.string.isRequired,
+  minPasswordLength: PropTypes.number.isRequired,
   loading: PropTypes.bool.isRequired,
   authenticationHandler: PropTypes.func.isRequired,
 }

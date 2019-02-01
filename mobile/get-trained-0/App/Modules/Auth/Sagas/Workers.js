@@ -16,16 +16,16 @@ export function* fetchMetadata({ langCode }) {
   }
 }
 
-export function* fetchAuthentication({ email, password, lang }) {
+export function* fetchAuthentication({ email, password, lang, messages }) {
   yield put(AuthActions.fetchAuthenticationLoading())
 
   const auth = yield call(AuthService.authenticate, email, password, lang)
 
   if (auth) {
     yield put(AuthActions.fetchAuthenticationSuccess())
-    yield call(success, 'Successful login!')
+    yield call(success, messages[0])
   } else {
     yield put(AuthActions.fetchAuthenticationFailure())
-    yield call(error, 'Wrong email or password')
+    yield call(error, messages[1])
   }
 }

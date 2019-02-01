@@ -28,12 +28,14 @@ class RestorePassword extends React.Component {
   }
 
   render() {
-    const {loading, authenticationHandler} = this.props
+    const {txtBtn, txtEmail, loading, authenticationHandler} = this.props
     const {buttonDisabled} = this.state
 
     return (
         <Form>
-          <Email onValid={this.emailValid} onInValid={this.emailInValid}/>
+          <Email txtEmail={txtEmail}
+                 onValid={this.emailValid}
+                 onInValid={this.emailInValid}/>
           <Button
               full
               rounded
@@ -41,7 +43,7 @@ class RestorePassword extends React.Component {
               onPress={authenticationHandler}
               disabled={buttonDisabled || loading}
           >
-            {loading ? <Spinner color='blue'/> : <Text>Restore</Text>}
+            {loading ? <Spinner color='blue'/> : <Text>{txtBtn}</Text>}
           </Button>
         </Form>
     )
@@ -49,6 +51,8 @@ class RestorePassword extends React.Component {
 }
 
 RestorePassword.propTypes = {
+  txtEmail: PropTypes.string.isRequired,
+  txtBtn: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   authenticationHandler: PropTypes.func.isRequired,
 }

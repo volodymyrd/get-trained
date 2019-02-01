@@ -28,11 +28,12 @@ class Email extends Component {
   }
 
   render() {
+    const {txtEmail} = this.props
     const {valid} = this.state
 
     return (
         <Item floatingLabel success={valid} error={!valid}>
-          <Label>Email</Label>
+          <Label>{txtEmail}</Label>
           <Input email-address onChangeText={this._changeTextHandler}/>
           {valid ?
               <Icon name='checkmark-circle'/> :
@@ -43,6 +44,7 @@ class Email extends Component {
 }
 
 Email.propTypes = {
+  txtEmail: PropTypes.string.isRequired,
   onValid: PropTypes.func.isRequired,
   onInValid: PropTypes.func.isRequired,
 }

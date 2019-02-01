@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {Item, Input, Label, Icon} from 'native-base'
 
-class Password extends Component {
+class Name extends Component {
 
   constructor(props) {
     super(props);
@@ -11,12 +11,12 @@ class Password extends Component {
     };
   }
 
-  _changeTextHandler = (password) => {
-    if (password.length >= this.props.minLength) {
+  _changeTextHandler = (name) => {
+    if (name.length >= this.props.minLength) {
       this.setState({
         valid: true,
       })
-      this.props.onValid(password)
+      this.props.onValid(name)
     } else {
       this.setState({
         valid: false,
@@ -26,13 +26,13 @@ class Password extends Component {
   }
 
   render() {
-    const {txtPassword} = this.props
+    const {txtName} = this.props
     const {valid} = this.state
 
     return (
         <Item floatingLabel success={valid} error={!valid}>
-          <Label>{txtPassword}</Label>
-          <Input secureTextEntry onChangeText={this._changeTextHandler}/>
+          <Label>{txtName}</Label>
+          <Input email-address onChangeText={this._changeTextHandler}/>
           {valid ?
               <Icon name='checkmark-circle'/> :
               <Icon name='close-circle'/>}
@@ -41,11 +41,11 @@ class Password extends Component {
   }
 }
 
-Password.propTypes = {
-  txtPassword: PropTypes.string.isRequired,
+Name.propTypes = {
+  txtName: PropTypes.string.isRequired,
   minLength: PropTypes.number.isRequired,
   onValid: PropTypes.func.isRequired,
   onInValid: PropTypes.func.isRequired,
 }
 
-export default Password
+export default Name
