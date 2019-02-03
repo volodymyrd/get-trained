@@ -93,7 +93,7 @@ class AuthScreen extends React.Component {
     return (
         <Container>
           <Header style={styles.header}>
-            <Body>
+            <Body style={styles.body}>
             {authType === AuthType.SIGN_IN && <Title>{tSignIn}</Title>}
             {authType === AuthType.SIGN_UP && <Title>{tSignUp}</Title>}
             {authType === AuthType.RESTORE_PASSWORD
