@@ -13,4 +13,8 @@ export default {
       paddingTop: 0,
     },
   },
+  navigationHeaderZeroStyle: {
+    height: 0,
+    marginTop: -45,
+  },
 }

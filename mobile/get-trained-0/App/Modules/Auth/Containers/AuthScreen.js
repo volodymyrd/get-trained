@@ -33,9 +33,16 @@ import {
   messSuccessLogin,
   errorBadCredentials
 } from '../Metadata'
+import ApplicationStyles from 'App/Theme/ApplicationStyles'
 import styles from './AuthScreenStyle'
+import {LOGO_128} from "App/Images";
+import {Image, View} from "react-native";
 
 class AuthScreen extends React.Component {
+
+  static navigationOptions = {
+    headerStyle: ApplicationStyles.navigationHeaderZeroStyle,
+  }
 
   componentDidMount() {
     if (this.props.langCode) {
@@ -93,7 +100,10 @@ class AuthScreen extends React.Component {
             && <Title>{tRestorePass}</Title>}
             </Body>
           </Header>
-          <Content>
+          <Content style={styles.content}>
+            <View style={styles.logo}>
+              <Image source={LOGO_128} />
+            </View>
             {authType === AuthType.SIGN_IN
             && <SignIn txtEmail={txtEmail(localizations)}
                        txtPassword={txtPassword(localizations)}
@@ -105,7 +115,9 @@ class AuthScreen extends React.Component {
             && <SignUp txtEmail={txtEmail(localizations)}
                        txtFirstName={txtFirstName(localizations)}
                        minFirstNameLength={2}
-                       txtPassword={`${txtPassword(localizations)}(${hintMinPasswordLength(localizations, minPasswordLength)})`}
+                       txtPassword={`${txtPassword(
+                           localizations)}(${hintMinPasswordLength(
+                           localizations, minPasswordLength)})`}
                        txtRepeatPassword={txtRepeatPassword(localizations)}
                        minPasswordLength={
                          parseInt(settings.get('f_min_password_length'))}
