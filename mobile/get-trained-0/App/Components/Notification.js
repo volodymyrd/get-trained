@@ -3,36 +3,27 @@ import { Toast } from 'native-base'
 const DURATION = 3000
 
 export const info = (message) => {
-  Toast.show({
-    text: message,
-    buttonText: 'OK',
-    duration: DURATION,
-  })
+  _show(message)
 }
 
 export const success = (message) => {
-  Toast.show({
-    text: message,
-    buttonText: 'OK',
-    duration: DURATION,
-    type: 'success',
-  })
+  _show(message, 'success')
 }
 
 export const warn = (message) => {
-  Toast.show({
-    text: message,
-    buttonText: 'OK',
-    duration: DURATION,
-    type: 'warning',
-  })
+  _show(message, 'warning')
 }
 
 export const error = (message) => {
+  _show(message, 'danger')
+}
+
+const _show = (message, type) => {
   Toast.show({
     text: message,
     buttonText: 'OK',
     duration: DURATION,
-    type: 'danger',
+    type: type,
+    position: 'top',
   })
 }

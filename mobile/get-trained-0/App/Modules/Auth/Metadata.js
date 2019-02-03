@@ -62,6 +62,14 @@ export const messSuccessLogin = (localizations) => {
   return text(localizations.get(keys.AUTH_SIGN_IN_MESSAGE_SUCCESS), 'Successful login!')
 }
 
+export const messSuccessSignUp = (localizations) => {
+  return text(localizations.get(keys.AUTH_REG_MESSAGE_SUCCESS), 'Successful sign Up!')
+}
+
+export const undefinedError = (localizations) => {
+  return text(localizations.get(keys.AUTH_ERROR_UNDEFINED), 'Undefined error')
+}
+
 const keys = {
   COMMON_LANG_NAME: 'common.lang.name',
   COMMON_ASSIGN_TO: 'common.assign_to',

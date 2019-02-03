@@ -31,7 +31,9 @@ import {
   btnGenNewPassword,
   hintMinPasswordLength,
   messSuccessLogin,
-  errorBadCredentials
+  errorBadCredentials,
+  messSuccessSignUp,
+  undefinedError,
 } from '../Metadata'
 import ApplicationStyles from 'App/Theme/ApplicationStyles'
 import styles from './AuthScreenStyle'
@@ -60,12 +62,21 @@ class AuthScreen extends React.Component {
   }
 
   authenticationHandler = (email, password) => {
-    const langCode = this.props.langCode
+    const langCode = this.props.langCode.toUpperCase()
     const localizations = this.props.metadata.get('localizations')
     const messages = [
       messSuccessLogin(localizations),
       errorBadCredentials(localizations)]
     this.props.authenticate(email, password, langCode, messages);
+  }
+
+  signUpHandler = (email, password, firstName) => {
+    const langCode = this.props.langCode.toUpperCase()
+    const localizations = this.props.metadata.get('localizations')
+    const messages = [
+      messSuccessSignUp(localizations),
+      undefinedError(localizations)]
+    this.props.signUp(email, password, firstName, langCode, messages);
   }
 
   render() {
@@ -102,7 +113,7 @@ class AuthScreen extends React.Component {
           </Header>
           <Content style={styles.content}>
             <View style={styles.logo}>
-              <Image source={LOGO_128} />
+              <Image source={LOGO_128}/>
             </View>
             {authType === AuthType.SIGN_IN
             && <SignIn txtEmail={txtEmail(localizations)}
@@ -123,7 +134,7 @@ class AuthScreen extends React.Component {
                          parseInt(settings.get('f_min_password_length'))}
                        txtBtn={btnSignUp(localizations)}
                        loading={fetchingAuthenticating}
-                       authenticationHandler={this.authenticationHandler}/>}
+                       signUpHandler={this.signUpHandler}/>}
             {authType === 'restorePassword'
             && <RestorePassword txtEmail={txtEmail(localizations)}
                                 txtBtn={btnGenNewPassword(localizations)}
@@ -165,6 +176,8 @@ const mapDispatchToProps = (dispatch) => ({
   toggleAuthType: (authType) => dispatch(AuthActions.toggleAuthType(authType)),
   authenticate: (email, password, langCode, messages) => dispatch(
       AuthActions.fetchAuthentication(email, password, langCode, messages)),
+  signUp: (email, password, firstName, langCode, messages) => dispatch(
+      AuthActions.fetchSignUp(email, password, firstName, langCode, messages)),
 })
 
 export default connect(

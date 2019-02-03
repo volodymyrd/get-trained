@@ -15,4 +15,5 @@ export const INITIAL_STATE = Map({
   fetchingAuthenticating: false,
   metadata: {},
   authenticated: false,
+  fetchingSignUp: false,
 })

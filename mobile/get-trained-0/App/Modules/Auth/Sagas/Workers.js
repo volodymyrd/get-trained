@@ -3,6 +3,7 @@ import { error, success } from 'App/Components/Notification'
 import { MainService } from 'App/Services/MainService'
 import AuthActions from '../Stores/Actions'
 import { AuthService } from '../AuthService'
+import { AuthType } from '../Stores/InitialState'
 
 export function* fetchMetadata({ langCode }) {
   yield put(AuthActions.fetchMetadataLoading())
@@ -26,6 +27,21 @@ export function* fetchAuthentication({ email, password, lang, messages }) {
     yield call(success, messages[0])
   } else {
     yield put(AuthActions.fetchAuthenticationFailure())
+    yield call(error, messages[1])
+  }
+}
+
+export function* fetchSignUp({ email, password, firstName, lang, messages }) {
+  yield put(AuthActions.fetchSignUpLoading())
+
+  const signUp = yield call(AuthService.signUp, email, password, firstName, lang)
+
+  if (signUp) {
+    yield put(AuthActions.fetchSignUpSuccess())
+    yield call(success, messages[0])
+    yield put(AuthActions.toggleAuthType(AuthType.SIGN_IN))
+  } else {
+    yield put(AuthActions.fetchSignUpFailure())
     yield call(error, messages[1])
   }
 }

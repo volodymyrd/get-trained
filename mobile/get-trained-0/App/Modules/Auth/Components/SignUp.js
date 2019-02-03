@@ -9,69 +9,97 @@ class SignUp extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      emailValid: false,
-      firstNameValid: false,
-      passwordValid: false,
+      email: undefined,
+      password: undefined,
+      passwordRepeat: undefined,
+      firstName: false,
       buttonDisabled: true,
     }
   }
 
-  emailValid = () => {
-    if (this.state.passwordValid && this.state.firstNameValid) {
+  _emailValid = (email) => {
+    if (this.state.password
+        && this.state.passwordRepeat
+        && this.state.firstName) {
       this.setState({
-        emailValid: true,
+        email,
         buttonDisabled: false,
       })
     } else {
       this.setState({
-        emailValid: true,
+        email,
       })
     }
   }
 
-  emailInValid = () => {
+  _emailInValid = () => {
     this.setState({
-      emailValid: false,
-      buttonDisabled: true,
-    })
-  }
-
-  firstNameValid = () => {
-    if (this.state.emailValid && this.state.passwordValid) {
-      this.setState({
-        firstNameValid: true,
-        buttonDisabled: false,
-      })
-    } else {
-      this.setState({
-        firstNameValid: true,
-      })
-    }
-  }
-
-  firstNameInValid = () => {
-    this.setState({
-      firstNameValid: false,
+      email: undefined,
       buttonDisabled: true,
     })
   }
 
-  passwordValid = () => {
-    if (this.state.emailValid && this.state.firstNameValid) {
+  _passwordValid = (password) => {
+    if (this.state.email
+        && this.state.passwordRepeat
+        && this.state.firstName) {
       this.setState({
-        passwordValid: true,
+        password,
         buttonDisabled: false,
       })
     } else {
       this.setState({
-        passwordValid: true,
+        password,
       })
     }
   }
 
-  passwordInValid = () => {
+  _passwordInValid = () => {
     this.setState({
-      passwordValid: false,
+      password: undefined,
+      passwordRepeat: undefined,
+      buttonDisabled: true,
+    })
+  }
+
+  _passwordRepeatValid = (passwordRepeat) => {
+    if (this.state.email && this.state.firstName) {
+      this.setState({
+        passwordRepeat,
+        buttonDisabled: false,
+      })
+    } else {
+      this.setState({
+        passwordRepeat,
+      })
+    }
+  }
+
+  _passwordRepeatInValid = () => {
+    this.setState({
+      passwordRepeat: undefined,
+      buttonDisabled: true,
+    })
+  }
+
+  _firstNameValid = (firstName) => {
+    if (this.state.email
+        && this.state.password
+        && this.state.passwordRepeat) {
+      this.setState({
+        firstName,
+        buttonDisabled: false,
+      })
+    } else {
+      this.setState({
+        firstName,
+      })
+    }
+  }
+
+  _firstNameInValid = () => {
+    this.setState({
+      firstName: undefined,
       buttonDisabled: true,
     })
   }
@@ -86,33 +114,39 @@ class SignUp extends React.Component {
       minPasswordLength,
       txtBtn,
       loading,
-      authenticationHandler
+      signUpHandler,
     } = this.props
 
-    const {buttonDisabled} = this.state
+    const {
+      buttonDisabled,
+      email,
+      password,
+      firstName
+    } = this.state
 
     return (
         <Form>
           <Email txtEmail={txtEmail}
-                 onValid={this.emailValid}
-                 onInValid={this.emailInValid}/>
+                 onValid={this._emailValid}
+                 onInValid={this._emailInValid}/>
           <Name txtName={txtFirstName}
                 minLength={minFirstNameLength}
-                onValid={this.firstNameValid}
-                onInValid={this.firstNameInValid}/>
+                onValid={this._firstNameValid}
+                onInValid={this._firstNameInValid}/>
           <Password txtPassword={txtPassword}
                     minLength={minPasswordLength}
-                    onValid={this.passwordValid}
-                    onInValid={this.passwordInValid}/>
+                    onValid={this._passwordValid}
+                    onInValid={this._passwordInValid}/>
           <Password txtPassword={txtRepeatPassword}
+                    repeatPassword={password}
                     minLength={minPasswordLength}
-                    onValid={this.passwordValid}
-                    onInValid={this.passwordInValid}/>
+                    onValid={this._passwordRepeatValid}
+                    onInValid={this._passwordRepeatInValid}/>
           <Button
               full
               rounded
               style={{marginTop: 40}}
-              onPress={authenticationHandler}
+              onPress={() => signUpHandler(email, password, firstName)}
               disabled={buttonDisabled || loading}
           >
             {loading ? <Spinner color='blue'/> : <Text>{txtBtn}</Text>}
@@ -131,7 +165,7 @@ SignUp.propTypes = {
   minPasswordLength: PropTypes.number.isRequired,
   txtBtn: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
-  authenticationHandler: PropTypes.func.isRequired,
+  signUpHandler: PropTypes.func.isRequired,
 }
 
 export default SignUp

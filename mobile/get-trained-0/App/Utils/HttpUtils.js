@@ -11,34 +11,44 @@ const apiClient = create({
   timeout: 5000,
 })
 
-export const postWithCredentials = (url) => {
-  apiClient.setHeaders({
-    'Content-Type': 'application/x-www-form-urlencoded',
-    credentials: 'include',
-  })
+export const post = (url, json) => {
+  return _post(url, { 'Content-Type': 'application/json' }, json)
+}
 
-  return apiClient.post(url).then((response) => {
-    if (response.ok) {
-      return response
-    }
-
-    return null
-  })
+export const postWithCredentials = (url, json) => {
+  return _post(
+    url,
+    {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      credentials: 'include',
+    },
+    json
+  )
 }
 
 export const signIn = (email, password, lang) => {
-  apiClient.setHeaders({
+  return _post('fe/auth/signin', {
     'Content-Type': 'application/x-www-form-urlencoded',
     Authorization: 'Basic ' + base64.btoa(unescape(encodeURIComponent(email + ':' + password))),
     credentials: 'include',
     lang: lang,
   })
+}
 
-  return apiClient.post('fe/auth/signin').then((response) => {
-    if (response.ok) {
-      return response
-    }
+const _post = (url, header, json) => {
+  apiClient.setHeaders(header)
 
-    return null
-  })
+  if (json) {
+    return apiClient.post(url, json).then((response) => _callBack(response))
+  } else {
+    return apiClient.post(url).then((response) => _callBack(response))
+  }
+}
+
+const _callBack = (response) => {
+  if (response.ok) {
+    return response
+  }
+
+  return null
 }

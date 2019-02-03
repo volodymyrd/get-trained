@@ -16,6 +16,11 @@ const { Types, Creators } = createActions({
   fetchAuthenticationLoading: null,
   fetchAuthenticationSuccess: null,
   fetchAuthenticationFailure: null,
+
+  fetchSignUp: ['email', 'password', 'firstName', 'lang', 'messages'],
+  fetchSignUpLoading: null,
+  fetchSignUpSuccess: null,
+  fetchSignUpFailure: null,
 })
 
 export const AuthTypes = Types
