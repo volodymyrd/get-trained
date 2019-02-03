@@ -76,7 +76,8 @@ public class AuthRestController {
   }
 
   @PostMapping("/passwordrestore")
-  public ResponseEntity<?> passwordRestore(@RequestParam("email") String email,
+  public ResponseEntity<?> passwordRestore(
+      @RequestParam("email") String email,
       @RequestParam("lang") String lang,
       HttpServletRequest request) {
 
@@ -132,7 +133,8 @@ public class AuthRestController {
   }
 
   @GetMapping("/regconfirmation")
-  public ResponseEntity<?> confirmRegistration(@RequestParam("token") String token,
+  public ResponseEntity<?> confirmRegistration(
+      @RequestParam("token") String token,
       HttpServletRequest request) {
 
     if (token == null || token.isEmpty()) {
@@ -176,7 +178,8 @@ public class AuthRestController {
   }
 
   @PostMapping("/signup")
-  public ResponseEntity<?> signUp(@RequestBody UserRegistrationDto dto,
+  public ResponseEntity<?> signUp(
+      @RequestBody UserRegistrationDto dto,
       HttpServletRequest request) {
 
     Language language = Utils.getLanguage(dto.getLang(), request, localizationService);
