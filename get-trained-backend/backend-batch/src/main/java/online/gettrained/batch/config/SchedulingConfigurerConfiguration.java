@@ -3,11 +3,13 @@ package online.gettrained.batch.config;
 import online.gettrained.backend.props.ApplicationCommonProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
 @Configuration
+@EnableScheduling
 public class SchedulingConfigurerConfiguration implements SchedulingConfigurer {
 
   private final ApplicationCommonProperties applicationCommonProperties;

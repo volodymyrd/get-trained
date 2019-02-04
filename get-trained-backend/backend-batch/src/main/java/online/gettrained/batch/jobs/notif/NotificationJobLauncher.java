@@ -20,13 +20,14 @@ public class NotificationJobLauncher extends BaseJobLauncher {
   private final Job notificationJob;
 
   @Autowired
-  public NotificationJobLauncher(JobLauncher jobLauncher,
+  public NotificationJobLauncher(
+      JobLauncher jobLauncher,
       @Qualifier("notificationJob") Job notificationJob) {
     super(jobLauncher);
     this.notificationJob = notificationJob;
   }
 
-  @Scheduled(cron = "${berize.scheduling.cron.notification:0 */1 * * * *}")
+  @Scheduled(cron = "${user.prop.scheduling.cron.notification:0 */1 * * * *}")
   public void cronJob() {
     LOG.info("Try start the 'notificationJob'...");
     run(notificationJob);
