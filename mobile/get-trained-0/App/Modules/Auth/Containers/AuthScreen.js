@@ -12,7 +12,7 @@ import {
   Button,
 } from 'native-base';
 import Loading from "App/Components/Loading";
-import {AuthType} from '../Stores/InitialState'
+import {AuthStep} from '../Stores/InitialState'
 import AuthActions from '../Stores/Actions'
 import SignIn from "../Components/SignIn";
 import SignUp from "../Components/SignUp";
@@ -73,14 +73,23 @@ class AuthScreen extends React.Component {
     this.props.signUp(email, password, firstName, langCode, messages);
   }
 
+  restorePasswordHandler = (email) => {
+    const langCode = this.props.langCode.toUpperCase()
+    const localizations = this.props.metadata.get('localizations')
+    const messages = [undefinedError(localizations)]
+    this.props.restorePassword(email, langCode, messages);
+  }
+
   render() {
     const {
       langCode,
       metadata,
-      authType,
-      toggleAuthType,
+      authStep,
+      toggleAuthStep,
       fetchingMetadata,
       fetchingAuthenticating,
+      fetchingSignUp,
+      fetchingRestorePassword,
     } = this.props
 
     if (!langCode || fetchingMetadata || !metadata || !metadata.size) {
@@ -99,9 +108,9 @@ class AuthScreen extends React.Component {
         <Container>
           <Header style={styles.header}>
             <Body style={styles.body}>
-            {authType === AuthType.SIGN_IN && <Title>{tSignIn}</Title>}
-            {authType === AuthType.SIGN_UP && <Title>{tSignUp}</Title>}
-            {authType === AuthType.RESTORE_PASSWORD
+            {authStep === AuthStep.SIGN_IN && <Title>{tSignIn}</Title>}
+            {authStep === AuthStep.SIGN_UP && <Title>{tSignUp}</Title>}
+            {authStep === AuthStep.RESTORE_PASSWORD
             && <Title>{tRestorePass}</Title>}
             </Body>
           </Header>
@@ -109,14 +118,14 @@ class AuthScreen extends React.Component {
             <View style={styles.logo}>
               <Image source={LOGO_128}/>
             </View>
-            {authType === AuthType.SIGN_IN
+            {authStep === AuthStep.SIGN_IN
             && <SignIn txtEmail={txtEmail(localizations)}
                        txtPassword={txtPassword(localizations)}
                        txtBtn={btnSignIn(localizations)}
                        minPasswordLength={minPasswordLength}
                        loading={fetchingAuthenticating}
                        authenticationHandler={this.authenticationHandler}/>}
-            {authType === AuthType.SIGN_UP
+            {authStep === AuthStep.SIGN_UP
             && <SignUp txtEmail={txtEmail(localizations)}
                        txtFirstName={txtFirstName(localizations)}
                        minFirstNameLength={2}
@@ -127,26 +136,26 @@ class AuthScreen extends React.Component {
                        minPasswordLength={
                          parseInt(settings.get('f_min_password_length'))}
                        txtBtn={btnSignUp(localizations)}
-                       loading={fetchingAuthenticating}
+                       loading={fetchingSignUp}
                        signUpHandler={this.signUpHandler}/>}
-            {authType === 'restorePassword'
+            {authStep === 'restorePassword'
             && <RestorePassword txtEmail={txtEmail(localizations)}
                                 txtBtn={btnGenNewPassword(localizations)}
-                                loading={fetchingAuthenticating}
-                                authenticationHandler={this.authenticationHandler}/>}
+                                loading={fetchingRestorePassword}
+                                restorePasswordHandler={this.restorePasswordHandler}/>}
           </Content>
           <Footer>
             <FooterTab>
-              <Button active={authType === AuthType.SIGN_IN}
-                      onPress={() => toggleAuthType(AuthType.SIGN_IN)}>
+              <Button active={authStep === AuthStep.SIGN_IN}
+                      onPress={() => toggleAuthStep(AuthStep.SIGN_IN)}>
                 <Text>{tSignIn}</Text>
               </Button>
-              <Button active={authType === AuthType.SIGN_UP}
-                      onPress={() => toggleAuthType(AuthType.SIGN_UP)}>
+              <Button active={authStep === AuthStep.SIGN_UP}
+                      onPress={() => toggleAuthStep(AuthStep.SIGN_UP)}>
                 <Text>{tSignUp}</Text>
               </Button>
-              <Button active={authType === AuthType.RESTORE_PASSWORD}
-                      onPress={() => toggleAuthType(AuthType.RESTORE_PASSWORD)}>
+              <Button active={authStep === AuthStep.RESTORE_PASSWORD}
+                      onPress={() => toggleAuthStep(AuthStep.RESTORE_PASSWORD)}>
                 <Text>{txtForgotPass(localizations)}</Text>
               </Button>
             </FooterTab>
@@ -160,18 +169,22 @@ const mapStateToProps = (state) => ({
   langCode: state.main.get('langCode'),
   fetchingMetadata: state.auth.root.get('fetchingMetadata'),
   metadata: state.auth.root.get('metadata'),
-  authType: state.auth.root.get('authType'),
+  authStep: state.auth.root.get('authStep'),
   fetchingAuthenticating: state.auth.root.get('fetchingAuthenticating'),
   authenticated: state.auth.root.get('authenticated'),
+  fetchingSignUp: state.auth.root.get('fetchingSignUp'),
+  fetchingRestorePassword: state.auth.root.get('fetchingRestorePassword'),
 })
 
 const mapDispatchToProps = (dispatch) => ({
   fetchMetadata: (langCode) => dispatch(AuthActions.fetchMetadata(langCode)),
-  toggleAuthType: (authType) => dispatch(AuthActions.toggleAuthType(authType)),
+  toggleAuthStep: (authStep) => dispatch(AuthActions.toggleAuthStep(authStep)),
   authenticate: (email, password, langCode, messages) => dispatch(
       AuthActions.fetchAuthentication(email, password, langCode, messages)),
   signUp: (email, password, firstName, langCode, messages) => dispatch(
       AuthActions.fetchSignUp(email, password, firstName, langCode, messages)),
+  restorePassword: (email, langCode, messages) => dispatch(
+      AuthActions.fetchRestorePassword(email, langCode, messages))
 })
 
 export default connect(

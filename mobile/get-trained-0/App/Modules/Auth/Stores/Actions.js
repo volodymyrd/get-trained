@@ -11,7 +11,7 @@ const { Types, Creators } = createActions({
   fetchMetadataSuccess: ['metadata'],
   fetchMetadataFailure: null,
 
-  toggleAuthType: ['authType'],
+  toggleAuthStep: ['authStep'],
   fetchAuthentication: ['email', 'password', 'lang', 'messages'],
   fetchAuthenticationLoading: null,
   fetchAuthenticationSuccess: null,
@@ -21,6 +21,11 @@ const { Types, Creators } = createActions({
   fetchSignUpLoading: null,
   fetchSignUpSuccess: null,
   fetchSignUpFailure: null,
+
+  fetchRestorePassword: ['email', 'lang', 'messages'],
+  fetchRestorePasswordLoading: null,
+  fetchRestorePasswordSuccess: null,
+  fetchRestorePasswordFailure: null,
 })
 
 export const AuthTypes = Types

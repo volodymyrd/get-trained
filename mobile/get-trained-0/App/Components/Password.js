@@ -50,9 +50,9 @@ class Password extends Component {
           <Input secureTextEntry={hidePassword}
                  onChangeText={this._changeTextHandler}/>
           {hidePassword ?
-              <Icon active name='eye-off' onPress={this._showHandler}/>
+              <Icon active name='eye' onPress={this._showHandler}/>
               :
-              <Icon active name='eye' onPress={this._hideHandler}/>
+              <Icon active name='eye-off' onPress={this._hideHandler}/>
           }
           {valid ?
               <Icon name='checkmark-circle'/> :

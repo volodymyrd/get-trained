@@ -24,9 +24,9 @@ export const fetchMetadataFailure = (state) =>
     fetchingMetadata: false,
   })
 
-export const toggleAuthType = (state, { authType }) =>
+export const toggleAuthStep = (state, { authStep }) =>
   state.merge({
-    authType,
+    authStep,
   })
 
 export const fetchAuthenticationLoading = (state) =>
@@ -46,6 +46,36 @@ export const fetchAuthenticationFailure = (state) =>
     authenticated: false,
   })
 
+export const fetchSignUpLoading = (state) =>
+  state.merge({
+    fetchingSignUp: true,
+  })
+
+export const fetchSignUpSuccess = (state) =>
+  state.merge({
+    fetchingSignUp: false,
+  })
+
+export const fetchSignUpFailure = (state) =>
+  state.merge({
+    fetchingSignUp: false,
+  })
+
+export const fetchRestorePasswordLoading = (state) =>
+  state.merge({
+    fetchingRestorePassword: true,
+  })
+
+export const fetchRestorePasswordSuccess = (state) =>
+  state.merge({
+    fetchingRestorePassword: false,
+  })
+
+export const fetchRestorePasswordFailure = (state) =>
+  state.merge({
+    fetchingRestorePassword: false,
+  })
+
 /**
  * @see https://github.com/infinitered/reduxsauce#createreducer
  */
@@ -54,9 +84,17 @@ export const auth = createReducer(INITIAL_STATE, {
   [AuthTypes.FETCH_METADATA_SUCCESS]: fetchMetadataSuccess,
   [AuthTypes.FETCH_METADATA_FAILURE]: fetchMetadataFailure,
 
-  [AuthTypes.TOGGLE_AUTH_TYPE]: toggleAuthType,
+  [AuthTypes.TOGGLE_AUTH_STEP]: toggleAuthStep,
 
   [AuthTypes.FETCH_AUTHENTICATION_LOADING]: fetchAuthenticationLoading,
   [AuthTypes.FETCH_AUTHENTICATION_SUCCESS]: fetchAuthenticationSuccess,
   [AuthTypes.FETCH_AUTHENTICATION_FAILURE]: fetchAuthenticationFailure,
+
+  [AuthTypes.FETCH_SIGN_UP_LOADING]: fetchSignUpLoading,
+  [AuthTypes.FETCH_SIGN_UP_SUCCESS]: fetchSignUpSuccess,
+  [AuthTypes.FETCH_SIGN_UP_FAILURE]: fetchSignUpFailure,
+
+  [AuthTypes.FETCH_RESTORE_PASSWORD_LOADING]: fetchRestorePasswordLoading,
+  [AuthTypes.FETCH_RESTORE_PASSWORD_SUCCESS]: fetchRestorePasswordSuccess,
+  [AuthTypes.FETCH_RESTORE_PASSWORD_FAILURE]: fetchRestorePasswordFailure,
 })

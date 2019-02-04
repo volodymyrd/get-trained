@@ -1,46 +1,45 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Form, Item, Input, Label, Text, Button, Spinner} from 'native-base'
+import {Form, Text, Button, Spinner} from 'native-base'
 import Email from "App/Components/Email";
-import Password from "../../../Components/Password";
 
 class RestorePassword extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      emailValid: false,
+      email: undefined,
       buttonDisabled: true,
     }
   }
 
-  emailValid = () => {
+  _emailValid = (email) => {
     this.setState({
-      emailValid: true,
+      email,
       buttonDisabled: false,
     })
   }
 
-  emailInValid = () => {
+  _emailInValid = () => {
     this.setState({
-      emailValid: false,
+      email: undefined,
       buttonDisabled: true,
     })
   }
 
   render() {
-    const {txtBtn, txtEmail, loading, authenticationHandler} = this.props
-    const {buttonDisabled} = this.state
+    const {txtBtn, txtEmail, loading, restorePasswordHandler} = this.props
+    const {buttonDisabled, email} = this.state
 
     return (
         <Form>
           <Email txtEmail={txtEmail}
-                 onValid={this.emailValid}
-                 onInValid={this.emailInValid}/>
+                 onValid={this._emailValid}
+                 onInValid={this._emailInValid}/>
           <Button
               full
               rounded
               style={{marginTop: 40}}
-              onPress={authenticationHandler}
+              onPress={() => restorePasswordHandler(email)}
               disabled={buttonDisabled || loading}
           >
             {loading ? <Spinner color='blue'/> : <Text>{txtBtn}</Text>}
@@ -54,7 +53,7 @@ RestorePassword.propTypes = {
   txtEmail: PropTypes.string.isRequired,
   txtBtn: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
-  authenticationHandler: PropTypes.func.isRequired,
+  restorePasswordHandler: PropTypes.func.isRequired,
 }
 
 export default RestorePassword

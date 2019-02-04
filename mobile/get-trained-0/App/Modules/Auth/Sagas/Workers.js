@@ -20,15 +20,15 @@ export function* fetchMetadata({ langCode }) {
 export function* fetchAuthentication({ email, password, lang, messages }) {
   yield put(AuthActions.fetchAuthenticationLoading())
 
-  const auth = yield call(AuthService.authenticate, email, password, lang)
+  const response = yield call(AuthService.authenticate, email, password, lang)
 
-  if (auth && auth.data) {
-    if (auth.data.type === 'S') {
-      yield call(success, auth.data.message)
+  if (response && response.data) {
+    if (response.data.type === 'S') {
       yield put(AuthActions.fetchAuthenticationSuccess())
-    } else if (auth.data.type === 'I') {
-      yield call(info, auth.data.message)
+      yield call(success, response.data.message)
+    } else if (response.data.type === 'I') {
       yield put(AuthActions.fetchAuthenticationFailure())
+      yield call(info, response.data.message)
     }
   } else {
     yield put(AuthActions.fetchAuthenticationFailure())
@@ -39,17 +39,36 @@ export function* fetchAuthentication({ email, password, lang, messages }) {
 export function* fetchSignUp({ email, password, firstName, lang, messages }) {
   yield put(AuthActions.fetchSignUpLoading())
 
-  const signUp = yield call(AuthService.signUp, email, password, firstName, lang)
+  const response = yield call(AuthService.signUp, email, password, firstName, lang)
 
-  if (signUp && signUp.data) {
-    if (signUp.ok === true) {
+  if (response && response.data) {
+    if (response.ok === true) {
       yield put(AuthActions.fetchSignUpSuccess())
-      yield call(success, signUp.data.message)
+      yield call(success, response.data.message)
       yield put(AuthActions.toggleAuthType(AuthType.SIGN_IN))
     } else {
-      yield put(AuthActions.fetchSignUpSuccess())
-      yield call(error, signUp.data.message)
       yield put(AuthActions.fetchSignUpFailure())
+      yield call(error, response.data.message)
+    }
+  } else {
+    yield put(AuthActions.fetchSignUpFailure())
+    yield call(error, messages[0])
+  }
+}
+
+export function* fetchRestorePassword({ email, lang, messages }) {
+  yield put(AuthActions.fetchSignUpLoading())
+
+  const response = yield call(AuthService.restorePassword, email, lang)
+
+  if (response && response.data) {
+    if (response.ok === true) {
+      yield put(AuthActions.fetchSignUpSuccess())
+      yield call(success, response.data.message)
+      yield put(AuthActions.toggleAuthType(AuthType.SIGN_IN))
+    } else {
+      yield put(AuthActions.fetchSignUpFailure())
+      yield call(error, response.data.message)
     }
   } else {
     yield put(AuthActions.fetchSignUpFailure())
