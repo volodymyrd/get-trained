@@ -147,6 +147,25 @@
       <column name="MODULE">COMMON</column>
       <column name="LOCAL_TEXT">Изменить</column>
     </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">be_error.something_went_wrong</column>
+      <column name="MODULE">COMMON</column>
+      <column name="LOCAL_TEXT">Something went wrong</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">be_error.something_went_wrong</column>
+      <column name="MODULE">COMMON</column>
+      <column name="LOCAL_TEXT">Что-то пошло не так</column>
+    </insert>
   </changeSet>
 
   <changeSet id="2" author="Volodymyr Dotsenko">
@@ -206,6 +225,44 @@
       <column name="LOCAL_KEY">auth.error.wrong_credential</column>
       <column name="MODULE">AUTH</column>
       <column name="LOCAL_TEXT">Неверный Email или пароль</column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">be_text.auth_success_signed_in</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Signed in successfully</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">be_text.auth_success_signed_in</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Успешный вход</column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">be_text.auth_success_signed_out</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Signed out successfully</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="DATE_UPDATE">NULL</column>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">be_text.auth_success_signed_out</column>
+      <column name="MODULE">AUTH</column>
+      <column name="LOCAL_TEXT">Вы успешно вышли</column>
     </insert>
 
     <insert tableName="LOCAL_LOCALIZATION">
@@ -365,7 +422,7 @@
       <column name="DATE_UPDATE">NULL</column>
       <column name="VERSION">0</column>
       <column name="LANG">EN</column>
-      <column name="LOCAL_KEY">auth.reg.error.password</column>
+      <column name="LOCAL_KEY">auth.signup.error.password</column>
       <column name="MODULE">AUTH</column>
       <column name="LOCAL_TEXT">Please enter new password with length not less than {0} characters
       </column>
@@ -375,7 +432,7 @@
       <column name="DATE_UPDATE">NULL</column>
       <column name="VERSION">0</column>
       <column name="LANG">RU</column>
-      <column name="LOCAL_KEY">auth.reg.error.password</column>
+      <column name="LOCAL_KEY">auth.signup.error.password</column>
       <column name="MODULE">AUTH</column>
       <column name="LOCAL_TEXT">Пожалуйста введите новый пароль длиной не менеее {0} символов
       </column>
@@ -386,7 +443,7 @@
       <column name="DATE_UPDATE">NULL</column>
       <column name="VERSION">0</column>
       <column name="LANG">EN</column>
-      <column name="LOCAL_KEY">auth.reg.hint.password</column>
+      <column name="LOCAL_KEY">auth.signup.hint.password</column>
       <column name="MODULE">AUTH</column>
       <column name="LOCAL_TEXT">Minimum {0} characters</column>
     </insert>
@@ -395,7 +452,7 @@
       <column name="DATE_UPDATE">NULL</column>
       <column name="VERSION">0</column>
       <column name="LANG">RU</column>
-      <column name="LOCAL_KEY">auth.reg.hint.password</column>
+      <column name="LOCAL_KEY">auth.signup.hint.password</column>
       <column name="MODULE">AUTH</column>
       <column name="LOCAL_TEXT">Минимум {0} символов</column>
     </insert>
@@ -405,16 +462,16 @@
       <column name="DATE_UPDATE">NULL</column>
       <column name="VERSION">0</column>
       <column name="LANG">EN</column>
-      <column name="LOCAL_KEY">auth.error.email_exist</column>
+      <column name="LOCAL_KEY">be_error.email_already_exist</column>
       <column name="MODULE">AUTH</column>
-      <column name="LOCAL_TEXT">Such email is already exist</column>
+      <column name="LOCAL_TEXT">Such email already exists</column>
     </insert>
     <insert tableName="LOCAL_LOCALIZATION">
       <column name="DATE_CREATE" valueDate="${now}"/>
       <column name="DATE_UPDATE">NULL</column>
       <column name="VERSION">0</column>
       <column name="LANG">RU</column>
-      <column name="LOCAL_KEY">auth.error.email_exist</column>
+      <column name="LOCAL_KEY">be_error.email_already_exist</column>
       <column name="MODULE">AUTH</column>
       <column name="LOCAL_TEXT">Такой email уже существует</column>
     </insert>
@@ -424,60 +481,7 @@
       <column name="DATE_UPDATE">NULL</column>
       <column name="VERSION">0</column>
       <column name="LANG">EN</column>
-      <column name="LOCAL_KEY">auth.error.undefined</column>
-      <column name="MODULE">AUTH</column>
-      <column name="LOCAL_TEXT">Undefined error</column>
-    </insert>
-    <insert tableName="LOCAL_LOCALIZATION">
-      <column name="DATE_CREATE" valueDate="${now}"/>
-      <column name="DATE_UPDATE">NULL</column>
-      <column name="VERSION">0</column>
-      <column name="LANG">RU</column>
-      <column name="LOCAL_KEY">auth.error.undefined</column>
-      <column name="MODULE">AUTH</column>
-      <column name="LOCAL_TEXT">Неопределенная ошибка</column>
-    </insert>
-
-    <insert tableName="LOCAL_LOCALIZATION">
-      <column name="DATE_CREATE" valueDate="${now}"/>
-      <column name="DATE_UPDATE">NULL</column>
-      <column name="VERSION">0</column>
-      <column name="LANG">EN</column>
-      <column name="LOCAL_KEY">auth.txt.ldap.custom.message</column>
-      <column name="MODULE">AUTH</column>
-      <column name="LOCAL_TEXT">
-        Do you have questions or issues with the application, please contact to
-      </column>
-    </insert>
-    <insert tableName="LOCAL_LOCALIZATION">
-      <column name="DATE_CREATE" valueDate="${now}"/>
-      <column name="DATE_UPDATE">NULL</column>
-      <column name="VERSION">0</column>
-      <column name="LANG">UA</column>
-      <column name="LOCAL_KEY">auth.txt.ldap.custom.message</column>
-      <column name="MODULE">AUTH</column>
-      <column name="LOCAL_TEXT">
-        У вас є питання чи проблеми з програмою, будь ласка, зв'яжіться з
-      </column>
-    </insert>
-    <insert tableName="LOCAL_LOCALIZATION">
-      <column name="DATE_CREATE" valueDate="${now}"/>
-      <column name="DATE_UPDATE">NULL</column>
-      <column name="VERSION">0</column>
-      <column name="LANG">RU</column>
-      <column name="LOCAL_KEY">auth.txt.ldap.custom.message</column>
-      <column name="MODULE">AUTH</column>
-      <column name="LOCAL_TEXT">
-        У вас есть вопросы или проблемы с приложением, пожалуйста, свяжитесь с
-      </column>
-    </insert>
-
-    <insert tableName="LOCAL_LOCALIZATION">
-      <column name="DATE_CREATE" valueDate="${now}"/>
-      <column name="DATE_UPDATE">NULL</column>
-      <column name="VERSION">0</column>
-      <column name="LANG">EN</column>
-      <column name="LOCAL_KEY">auth.error.not_finished_registration</column>
+      <column name="LOCAL_KEY">be_text.auth_info_not_finished_sign_up</column>
       <column name="MODULE">AUTH</column>
       <column name="LOCAL_TEXT">
         You did not finish the registration, we have sent you an email with a reference to finish
@@ -489,7 +493,7 @@
       <column name="DATE_UPDATE">NULL</column>
       <column name="VERSION">0</column>
       <column name="LANG">RU</column>
-      <column name="LOCAL_KEY">auth.error.not_finished_registration</column>
+      <column name="LOCAL_KEY">be_text.auth_info_not_finished_sign_up</column>
       <column name="MODULE">AUTH</column>
       <column name="LOCAL_TEXT">
         Вы не завершили регистрацию, на Ваш емейл отправлено письмо с информацией как завершить
@@ -502,7 +506,7 @@
       <column name="DATE_UPDATE">NULL</column>
       <column name="VERSION">0</column>
       <column name="LANG">EN</column>
-      <column name="LOCAL_KEY">auth.reg.message.success</column>
+      <column name="LOCAL_KEY">be_text.auth_success_signed_up</column>
       <column name="MODULE">AUTH</column>
       <column name="LOCAL_TEXT">
         Success registration. We have sent you an email with a reference to finish the registration
@@ -513,7 +517,7 @@
       <column name="DATE_UPDATE">NULL</column>
       <column name="VERSION">0</column>
       <column name="LANG">RU</column>
-      <column name="LOCAL_KEY">auth.reg.message.success</column>
+      <column name="LOCAL_KEY">be_text.auth_success_signed_up</column>
       <column name="MODULE">AUTH</column>
       <column name="LOCAL_TEXT">
         Успешная регистрация. На Ваш емейл отправлено письмо для завершения регистрации
@@ -525,7 +529,7 @@
       <column name="DATE_UPDATE">NULL</column>
       <column name="VERSION">0</column>
       <column name="LANG">EN</column>
-      <column name="LOCAL_KEY">auth.txt.restorepassword</column>
+      <column name="LOCAL_KEY">auth.txt.restore_password</column>
       <column name="MODULE">AUTH</column>
       <column name="LOCAL_TEXT">
         Restore password
@@ -536,7 +540,7 @@
       <column name="DATE_UPDATE">NULL</column>
       <column name="VERSION">0</column>
       <column name="LANG">RU</column>
-      <column name="LOCAL_KEY">auth.txt.restorepassword</column>
+      <column name="LOCAL_KEY">auth.txt.restore_password</column>
       <column name="MODULE">AUTH</column>
       <column name="LOCAL_TEXT">
         Восстановление пароля
@@ -548,7 +552,7 @@
       <column name="DATE_UPDATE">NULL</column>
       <column name="VERSION">0</column>
       <column name="LANG">EN</column>
-      <column name="LOCAL_KEY">auth.btn.getnewpassword</column>
+      <column name="LOCAL_KEY">auth.btn.get_new_password</column>
       <column name="MODULE">AUTH</column>
       <column name="LOCAL_TEXT">
         Receive a new password
@@ -559,7 +563,7 @@
       <column name="DATE_UPDATE">NULL</column>
       <column name="VERSION">0</column>
       <column name="LANG">RU</column>
-      <column name="LOCAL_KEY">auth.btn.getnewpassword</column>
+      <column name="LOCAL_KEY">auth.btn.get_new_password</column>
       <column name="MODULE">AUTH</column>
       <column name="LOCAL_TEXT">
         Прислать новый пароль
@@ -571,7 +575,7 @@
       <column name="DATE_UPDATE">NULL</column>
       <column name="VERSION">0</column>
       <column name="LANG">EN</column>
-      <column name="LOCAL_KEY">auth.resetpassword.message.success</column>
+      <column name="LOCAL_KEY">be_text.auth_success_password_reset</column>
       <column name="MODULE">AUTH</column>
       <column name="LOCAL_TEXT">
         Success reset password. We have sent you an email with a new password
@@ -582,7 +586,7 @@
       <column name="DATE_UPDATE">NULL</column>
       <column name="VERSION">0</column>
       <column name="LANG">RU</column>
-      <column name="LOCAL_KEY">auth.resetpassword.message.success</column>
+      <column name="LOCAL_KEY">be_text.auth_success_password_reset</column>
       <column name="MODULE">AUTH</column>
       <column name="LOCAL_TEXT">
         Пароль успешно сброшен. На Ваш емейл отправлено письмо с новым паролем
@@ -620,7 +624,7 @@
       <column name="DATE_UPDATE">NULL</column>
       <column name="VERSION">0</column>
       <column name="LANG">EN</column>
-      <column name="LOCAL_KEY">profile.txt.firstname</column>
+      <column name="LOCAL_KEY">profile.txt.first_name</column>
       <column name="MODULE">USER_PROFILE</column>
       <column name="LOCAL_TEXT">First Name</column>
     </insert>
@@ -629,7 +633,7 @@
       <column name="DATE_UPDATE">NULL</column>
       <column name="VERSION">0</column>
       <column name="LANG">UA</column>
-      <column name="LOCAL_KEY">profile.txt.firstname</column>
+      <column name="LOCAL_KEY">profile.txt.first_name</column>
       <column name="MODULE">USER_PROFILE</column>
       <column name="LOCAL_TEXT">Ім'я</column>
     </insert>
@@ -638,7 +642,7 @@
       <column name="DATE_UPDATE">NULL</column>
       <column name="VERSION">0</column>
       <column name="LANG">RU</column>
-      <column name="LOCAL_KEY">profile.txt.firstname</column>
+      <column name="LOCAL_KEY">profile.txt.first_name</column>
       <column name="MODULE">USER_PROFILE</column>
       <column name="LOCAL_TEXT">Имя</column>
     </insert>

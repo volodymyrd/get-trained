@@ -1,5 +1,15 @@
 package online.gettrained.frontend.web.auth;
 
+import static online.gettrained.backend.domain.user.User.EStatus.NEW;
+import static online.gettrained.backend.exceptions.ErrorCode.EMAIL_ALREADY_EXIST;
+import static online.gettrained.backend.exceptions.ErrorCode.SOMETHING_WENT_WRONG;
+import static online.gettrained.backend.messages.TextCode.AUTH_INFO_NOT_FINISHED_SIGN_UP;
+import static online.gettrained.backend.messages.TextCode.AUTH_SUCCESS_SIGNED_IN;
+import static online.gettrained.backend.messages.TextCode.AUTH_SUCCESS_SIGNED_OUT;
+import static online.gettrained.backend.messages.TextCode.AUTH_SUCCESS_SIGNED_UP;
+import static online.gettrained.frontend.web.Utils.getLanguage;
+import static online.gettrained.frontend.web.dto.TextInfoDto.Type.I;
+
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,6 +25,8 @@ import online.gettrained.backend.domain.notif.templates.MessageTemplateLocal;
 import online.gettrained.backend.domain.user.CurrentUser;
 import online.gettrained.backend.domain.user.User;
 import online.gettrained.backend.domain.user.UserToken;
+import online.gettrained.backend.dto.ResponseValueJson;
+import online.gettrained.backend.exceptions.ErrorInfoDto;
 import online.gettrained.backend.services.auth.AuthService;
 import online.gettrained.backend.services.localization.LocalizationService;
 import online.gettrained.backend.services.notif.NotificationService;
@@ -22,9 +34,9 @@ import online.gettrained.backend.services.user.UserService;
 import online.gettrained.backend.utils.CommonUtils;
 import online.gettrained.backend.utils.SecurityUtils;
 import online.gettrained.frontend.services.HelperService;
-import online.gettrained.frontend.web.HttpStatusCodes;
 import online.gettrained.frontend.web.Utils;
 import online.gettrained.frontend.web.auth.dto.UserRegistrationDto;
+import online.gettrained.frontend.web.dto.TextInfoDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -71,8 +83,8 @@ public class AuthRestController {
   }
 
   @PostMapping("/checkemailexist")
-  public ResponseEntity<?> checkEmailExist(String email) {
-    return ResponseEntity.ok(userService.countByEmail(email) > 0);
+  public ResponseEntity<ResponseValueJson<Boolean>> checkEmailExist(String email) {
+    return ResponseEntity.ok(new ResponseValueJson<>(userService.countByEmail(email) > 0));
   }
 
   @PostMapping("/passwordrestore")
@@ -87,7 +99,8 @@ public class AuthRestController {
         .countQueuesByEventCodeAndChannelCodeAndStatusInAndExpireDateGreaterThanAndAddressTo(
             NotificationEvent.Code.RESTORE_PASSWORD,
             NotificationChannel.Code.EMAIL,
-            CommonUtils.immutableListOf(ENotificationStatus.NEW,
+            CommonUtils.immutableListOf(
+                ENotificationStatus.NEW,
                 ENotificationStatus.PROCESSING,
                 ENotificationStatus.ERROR),
             new Date(), email
@@ -97,11 +110,17 @@ public class AuthRestController {
       return ResponseEntity.ok().build();
     }
 
-    Language language = Utils.getLanguage(lang, request, localizationService);
+    Language language = getLanguage(lang, request, localizationService);
 
     Optional<User> userOptional = userService.findOneByEmailWithProfile(email);
     if (!userOptional.isPresent()) {
-      return ResponseEntity.notFound().build();
+      LOG.error("User with email {} not found", email);
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(
+          SOMETHING_WENT_WRONG,
+          localizationService
+              .getLocalTextByKeyAndLangOrUseDefault(SOMETHING_WENT_WRONG.toString(),
+                  language,
+                  "Something went wrong!")));
     }
 
     try {
@@ -115,8 +134,8 @@ public class AuthRestController {
             private static final long serialVersionUID = 714767951595242878L;
 
             {
-              put(MergeTag.EMAIL.getValue(), userOptional.get().getEmail());
-              put(MergeTag.FIRST_NAME.getValue(), userOptional.get().getProfile().getFirstName());
+              put(MergeTag.EMAIL.getValue(), user.getEmail());
+              put(MergeTag.FIRST_NAME.getValue(), user.getProfile().getFirstName());
               put(MergeTag.AUTO_GENERATED_PASSWORD.getValue(), newPassword);
               put(MergeTag.HOME_URL.getValue(),
                   Utils.getSchemeAndHostAndPort(request));
@@ -126,7 +145,12 @@ public class AuthRestController {
               "Please fill out a message template for the 'RESTORE_PASSWORD' event"));
     } catch (Exception ex) {
       LOG.error("Error restoring the password ", ex);
-      return ResponseEntity.badRequest().build();
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(
+          SOMETHING_WENT_WRONG,
+          localizationService
+              .getLocalTextByKeyAndLangOrUseDefault(SOMETHING_WENT_WRONG.toString(),
+                  language,
+                  "Something went wrong!")));
     }
 
     return ResponseEntity.ok().build();
@@ -182,21 +206,40 @@ public class AuthRestController {
       @RequestBody UserRegistrationDto dto,
       HttpServletRequest request) {
 
-    Language language = Utils.getLanguage(dto.getLang(), request, localizationService);
+    Language language = getLanguage(dto.getLang(), request, localizationService);
 
     if (userService.countByEmail(dto.getEmail()) > 0) {
-      return ResponseEntity.status(HttpStatusCodes.AUTH_EMAIL_ALREADY_EXIST.getCode()).build();
+      LOG.error("User with email {} already exists", dto.getEmail());
+      return ResponseEntity.badRequest().body(
+          new ErrorInfoDto(
+              EMAIL_ALREADY_EXIST,
+              localizationService
+                  .getLocalTextByKeyAndLangOrUseDefault(EMAIL_ALREADY_EXIST.toString(),
+                      language,
+                      "User with such email already exists!")));
     }
 
     User user = userService.createDefaultUser(dto.toUser(), dto.toProfile(language));
 
     if (user == null) {
-      return ResponseEntity.badRequest().build();
+      LOG.error("User creating a new user");
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(
+          SOMETHING_WENT_WRONG,
+          localizationService
+              .getLocalTextByKeyAndLangOrUseDefault(SOMETHING_WENT_WRONG.toString(),
+                  language,
+                  "Something went wrong!")));
     }
 
     sendNotificationToConfirmRegistration(user, language, request);
 
-    return ResponseEntity.ok("ok");
+    return ResponseEntity.ok(new TextInfoDto(
+        AUTH_SUCCESS_SIGNED_UP,
+        localizationService.getLocalTextByKeyAndLangOrUseDefault(
+            AUTH_SUCCESS_SIGNED_UP.toString(),
+            language,
+            "Success registration."
+        )));
   }
 
   private void sendNotificationToConfirmRegistration(User user, Language language,
@@ -232,20 +275,23 @@ public class AuthRestController {
     LOG.debug("Signing in....: {}", user.getEmail());
 
     String lang = request.getHeader("lang");
-    if (lang == null || lang.isEmpty()) {
-      throw new IllegalStateException("Not specified language");
-    }
-    Language language = Utils.getLanguage(lang, request, true, localizationService);
+    Language language = getLanguage(lang, request, true, localizationService);
 
-    if (user.getStatus() == User.EStatus.NEW) {
-      LOG.error("Sign in failed because user:{} is new", user.getEmail());
+    if (user.getStatus() == NEW) {
+      LOG.error("Sign in failed because user:{} has a NEW status", user.getEmail());
       sendNotificationToConfirmRegistration(
           userService.findByIdWithProfile(user.getId()).orElseThrow(IllegalStateException::new),
           language,
           request);
       signout(request, response);
-      return ResponseEntity.status(HttpStatusCodes.AUTH_NOT_FINISHED_REGISTRATION.getCode())
-          .build();
+      return ResponseEntity.badRequest().body(new TextInfoDto(
+          I,
+          AUTH_INFO_NOT_FINISHED_SIGN_UP,
+          localizationService.getLocalTextByKeyAndLangOrUseDefault(
+              AUTH_INFO_NOT_FINISHED_SIGN_UP.toString(),
+              language,
+              "You did not finish the registration."
+          )));
     }
 
     user = userService.afterSuccessLoginUpdate(user, language, remoteAddress);
@@ -255,21 +301,35 @@ public class AuthRestController {
     user.setLoginLang(language);
     authService.setCurrentUser(user);
 
-    LOG.debug("Signing in for {} success", user.getEmail());
+    LOG.debug("Signed in for {} successfully", user.getEmail());
 
-    return ResponseEntity.ok("ok");
+    return ResponseEntity.ok(new TextInfoDto(
+        AUTH_SUCCESS_SIGNED_IN,
+        localizationService.getLocalTextByKeyAndLangOrUseDefault(
+            AUTH_SUCCESS_SIGNED_IN.toString(),
+            language,
+            "Signed in successfully!"
+        )));
   }
 
   @PostMapping("/check")
   public ResponseEntity<?> check() {
-    return ResponseEntity.ok("ok");
+    return ResponseEntity.ok(new ResponseValueJson<>(true));
   }
 
   @PostMapping("/signout")
   public ResponseEntity<?> signOut(HttpServletRequest request, HttpServletResponse response) {
+    User user = authService.getCurrentUserOrException();
+
     signout(request, response);
 
-    return ResponseEntity.ok("ok");
+    return ResponseEntity.ok(new TextInfoDto(
+        AUTH_SUCCESS_SIGNED_OUT,
+        localizationService.getLocalTextByKeyAndLangOrUseDefault(
+            AUTH_SUCCESS_SIGNED_OUT.toString(),
+            user.getLoginLang(),
+            "Signed out successfully!"
+        )));
   }
 
   private void signout(HttpServletRequest request, HttpServletResponse response) {

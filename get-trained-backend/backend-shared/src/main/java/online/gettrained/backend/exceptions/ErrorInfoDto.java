@@ -3,15 +3,14 @@ package online.gettrained.backend.exceptions;
 import java.io.Serializable;
 
 /**
- * Error info dto
+ * Error info dto.
  */
-public class ErrorInfoDto implements Serializable {
+public final class ErrorInfoDto implements Serializable {
 
   private static final long serialVersionUID = 6675667389765791924L;
 
   private final ErrorCode code;
   private final String message;
-
 
   public ErrorInfoDto(ErrorCode code, String message) {
     this.code = code;
@@ -26,13 +25,11 @@ public class ErrorInfoDto implements Serializable {
     return message;
   }
 
-  public String toJSON() {
-    StringBuilder builder = new StringBuilder("{");
-    builder.append("\"code\":\"");
-    builder.append(code.name());
-    builder.append("\",\"message\":\"");
-    builder.append(message);
-    builder.append("\"}");
-    return builder.toString();
+  String toJSON() {
+    return "{" + "\"code\":\""
+        + code.name()
+        + "\",\"message\":\""
+        + message
+        + "\"}";
   }
 }

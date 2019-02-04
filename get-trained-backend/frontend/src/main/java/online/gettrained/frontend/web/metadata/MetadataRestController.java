@@ -15,6 +15,7 @@ import online.gettrained.backend.utils.SecurityUtils;
 import online.gettrained.frontend.web.Utils;
 import online.gettrained.frontend.web.dto.UserTheme;
 import online.gettrained.frontend.web.metadata.dto.MetadataDto;
+import org.hibernate.LazyInitializationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -77,8 +78,13 @@ public class MetadataRestController {
 
     Language language = Utils.getLanguage(lang, request, localizationService);
     if (user != null) {
-      if (user.getProfile() != null && user.getProfile().getAvatarId() != null) {
-        user.getProfile().setAvatarUrl(blobDataService.getFileUrl(user.getProfile().getAvatarId()));
+      try {
+        if (user.getProfile() != null && user.getProfile().getAvatarId() != null) {
+          user.getProfile()
+              .setAvatarUrl(blobDataService.getFileUrl(user.getProfile().getAvatarId()));
+        }
+      } catch (LazyInitializationException ex) {
+        //here ignore it. it happens when user logout in concurrent thread
       }
     }
 

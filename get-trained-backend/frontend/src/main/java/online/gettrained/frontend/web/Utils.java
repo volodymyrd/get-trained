@@ -25,12 +25,14 @@ public class Utils {
 
   private static final Logger LOG = LoggerFactory.getLogger(Utils.class);
 
-  public static Language getLanguage(String lang, HttpServletRequest request,
-      LocalizationService localizationService) {
+  public static Language getLanguage(
+      String lang, HttpServletRequest request, LocalizationService localizationService) {
     return getLanguage(lang, request, false, localizationService);
   }
 
-  public static Language getLanguage(String lang, HttpServletRequest request,
+  public static Language getLanguage(
+      String lang,
+      HttpServletRequest request,
       boolean fromHttpRequest,
       LocalizationService localizationService) {
     User user = SecurityUtils.getCurrentUser();
