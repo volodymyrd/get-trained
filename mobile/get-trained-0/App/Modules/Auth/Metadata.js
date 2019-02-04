@@ -58,14 +58,6 @@ export const errorBadCredentials = (localizations) => {
   return text(localizations.get(keys.AUTH_ERROR_WRONG_CREDENTIAL), 'Wrong email or password!')
 }
 
-export const messSuccessLogin = (localizations) => {
-  return text(localizations.get(keys.AUTH_SIGN_IN_MESSAGE_SUCCESS), 'Successful login!')
-}
-
-export const messSuccessSignUp = (localizations) => {
-  return text(localizations.get(keys.AUTH_REG_MESSAGE_SUCCESS), 'Successful sign Up!')
-}
-
 export const undefinedError = (localizations) => {
   return text(localizations.get(keys.AUTH_ERROR_UNDEFINED), 'Undefined error')
 }

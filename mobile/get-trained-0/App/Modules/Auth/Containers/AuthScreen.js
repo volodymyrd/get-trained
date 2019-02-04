@@ -30,9 +30,7 @@ import {
   btnSignUp,
   btnGenNewPassword,
   hintMinPasswordLength,
-  messSuccessLogin,
   errorBadCredentials,
-  messSuccessSignUp,
   undefinedError,
 } from '../Metadata'
 import ApplicationStyles from 'App/Theme/ApplicationStyles'
@@ -64,18 +62,14 @@ class AuthScreen extends React.Component {
   authenticationHandler = (email, password) => {
     const langCode = this.props.langCode.toUpperCase()
     const localizations = this.props.metadata.get('localizations')
-    const messages = [
-      messSuccessLogin(localizations),
-      errorBadCredentials(localizations)]
+    const messages = [errorBadCredentials(localizations)]
     this.props.authenticate(email, password, langCode, messages);
   }
 
   signUpHandler = (email, password, firstName) => {
     const langCode = this.props.langCode.toUpperCase()
     const localizations = this.props.metadata.get('localizations')
-    const messages = [
-      messSuccessSignUp(localizations),
-      undefinedError(localizations)]
+    const messages = [undefinedError(localizations)]
     this.props.signUp(email, password, firstName, langCode, messages);
   }
 

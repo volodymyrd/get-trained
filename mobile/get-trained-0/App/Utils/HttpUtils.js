@@ -46,9 +46,5 @@ const _post = (url, header, json) => {
 }
 
 const _callBack = (response) => {
-  if (response.ok) {
-    return response
-  }
-
-  return null
+  return response
 }

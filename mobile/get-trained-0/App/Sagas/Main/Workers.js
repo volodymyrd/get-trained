@@ -19,7 +19,7 @@ export function* fetchAccess() {
 
   const access = yield call(MainService.fetchAccess)
 
-  if (access && access.data === 'ok') {
+  if (access && access.ok === true) {
     yield put(MainActions.fetchAccessSuccess(true))
   } else {
     yield put(MainActions.fetchAccessFailure())
