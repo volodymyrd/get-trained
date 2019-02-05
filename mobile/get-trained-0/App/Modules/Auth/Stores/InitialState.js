@@ -11,6 +11,7 @@ export const AuthStep = {
 
 export const INITIAL_STATE = Map({
   fetchingMetadata: false,
+  failedRetrievingMetadata: false,
   authStep: 'signIn', // AuthStep
   fetchingAuthenticating: false,
   metadata: {},

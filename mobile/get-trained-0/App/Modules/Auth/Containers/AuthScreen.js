@@ -11,6 +11,7 @@ import {
   Text,
   Button,
 } from 'native-base';
+import Error from "App/Components/Error";
 import Loading from "App/Components/Loading";
 import {AuthStep} from '../Stores/InitialState'
 import AuthActions from '../Stores/Actions'
@@ -84,6 +85,7 @@ class AuthScreen extends React.Component {
     const {
       langCode,
       metadata,
+      failedRetrievingMetadata,
       authStep,
       toggleAuthStep,
       fetchingMetadata,
@@ -91,6 +93,10 @@ class AuthScreen extends React.Component {
       fetchingSignUp,
       fetchingRestorePassword,
     } = this.props
+
+    if (failedRetrievingMetadata) {
+      return <Error/>
+    }
 
     if (!langCode || fetchingMetadata || !metadata || !metadata.size) {
       return <Loading/>
@@ -147,14 +153,20 @@ class AuthScreen extends React.Component {
           <Footer>
             <FooterTab>
               <Button active={authStep === AuthStep.SIGN_IN}
+                      disabled={fetchingAuthenticating || fetchingSignUp
+                      || fetchingRestorePassword}
                       onPress={() => toggleAuthStep(AuthStep.SIGN_IN)}>
                 <Text>{tSignIn}</Text>
               </Button>
               <Button active={authStep === AuthStep.SIGN_UP}
+                      disabled={fetchingAuthenticating || fetchingSignUp
+                      || fetchingRestorePassword}
                       onPress={() => toggleAuthStep(AuthStep.SIGN_UP)}>
                 <Text>{tSignUp}</Text>
               </Button>
               <Button active={authStep === AuthStep.RESTORE_PASSWORD}
+                      disabled={fetchingAuthenticating || fetchingSignUp
+                      || fetchingRestorePassword}
                       onPress={() => toggleAuthStep(AuthStep.RESTORE_PASSWORD)}>
                 <Text>{txtForgotPass(localizations)}</Text>
               </Button>
@@ -168,6 +180,7 @@ class AuthScreen extends React.Component {
 const mapStateToProps = (state) => ({
   langCode: state.main.get('langCode'),
   fetchingMetadata: state.auth.root.get('fetchingMetadata'),
+  failedRetrievingMetadata: state.auth.root.get('failedRetrievingMetadata'),
   metadata: state.auth.root.get('metadata'),
   authStep: state.auth.root.get('authStep'),
   fetchingAuthenticating: state.auth.root.get('fetchingAuthenticating'),

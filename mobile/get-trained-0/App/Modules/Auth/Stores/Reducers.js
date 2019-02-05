@@ -22,6 +22,7 @@ export const fetchMetadataSuccess = (state, { metadata }) =>
 export const fetchMetadataFailure = (state) =>
   state.merge({
     fetchingMetadata: false,
+    failedRetrievingMetadata: true,
   })
 
 export const toggleAuthStep = (state, { authStep }) =>
