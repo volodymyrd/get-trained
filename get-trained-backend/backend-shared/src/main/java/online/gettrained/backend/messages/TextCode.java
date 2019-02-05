@@ -29,6 +29,7 @@ public enum TextCode {
   AUTH_SUCCESS_SIGNED_OUT("be_text.auth_success_signed_out"),
   AUTH_SUCCESS_SIGNED_UP("be_text.auth_success_signed_up"),
   AUTH_SUCCESS_PASSWORD_RESET("be_text.auth_success_password_reset"),
+  AUTH_INFO_PASSWORD_RESET_PROCESS("be_text.auth_info_password_reset_process"),
 
   LOCAL_LOCALIZATION_SAVED_SUCCESSFULLY("be_text.local_localization_saved_successfully"),
   LOCAL_LOCALIZATION_DELETED_SUCCESSFULLY("be_text.local_localization_deleted_successfully"),

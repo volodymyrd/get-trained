@@ -4,6 +4,8 @@ import static online.gettrained.backend.domain.user.User.EStatus.NEW;
 import static online.gettrained.backend.exceptions.ErrorCode.EMAIL_ALREADY_EXIST;
 import static online.gettrained.backend.exceptions.ErrorCode.SOMETHING_WENT_WRONG;
 import static online.gettrained.backend.messages.TextCode.AUTH_INFO_NOT_FINISHED_SIGN_UP;
+import static online.gettrained.backend.messages.TextCode.AUTH_INFO_PASSWORD_RESET_PROCESS;
+import static online.gettrained.backend.messages.TextCode.AUTH_SUCCESS_PASSWORD_RESET;
 import static online.gettrained.backend.messages.TextCode.AUTH_SUCCESS_SIGNED_IN;
 import static online.gettrained.backend.messages.TextCode.AUTH_SUCCESS_SIGNED_OUT;
 import static online.gettrained.backend.messages.TextCode.AUTH_SUCCESS_SIGNED_UP;
@@ -95,6 +97,8 @@ public class AuthRestController {
 
     LOG.info("Requested the password restore for email:{} for lang:{}", email, lang);
 
+    Language language = getLanguage(lang, request, localizationService);
+
     long number = notificationService
         .countQueuesByEventCodeAndChannelCodeAndStatusInAndExpireDateGreaterThanAndAddressTo(
             NotificationEvent.Code.RESTORE_PASSWORD,
@@ -107,10 +111,15 @@ public class AuthRestController {
         );
     if (number > 0) {
       LOG.info("The request is already processing");
-      return ResponseEntity.ok().build();
+      return ResponseEntity.ok(new TextInfoDto(
+          I,
+          AUTH_INFO_PASSWORD_RESET_PROCESS,
+          localizationService.getLocalTextByKeyAndLangOrUseDefault(
+              AUTH_INFO_PASSWORD_RESET_PROCESS.toString(),
+              language,
+              "Success reset password."
+          )));
     }
-
-    Language language = getLanguage(lang, request, localizationService);
 
     Optional<User> userOptional = userService.findOneByEmailWithProfile(email);
     if (!userOptional.isPresent()) {
@@ -143,6 +152,14 @@ public class AuthRestController {
           }, new MessageTemplateLocal(
               "Restore password",
               "Please fill out a message template for the 'RESTORE_PASSWORD' event"));
+
+      return ResponseEntity.ok(new TextInfoDto(
+          AUTH_SUCCESS_PASSWORD_RESET,
+          localizationService.getLocalTextByKeyAndLangOrUseDefault(
+              AUTH_SUCCESS_PASSWORD_RESET.toString(),
+              language,
+              "Success reset password."
+          )));
     } catch (Exception ex) {
       LOG.error("Error restoring the password ", ex);
       return ResponseEntity.badRequest().body(new ErrorInfoDto(
@@ -152,8 +169,6 @@ public class AuthRestController {
                   language,
                   "Something went wrong!")));
     }
-
-    return ResponseEntity.ok().build();
   }
 
   @GetMapping("/regconfirmation")
