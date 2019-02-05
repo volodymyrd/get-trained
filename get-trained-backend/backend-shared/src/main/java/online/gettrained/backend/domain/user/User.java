@@ -19,10 +19,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import javax.validation.constraints.Email;
 import online.gettrained.backend.domain.BaseEntity;
-import online.gettrained.backend.domain.profile.Profile;
 import online.gettrained.backend.domain.localization.Language;
+import online.gettrained.backend.domain.profile.Profile;
 import org.hibernate.envers.Audited;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -63,7 +62,6 @@ public class User extends BaseEntity {
   private String userName;
 
   @Audited(withModifiedFlag = true)
-  @Email
   @Column(name = "EMAIL", nullable = false, unique = true, length = 255)
   private String email;
 
