@@ -134,7 +134,7 @@ public class AuthRestController {
 
     try {
       User user = userOptional.get();
-      String newPassword = SecurityUtils.genPassword(7);
+      String newPassword = SecurityUtils.genPassword(8);
       user.setNewPassword(newPassword);
       userService.saveUser(user);
       LOG.info("The password was successfully changed for user with id:{}", user.getId());
