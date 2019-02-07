@@ -4,17 +4,17 @@ import { WorkspaceTypes } from './Actions'
 
 export const fetchSignOutLoading = (state) =>
   state.merge({
-    fetching: { signOut: true },
+    fetchingSignOut: true,
   })
 
 export const fetchSignOutSuccess = (state) =>
   state.merge({
-    fetching: { signOut: false },
+    fetchingSignOut: false,
   })
 
 export const fetchSignOutFailure = (state) =>
   state.merge({
-    fetching: { signOut: false },
+    fetchingSignOut: false,
   })
 
 /**
