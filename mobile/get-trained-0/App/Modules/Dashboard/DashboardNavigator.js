@@ -1,6 +1,6 @@
 import React from 'react'
 import { createDrawerNavigator } from 'react-navigation'
-import SideBar from './Components/SideBar'
+import SideBar from './Containers/SideBar'
 import HomeNavigator from 'App/Modules/Home/HomeNavigator'
 import ProfileNavigator from 'App/Modules/Profile/ProfileNavigator'
 import SettingsNavigator from 'App/Modules/Settings/SettingsNavigator'
