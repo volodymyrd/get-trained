@@ -6,5 +6,6 @@ package online.gettrained.backend.domain.localization;
 public enum ELocalModule {
   COMMON,
   AUTH,
-  DASHBOARD
+  DASHBOARD,
+  MENU
 }

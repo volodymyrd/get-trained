@@ -1,0 +1,327 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+  <changeSet id="1" author="Volodymyr Dotsenko">
+    <comment>Top menu</comment>
+
+    <insert tableName="DB_MENU">
+      <column name="PARENT_ID">NULL</column>
+      <column name="MENU_ID">home_1</column>
+      <column name="POSITION">1</column>
+      <column name="LINK">/home</column>
+      <column name="LOCAL_KEY">menu.home</column>
+    </insert>
+    <insert tableName="DB_MENU">
+      <column name="PARENT_ID">NULL</column>
+      <column name="MENU_ID">profile_1</column>
+      <column name="POSITION">10</column>
+      <column name="LINK">/profile</column>
+      <column name="LOCAL_KEY">menu.profile</column>
+    </insert>
+    <insert tableName="DB_MENU">
+      <column name="PARENT_ID">NULL</column>
+      <column name="MENU_ID">settings_1</column>
+      <column name="POSITION">50</column>
+      <column name="ICON"></column>
+      <column name="LINK">/settings</column>
+      <column name="LOCAL_KEY">menu.settings</column>
+    </insert>
+    <insert tableName="DB_MENU">
+      <column name="PARENT_ID">NULL</column>
+      <column name="MENU_ID">sign_out</column>
+      <column name="POSITION">99</column>
+      <column name="ICON"></column>
+      <column name="LINK">/signOut</column>
+      <column name="LOCAL_KEY">menu.sign_out</column>
+    </insert>
+  </changeSet>
+
+  <changeSet id="10" author="Volodymyr Dotsenko">
+    <comment>Profile menu</comment>
+
+    <insert tableName="DB_MENU">
+      <column name="PARENT_ID">profile_1</column>
+      <column name="MENU_ID">profile_2_avatar</column>
+      <column name="POSITION">1</column>
+      <column name="ICON"></column>
+      <column name="LINK">/profile/avatar</column>
+      <column name="LOCAL_KEY">menu.profile.avatar</column>
+    </insert>
+    <insert tableName="DB_MENU">
+      <column name="PARENT_ID">profile_1</column>
+      <column name="MENU_ID">profile_2_personal</column>
+      <column name="POSITION">2</column>
+      <column name="ICON"></column>
+      <column name="LINK">/profile/personal</column>
+      <column name="LOCAL_KEY">menu.profile.personal</column>
+    </insert>
+    <insert tableName="DB_MENU">
+      <column name="PARENT_ID">profile_1</column>
+      <column name="MENU_ID">profile_2_contacts</column>
+      <column name="POSITION">3</column>
+      <column name="ICON"></column>
+      <column name="LINK">/profile/contacts</column>
+      <column name="LOCAL_KEY">menu.profile.contacts</column>
+    </insert>
+  </changeSet>
+
+  <changeSet id="50" author="Volodymyr Dotsenko">
+    <comment>Settings menu</comment>
+
+    <insert tableName="DB_MENU">
+      <column name="PARENT_ID">settings_1</column>
+      <column name="MENU_ID">settings_2_change_password</column>
+      <column name="POSITION">1</column>
+      <column name="ICON"></column>
+      <column name="LINK">/settings/changePassword</column>
+      <column name="LOCAL_KEY">menu.settings.change_password</column>
+    </insert>
+  </changeSet>
+
+  <changeSet id="100" author="Volodymyr Dotsenko">
+    <comment>MENU Authorities for the ROLE_USER</comment>
+
+    <insert tableName="DB_MENU_ROLES">
+      <column name="REF_MENU_ID">home_1</column>
+      <column name="REF_ROLE_ID">-3</column>
+    </insert>
+
+    <insert tableName="DB_MENU_ROLES">
+      <column name="REF_MENU_ID">profile_1</column>
+      <column name="REF_ROLE_ID">-3</column>
+    </insert>
+    <insert tableName="DB_MENU_ROLES">
+      <column name="REF_MENU_ID">profile_2_avatar</column>
+      <column name="REF_ROLE_ID">-3</column>
+    </insert>
+    <insert tableName="DB_MENU_ROLES">
+      <column name="REF_MENU_ID">profile_2_personal</column>
+      <column name="REF_ROLE_ID">-3</column>
+    </insert>
+    <insert tableName="DB_MENU_ROLES">
+      <column name="REF_MENU_ID">profile_2_contacts</column>
+      <column name="REF_ROLE_ID">-3</column>
+    </insert>
+
+    <insert tableName="DB_MENU_ROLES">
+      <column name="REF_MENU_ID">settings_1</column>
+      <column name="REF_ROLE_ID">-3</column>
+    </insert>
+    <insert tableName="DB_MENU_ROLES">
+      <column name="REF_MENU_ID">settings_2_change_password</column>
+      <column name="REF_ROLE_ID">-3</column>
+    </insert>
+
+    <insert tableName="DB_MENU_ROLES">
+      <column name="REF_MENU_ID">sign_out</column>
+      <column name="REF_ROLE_ID">-3</column>
+    </insert>
+  </changeSet>
+
+  <changeSet id="500" author="Volodymyr Dotsenko">
+    <comment>Local for DASHBOARD MENU</comment>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">menu.home</column>
+      <column name="MODULE">MENU</column>
+      <column name="LOCAL_TEXT">Home</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="LANG">UA</column>
+      <column name="LOCAL_KEY">menu.home</column>
+      <column name="MODULE">MENU</column>
+      <column name="LOCAL_TEXT">Головна</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">menu.home</column>
+      <column name="MODULE">MENU</column>
+      <column name="LOCAL_TEXT">Главная</column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">menu.profile</column>
+      <column name="MODULE">MENU</column>
+      <column name="LOCAL_TEXT">Profile</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="LANG">UA</column>
+      <column name="LOCAL_KEY">menu.profile</column>
+      <column name="MODULE">MENU</column>
+      <column name="LOCAL_TEXT">Профіль</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">menu.profile</column>
+      <column name="MODULE">MENU</column>
+      <column name="LOCAL_TEXT">Профиль</column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">menu.profile.avatar</column>
+      <column name="MODULE">MENU</column>
+      <column name="LOCAL_TEXT">Avatar</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="LANG">UA</column>
+      <column name="LOCAL_KEY">menu.profile.avatar</column>
+      <column name="MODULE">MENU</column>
+      <column name="LOCAL_TEXT">Аватар</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">menu.profile.avatar</column>
+      <column name="MODULE">MENU</column>
+      <column name="LOCAL_TEXT">Аватар</column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">menu.profile.personal</column>
+      <column name="MODULE">MENU</column>
+      <column name="LOCAL_TEXT">Personal info</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="LANG">UA</column>
+      <column name="LOCAL_KEY">menu.profile.personal</column>
+      <column name="MODULE">MENU</column>
+      <column name="LOCAL_TEXT">Особиста інформація</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">menu.profile.personal</column>
+      <column name="MODULE">MENU</column>
+      <column name="LOCAL_TEXT">Личная информация</column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">menu.profile.contacts</column>
+      <column name="MODULE">MENU</column>
+      <column name="LOCAL_TEXT">Contacts</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="LANG">UA</column>
+      <column name="LOCAL_KEY">menu.profile.contacts</column>
+      <column name="MODULE">MENU</column>
+      <column name="LOCAL_TEXT">Контакти</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">menu.profile.contacts</column>
+      <column name="MODULE">MENU</column>
+      <column name="LOCAL_TEXT">Контакты</column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">menu.settings</column>
+      <column name="MODULE">MENU</column>
+      <column name="LOCAL_TEXT">Settings</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="LANG">UA</column>
+      <column name="LOCAL_KEY">menu.settings</column>
+      <column name="MODULE">MENU</column>
+      <column name="LOCAL_TEXT">Налаштування</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">menu.settings</column>
+      <column name="MODULE">MENU</column>
+      <column name="LOCAL_TEXT">Настройки</column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">menu.settings.change_password</column>
+      <column name="MODULE">MENU</column>
+      <column name="LOCAL_TEXT">Change password</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="LANG">UA</column>
+      <column name="LOCAL_KEY">menu.settings.change_password</column>
+      <column name="MODULE">MENU</column>
+      <column name="LOCAL_TEXT">Змінити пароль</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">menu.settings.change_password</column>
+      <column name="MODULE">MENU</column>
+      <column name="LOCAL_TEXT">Изменить пароль</column>
+    </insert>
+
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="LANG">EN</column>
+      <column name="LOCAL_KEY">menu.sign_out</column>
+      <column name="MODULE">MENU</column>
+      <column name="LOCAL_TEXT">Sign Out</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="LANG">UA</column>
+      <column name="LOCAL_KEY">menu.sign_out</column>
+      <column name="MODULE">MENU</column>
+      <column name="LOCAL_TEXT">Вийти</column>
+    </insert>
+    <insert tableName="LOCAL_LOCALIZATION">
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="LANG">RU</column>
+      <column name="LOCAL_KEY">menu.sign_out</column>
+      <column name="MODULE">MENU</column>
+      <column name="LOCAL_TEXT">Выход</column>
+    </insert>
+  </changeSet>
+</databaseChangeLog>
