@@ -26,9 +26,9 @@ export const setNavigationOptions = (navigation, title) => {
 
 const DashboardNavigator = createDrawerNavigator(
   {
-    Home: { screen: HomeNavigator },
-    Profile: { screen: ProfileNavigator },
-    Settings: { screen: SettingsNavigator },
+    _Home: { screen: HomeNavigator },
+    _Profile: { screen: ProfileNavigator },
+    _Settings: { screen: SettingsNavigator },
   },
   {
     contentComponent: (props) => <SideBar {...props} />,

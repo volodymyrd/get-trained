@@ -2,14 +2,19 @@ import React, {Component} from 'react'
 import connect from 'react-redux/es/connect/connect'
 import {FlatList, Image} from 'react-native'
 import {
-  Text,
   Container,
-  ListItem,
   Content,
+  View,
   Accordion,
+  ListItem,
+  Button,
+  Icon,
+  Text,
 } from 'native-base'
 import DashboardActions from '../Stores/Actions'
 import Loading from "App/Components/Loading";
+import {MENU_MODULE} from "../Metadata";
+import {getMenu} from "../Components/Menu";
 
 class SideBar extends Component {
 
@@ -28,6 +33,14 @@ class SideBar extends Component {
     );
   }
 
+  componentDidMount() {
+    if (this.props.langCode
+        && !(this.props.metadata.size
+            && this.props.metadata.get('module') === MENU_MODULE)) {
+      this.props.fetchMetadata(this.props.langCode)
+    }
+  }
+
   componentDidUpdate(prevProps) {
     if (prevProps.fetchingSignOut
         && !this.props.fetchingSignOut) {
@@ -40,44 +53,17 @@ class SideBar extends Component {
   }
 
   render() {
-    const {navigation, fetchingSignOut} = this.props
+    const {
+      navigation,
+      fetchingMetadata,
+      metadata,
+      fetchingSignOut
+    } = this.props
 
-    if (fetchingSignOut) {
+    if (fetchingMetadata || fetchingSignOut || !metadata || !metadata.size) {
       return <Loading/>
     }
 
-    const menu = [
-      {
-        id: 'profile',
-        title: 'Profile',
-        items: [
-          {
-            id: 'menu1',
-            title: 'Menu1',
-            fun: () => navigation.navigate('Profile')
-          },
-          {
-            id: 'menu2',
-            title: 'Menu2',
-            fun: () => navigation.navigate('Profile')
-          },
-          {
-            id: 'menu3',
-            title: 'Menu3',
-            fun: () => navigation.navigate('Profile')
-          },
-        ]
-      },
-      {
-        id: 'signOut',
-        title: 'Sign Out',
-        items: [],
-        fun: this._signOutHandler
-      }
-    ]
-
-    const singleMenu = menu.filter(e => e.items.length === 0)
-    const nestedMenu = menu.filter(e => e.items.length > 0)
     return (
         <Container>
           <Content>
@@ -107,19 +93,21 @@ class SideBar extends Component {
                       'https://raw.githubusercontent.com/GeekyAnts/NativeBase-KitchenSink/master/assets/logo.png',
                 }}
             />
+            <View style={{
+              marginTop: 120,
+              flexDirection: 'row',
+              justifyContent: 'center',
+            }}>
+              <Button transparent onPress={() => navigation.navigate('_Home')}>
+                <Icon name='home'/>
+              </Button>
+              <Button transparent onPress={this._signOutHandler}>
+                <Icon name='md-exit'/>
+              </Button>
+            </View>
             <Accordion
-                dataArray={nestedMenu}
+                dataArray={getMenu(navigation, metadata.get('localizations'))}
                 renderContent={SideBar._renderContent}
-            />
-            <FlatList
-                data={singleMenu}
-                keyExtractor={(item) => item.id}
-                renderItem={({item}) =>
-                    <ListItem button
-                              onPress={item.fun}>
-                      <Text>{item.title}</Text>
-                    </ListItem>
-                }
             />
           </Content>
         </Container>
@@ -128,10 +116,15 @@ class SideBar extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  langCode: state.main.get('langCode').toUpperCase(),
+  fetchingMetadata: state.dashboard.workspace.get('fetchingMetadata'),
+  metadata: state.dashboard.workspace.get('metadata'),
   fetchingSignOut: state.dashboard.workspace.get('fetchingSignOut'),
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  fetchMetadata: (langCode) => dispatch(
+      DashboardActions.fetchMetadata(langCode)),
   signOut: () => dispatch(DashboardActions.fetchSignOut()),
 })
 

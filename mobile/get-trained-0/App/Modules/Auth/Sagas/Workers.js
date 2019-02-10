@@ -4,11 +4,12 @@ import { MainService } from 'App/Services/MainService'
 import AuthActions from '../Stores/Actions'
 import { AuthService } from '../AuthService'
 import { AuthStep } from '../Stores/InitialState'
+import { MODULE } from '../Metadata'
 
 export function* fetchMetadata({ langCode }) {
   yield put(AuthActions.fetchMetadataLoading())
 
-  const metadata = yield call(MainService.fetchMetadata, langCode, 'AUTH')
+  const metadata = yield call(MainService.fetchMetadata, langCode, MODULE)
 
   if (metadata && metadata.data) {
     yield put(AuthActions.fetchMetadataSuccess(metadata.data))

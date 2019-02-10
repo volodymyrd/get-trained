@@ -19,6 +19,7 @@ import SignIn from "../Components/SignIn";
 import SignUp from "../Components/SignUp";
 import RestorePassword from "../Components/RestorePassword";
 import {
+  MODULE,
   txtSignIn,
   txtSignUp,
   txtRestorePass,
@@ -46,8 +47,10 @@ class AuthScreen extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.langCode) {
-      this.props.fetchMetadata(this.props.langCode)
+    if (this.props.langCode
+        && !(this.props.metadata.size
+            && this.props.metadata.get('module') === MODULE)) {
+      this.props.fetchMetadata(this.props.langCode.toUpperCase())
     }
   }
 
