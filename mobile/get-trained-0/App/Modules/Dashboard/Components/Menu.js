@@ -28,9 +28,14 @@ export const getMenu = (navigation, localizations) => {
       title: getTxt(localizations, MENU_SETTINGS, 'Settings'),
       items: [
         {
-          id: 'settings_avatar',
+          id: 'settings_change_password',
           title: getTxt(localizations, MENU_SETTINGS_CHANGE_PASSWORD, 'Change Password'),
-          fun: () => navigation.navigate('_Settings'),
+          fun: () => navigation.navigate('_Settings', { route: 'ChangePassword' }),
+        },
+        {
+          id: 'settings_settings',
+          title: getTxt(localizations, MENU_SETTINGS, 'Settings'),
+          fun: () => navigation.navigate('_Settings', { route: 'Settings' }),
         },
       ],
     },
