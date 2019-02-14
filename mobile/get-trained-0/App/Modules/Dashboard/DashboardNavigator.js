@@ -10,7 +10,7 @@ export const setNavigationOptions = (navigation, title) => {
   return {
     header: (
       <Header>
-        <Left>
+        <Left style={{ maxWidth: 30 }}>
           <Button transparent onPress={() => navigation.openDrawer()}>
             <Icon name="menu" />
           </Button>
@@ -18,7 +18,7 @@ export const setNavigationOptions = (navigation, title) => {
         <Body>
           <Title>{title}</Title>
         </Body>
-        <Right />
+        <Right style={{ maxWidth: 30 }} />
       </Header>
     ),
   }

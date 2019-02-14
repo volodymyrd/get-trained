@@ -7,10 +7,7 @@ const SettingsNavigator = createStackNavigator({
   ChangePassword: { screen: ChangePasswordScreen },
 })
 
-SettingsNavigator.navigationOptions = ({ navigation }) => {
-  if (navigation.state.params && navigation.state.params.route) {
-    navigation.navigate(navigation.state.params.route)
-  }
-}
+// SettingsNavigator.navigationOptions = ({ navigation }) => {
+// }
 
 export default SettingsNavigator

@@ -5,7 +5,7 @@ import {setNavigationOptions} from "../../Dashboard/DashboardNavigator";
 
 class SettingsScreen extends Component {
   static navigationOptions = ({navigation}) =>
-      setNavigationOptions(navigation, 'Settings')
+      setNavigationOptions(navigation, navigation.getParam('title', 'Settings'))
 
   componentDidMount() {}
 

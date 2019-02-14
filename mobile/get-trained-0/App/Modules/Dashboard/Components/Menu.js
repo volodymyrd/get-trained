@@ -1,6 +1,10 @@
+import { NavigationActions } from 'react-navigation'
 import { getTxt } from '../Metadata'
 
 export const getMenu = (navigation, localizations) => {
+  const settingsTxt = getTxt(localizations, MENU_SETTINGS, 'Settings')
+  const changePasswordTxt = getTxt(localizations, MENU_SETTINGS_CHANGE_PASSWORD, 'Change Password')
+
   return [
     {
       id: 'profile',
@@ -29,18 +33,35 @@ export const getMenu = (navigation, localizations) => {
       items: [
         {
           id: 'settings_change_password',
-          title: getTxt(localizations, MENU_SETTINGS_CHANGE_PASSWORD, 'Change Password'),
-          fun: () => navigation.navigate('_Settings', { route: 'ChangePassword' }),
+          title: changePasswordTxt,
+          fun: () =>
+            navigation.navigate(
+              '_Settings',
+              {},
+              NavigationActions.navigate({
+                routeName: 'ChangePassword',
+                params: { title: changePasswordTxt },
+              })
+            ),
         },
         {
           id: 'settings_settings',
-          title: getTxt(localizations, MENU_SETTINGS, 'Settings'),
-          fun: () => navigation.navigate('_Settings', { route: 'Settings' }),
+          title: settingsTxt,
+          fun: () =>
+            navigation.navigate(
+              '_Settings',
+              {},
+              NavigationActions.navigate({
+                routeName: 'Settings',
+                params: { title: settingsTxt },
+              })
+            ),
         },
       ],
     },
   ]
 }
+
 const MENU_PROFILE = 'menu.profile'
 const MENU_PROFILE_AVATAR = 'menu.profile.avatar'
 const MENU_PROFILE_PERSONAL = 'menu.profile.personal'

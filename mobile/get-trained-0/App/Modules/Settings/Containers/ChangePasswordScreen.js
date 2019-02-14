@@ -7,7 +7,7 @@ import {Text} from "native-base";
 
 class ChangePasswordScreen extends Component {
   static navigationOptions = ({navigation}) =>
-      setNavigationOptions(navigation, 'Change Password')
+      setNavigationOptions(navigation, navigation.getParam('title', 'Change Password'))
 
   componentDidMount() {}
 
