@@ -1,5 +1,7 @@
 package online.gettrained.frontend.web.profile;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
+
 import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
@@ -207,12 +209,12 @@ public class UserProfileRestController {
 
     User user = authService.getCurrentUserOrException();
 
-    if (userSecDto.getPassword() == null || userSecDto.getNewPassword() == null
-        || userSecDto.getConfirmPassword() == null) {
-      LOG.error(
-          "Calling method 'updatePassword' of UserProfileRestController: Illegal argument exception: "
-              +
-              "parameters 'password', 'newPassword', 'confirmPassword' must be filled");
+    if (isNullOrEmpty(userSecDto.getPassword())
+        || isNullOrEmpty(userSecDto.getNewPassword())
+        || isNullOrEmpty(userSecDto.getConfirmPassword())) {
+      LOG.error("Calling method 'updatePassword' of UserProfileRestController: "
+          + "Illegal argument exception: "
+          + " parameters 'password', 'newPassword', 'confirmPassword' must be filled");
       return ResponseEntity.badRequest().body(new ErrorInfoDto(ErrorCode.SOMETHING_WENT_WRONG,
           localizationService
               .getLocalTextByKeyAndLangOrUseDefault(ErrorCode.SOMETHING_WENT_WRONG.toString(),
@@ -270,11 +272,9 @@ public class UserProfileRestController {
 
     User user = authService.getCurrentUserOrException();
 
-    if (userSecDto.getEmail() == null || userSecDto.getPassword() == null) {
-      LOG.error(
-          "Calling method 'updateEmail' of UserProfileRestController: Illegal argument exception: "
-              +
-              "parameters 'email', 'password', must be filled");
+    if (isNullOrEmpty(userSecDto.getEmail()) || isNullOrEmpty(userSecDto.getPassword())) {
+      LOG.error("Calling method 'updateEmail' of UserProfileRestController: "
+          + "Illegal argument exception: parameters 'email', 'password', must be filled");
       return ResponseEntity.badRequest().body(new ErrorInfoDto(ErrorCode.SOMETHING_WENT_WRONG,
           localizationService
               .getLocalTextByKeyAndLangOrUseDefault(ErrorCode.SOMETHING_WENT_WRONG.toString(),
@@ -348,11 +348,9 @@ public class UserProfileRestController {
 
     User user = authService.getCurrentUserOrException();
 
-    if (userSecDto.getUserName() == null || userSecDto.getPassword() == null) {
-      LOG.error(
-          "Calling method 'updateUsername' of UserProfileRestController: Illegal argument exception: "
-              +
-              "parameters 'userName', 'password', must be filled");
+    if (isNullOrEmpty(userSecDto.getUserName()) || isNullOrEmpty(userSecDto.getPassword())) {
+      LOG.error("Calling method 'updateUsername' of UserProfileRestController: "
+          + "Illegal argument exception: parameters 'userName', 'password', must be filled");
       return ResponseEntity.badRequest().body(new ErrorInfoDto(ErrorCode.SOMETHING_WENT_WRONG,
           localizationService
               .getLocalTextByKeyAndLangOrUseDefault(ErrorCode.SOMETHING_WENT_WRONG.toString(),
@@ -517,7 +515,7 @@ public class UserProfileRestController {
 
     User user = authService.getCurrentUserOrException();
 
-    if (profile.getFirstName() == null || profile.getLang() == null) {
+    if (isNullOrEmpty(profile.getFirstName()) || isNullOrEmpty(profile.getLang())) {
       LOG.error("Calling method 'save' of UserProfileRestController: Illegal argument exception: " +
           "parameters 'firstName', 'lang', must be filled");
       return ResponseEntity.badRequest().body(new ErrorInfoDto(ErrorCode.SOMETHING_WENT_WRONG,
