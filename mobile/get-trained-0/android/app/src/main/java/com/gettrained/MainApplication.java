@@ -1,14 +1,12 @@
 package com.gettrained;
 
 import android.app.Application;
-
 import com.facebook.react.ReactApplication;
-import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-
+import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import java.util.Arrays;
 import java.util.List;
 
