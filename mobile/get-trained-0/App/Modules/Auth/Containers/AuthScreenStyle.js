@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native'
+import { StyleSheet } from 'react-native'
 import ApplicationStyles from 'App/Theme/ApplicationStyles'
 import Dimensions from 'Dimensions'
 

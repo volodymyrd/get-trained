@@ -142,8 +142,7 @@ class AuthScreen extends React.Component {
                            localizations)}(${hintMinPasswordLength(
                            localizations, minPasswordLength)})`}
                        txtRepeatPassword={txtRepeatPassword(localizations)}
-                       minPasswordLength={
-                         parseInt(settings.get('f_min_password_length'))}
+                       minPasswordLength={minPasswordLength}
                        txtBtn={btnSignUp(localizations)}
                        loading={fetchingSignUp}
                        signUpHandler={this.signUpHandler}/>}

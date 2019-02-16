@@ -17,6 +17,17 @@ export const postWithCredentials = (url, json) => {
   )
 }
 
+export const postPlainWithCredentials = (url, json) => {
+  return _post(
+    url,
+    {
+      'Content-Type': 'text/plain;charset=UTF-8',
+      credentials: 'include',
+    },
+    json
+  )
+}
+
 export const signIn = (email, password, lang) => {
   return _post('fe/auth/signin', {
     'Content-Type': 'application/x-www-form-urlencoded',

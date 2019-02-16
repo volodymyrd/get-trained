@@ -1,3 +1,9 @@
+export const MODULE = 'COMMON'
+
+export const somethingWentWrong = (localizations) => {
+  return text(localizations.get(keys.SOMETHING_WENT_WRONG), 'Something went wrong!')
+}
+
 export const text = (value, defaultValue, ...args) => {
   if (value) {
     if (args.length <= 0) {
@@ -10,4 +16,8 @@ export const text = (value, defaultValue, ...args) => {
   } else {
     return defaultValue
   }
+}
+
+const keys = {
+  SOMETHING_WENT_WRONG: 'be_error.something_went_wrong',
 }

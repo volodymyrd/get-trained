@@ -11,6 +11,7 @@ import {
   Icon,
   Text,
 } from 'native-base'
+import {toHome} from 'App/Utils/NavigationUtils'
 import DashboardActions from '../Stores/Actions'
 import Loading from "App/Components/Loading";
 import {MENU_MODULE} from "../Metadata";
@@ -98,7 +99,7 @@ class SideBar extends Component {
               flexDirection: 'row',
               justifyContent: 'center',
             }}>
-              <Button transparent onPress={() => navigation.navigate('_Home')}>
+              <Button transparent onPress={() => toHome(navigation)}>
                 <Icon name='home'/>
               </Button>
               <Button transparent onPress={this._signOutHandler}>
