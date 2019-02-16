@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import {AppRegistry, CameraRoll} from 'react-native';
 import {Container, Content, Button, Text, Form} from "native-base";
 import ImagePicker from 'react-native-image-crop-picker';
 import connect from 'react-redux/es/connect/connect'
@@ -29,19 +28,6 @@ class AvatarUploaderScreen extends Component {
   }
 
   _uploaderHandler = () => {
-  }
-
-  _addImage = () => {
-    CameraRoll.getPhotos({
-      first: 20,
-      assetType: 'Photos',
-    })
-    .then(r => {
-      this.setState({photos: r.edges});
-    })
-    .catch((err) => {
-      //Error Loading Images
-    });
   }
 
   _openImages = () => {
@@ -79,7 +65,7 @@ class AvatarUploaderScreen extends Component {
                 full
                 rounded
                 //style={{marginTop: 40}}
-                onPress={this._addImage}
+                onPress={this._openImages}
                 //disabled={buttonDisabled || loading}
             >
               <Text>avatar</Text>
