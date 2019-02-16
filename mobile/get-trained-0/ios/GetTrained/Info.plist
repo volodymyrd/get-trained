@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Load avatar</string>
 	<key>CFBundleDisplayName</key>
 	<string>GetTrained</string>
 	<key>CFBundleExecutable</key>
@@ -39,7 +41,7 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSExceptionDomains</key>
@@ -49,15 +51,13 @@
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
-      <key>get-trained.online</key>
-       <dict>
-        <!--Include to allow subdomains-->
-        <key>NSIncludesSubdomains</key>
-        <true/>
-        <!--Include to allow HTTP requests-->
-        <key>NSExceptionAllowsInsecureHTTPLoads</key>
-        <true/>
-       </dict>
+			<key>get-trained.online</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
 		</dict>
 	</dict>
 	<key>UIAppFonts</key>
