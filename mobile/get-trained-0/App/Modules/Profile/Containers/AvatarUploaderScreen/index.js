@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {AppRegistry, CameraRoll} from 'react-native';
 import {Container, Content, Button, Text, Form} from "native-base";
+import ImagePicker from 'react-native-image-crop-picker';
 import connect from 'react-redux/es/connect/connect'
 import {setNavigationOptions} from "App/Modules/Dashboard/DashboardNavigator";
 import {} from "../../Metadata";
@@ -40,6 +41,16 @@ class AvatarUploaderScreen extends Component {
     })
     .catch((err) => {
       //Error Loading Images
+    });
+  }
+
+  _openImages = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true
+    }).then(image => {
+      console.log(image);
     });
   }
 
