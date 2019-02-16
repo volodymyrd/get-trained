@@ -1,6 +1,9 @@
 package online.gettrained.frontend.web.profile;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
+import static online.gettrained.backend.exceptions.ErrorCode.SOMETHING_WENT_WRONG;
+import static online.gettrained.backend.exceptions.ErrorCode.WRONG_PASSWORD;
+import static online.gettrained.backend.messages.TextCode.SETTINGS_PASSWORD_CHANGED_SUCCESSFULLY;
 
 import java.text.ParseException;
 import java.util.List;
@@ -25,6 +28,7 @@ import online.gettrained.frontend.validators.email.EmailValidator;
 import online.gettrained.frontend.validators.password.PasswordValidator;
 import online.gettrained.frontend.validators.username.UsernameValidator;
 import online.gettrained.frontend.web.Utils;
+import online.gettrained.frontend.web.dto.TextInfoDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -97,9 +101,9 @@ public class UserProfileRestController {
     Optional<User> userOptional = userService.findByIdWithProfile(user.getId());
     if (!userOptional.isPresent()) {
       LOG.error("User with id:{} not fount", user.getEmail());
-      return ResponseEntity.badRequest().body(new ErrorInfoDto(ErrorCode.SOMETHING_WENT_WRONG,
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(SOMETHING_WENT_WRONG,
           localizationService
-              .getLocalTextByKeyAndLangOrUseDefault(ErrorCode.SOMETHING_WENT_WRONG.toString(),
+              .getLocalTextByKeyAndLangOrUseDefault(SOMETHING_WENT_WRONG.toString(),
                   Utils.getLanguage(user),
                   "Something went wrong!")));
     }
@@ -113,9 +117,9 @@ public class UserProfileRestController {
       }
     } catch (Exception ex) {
       LOG.error("Error saving a user profile", ex);
-      return ResponseEntity.badRequest().body(new ErrorInfoDto(ErrorCode.SOMETHING_WENT_WRONG,
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(SOMETHING_WENT_WRONG,
           localizationService
-              .getLocalTextByKeyAndLangOrUseDefault(ErrorCode.SOMETHING_WENT_WRONG.toString(),
+              .getLocalTextByKeyAndLangOrUseDefault(SOMETHING_WENT_WRONG.toString(),
                   Utils.getLanguage(user),
                   "Something went wrong!")));
     }
@@ -139,9 +143,9 @@ public class UserProfileRestController {
     Optional<User> userOptional = userService.findByIdWithProfileWithLang(user.getId());
     if (!userOptional.isPresent()) {
       LOG.error("User with id:{} not fount", user.getEmail());
-      return ResponseEntity.badRequest().body(new ErrorInfoDto(ErrorCode.SOMETHING_WENT_WRONG,
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(SOMETHING_WENT_WRONG,
           localizationService
-              .getLocalTextByKeyAndLangOrUseDefault(ErrorCode.SOMETHING_WENT_WRONG.toString(),
+              .getLocalTextByKeyAndLangOrUseDefault(SOMETHING_WENT_WRONG.toString(),
                   Utils.getLanguage(user),
                   "Something went wrong!")));
     }
@@ -163,9 +167,9 @@ public class UserProfileRestController {
       List<BlobDataDto> dtos = blobDataService
           .save(CommonUtils.immutableListOf(multipartFile), null);
       if (dtos.size() == 0) {
-        return ResponseEntity.badRequest().body(new ErrorInfoDto(ErrorCode.SOMETHING_WENT_WRONG,
+        return ResponseEntity.badRequest().body(new ErrorInfoDto(SOMETHING_WENT_WRONG,
             localizationService
-                .getLocalTextByKeyAndLangOrUseDefault(ErrorCode.SOMETHING_WENT_WRONG.toString(),
+                .getLocalTextByKeyAndLangOrUseDefault(SOMETHING_WENT_WRONG.toString(),
                     Utils.getLanguage(user),
                     "Something went wrong!")));
       }
@@ -185,9 +189,9 @@ public class UserProfileRestController {
       } catch (Exception ex) {
         LOG.error("Error saving a user profile", ex);
         blobDataService.deleteBlobDataById(dtos.get(0).getId());
-        return ResponseEntity.badRequest().body(new ErrorInfoDto(ErrorCode.SOMETHING_WENT_WRONG,
+        return ResponseEntity.badRequest().body(new ErrorInfoDto(SOMETHING_WENT_WRONG,
             localizationService
-                .getLocalTextByKeyAndLangOrUseDefault(ErrorCode.SOMETHING_WENT_WRONG.toString(),
+                .getLocalTextByKeyAndLangOrUseDefault(SOMETHING_WENT_WRONG.toString(),
                     Utils.getLanguage(user),
                     "Something went wrong!")));
       }
@@ -195,9 +199,9 @@ public class UserProfileRestController {
       return ResponseEntity.ok(dtos);
     } catch (Exception e) {
       LOG.error("Failed update avatar", e);
-      return ResponseEntity.badRequest().body(new ErrorInfoDto(ErrorCode.SOMETHING_WENT_WRONG,
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(SOMETHING_WENT_WRONG,
           localizationService
-              .getLocalTextByKeyAndLangOrUseDefault(ErrorCode.SOMETHING_WENT_WRONG.toString(),
+              .getLocalTextByKeyAndLangOrUseDefault(SOMETHING_WENT_WRONG.toString(),
                   Utils.getLanguage(user),
                   "Something went wrong!")));
     }
@@ -215,9 +219,9 @@ public class UserProfileRestController {
       LOG.error("Calling method 'updatePassword' of UserProfileRestController: "
           + "Illegal argument exception: "
           + " parameters 'password', 'newPassword', 'confirmPassword' must be filled");
-      return ResponseEntity.badRequest().body(new ErrorInfoDto(ErrorCode.SOMETHING_WENT_WRONG,
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(SOMETHING_WENT_WRONG,
           localizationService
-              .getLocalTextByKeyAndLangOrUseDefault(ErrorCode.SOMETHING_WENT_WRONG.toString(),
+              .getLocalTextByKeyAndLangOrUseDefault(SOMETHING_WENT_WRONG.toString(),
                   Utils.getLanguage(user),
                   "Something went wrong!")));
     }
@@ -233,16 +237,17 @@ public class UserProfileRestController {
           new ErrorInfoDto(errorCode,
               localizationService.getLocalTextByKeyAndLangOrUseDefault(errorCode.toString(),
                   user.getLoginLang(),
-                  "Password validation error")));
+                  errorCode == WRONG_PASSWORD ? "Wrong password" : "Password validation error")));
     } else {
       Optional<User> userOptional = userService.findById(user.getId());
       if (!userOptional.isPresent()) {
         LOG.error("The user with id:{} not found ", user.getId());
-        return ResponseEntity.badRequest().body(new ErrorInfoDto(ErrorCode.SOMETHING_WENT_WRONG,
-            localizationService
-                .getLocalTextByKeyAndLangOrUseDefault(ErrorCode.SOMETHING_WENT_WRONG.toString(),
-                    Utils.getLanguage(user),
-                    "Something went wrong!")));
+        return ResponseEntity.badRequest().body(new ErrorInfoDto(
+            SOMETHING_WENT_WRONG,
+            localizationService.getLocalTextByKeyAndLangOrUseDefault(
+                SOMETHING_WENT_WRONG.toString(),
+                Utils.getLanguage(user),
+                "Something went wrong!")));
       }
       user = userOptional.get();
       user.setPassword(passwordEncoder.encode(userSecDto.getNewPassword()));
@@ -254,12 +259,18 @@ public class UserProfileRestController {
         LOG.debug("The password for user with id: {} updated successfully", user.getId());
       }
 
-      return ResponseEntity.ok().build();
+      return ResponseEntity
+          .ok(new TextInfoDto(SETTINGS_PASSWORD_CHANGED_SUCCESSFULLY,
+              localizationService.getLocalTextByKeyAndLangOrUseDefault(
+                  SETTINGS_PASSWORD_CHANGED_SUCCESSFULLY.toString(),
+                  Utils.getLanguage(user),
+                  "Password changed successfully."
+              )));
     } catch (Exception ex) {
       LOG.error("Error updating the password", ex);
-      return ResponseEntity.badRequest().body(new ErrorInfoDto(ErrorCode.SOMETHING_WENT_WRONG,
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(SOMETHING_WENT_WRONG,
           localizationService
-              .getLocalTextByKeyAndLangOrUseDefault(ErrorCode.SOMETHING_WENT_WRONG.toString(),
+              .getLocalTextByKeyAndLangOrUseDefault(SOMETHING_WENT_WRONG.toString(),
                   Utils.getLanguage(user),
                   "Something went wrong!")));
     }
@@ -275,9 +286,9 @@ public class UserProfileRestController {
     if (isNullOrEmpty(userSecDto.getEmail()) || isNullOrEmpty(userSecDto.getPassword())) {
       LOG.error("Calling method 'updateEmail' of UserProfileRestController: "
           + "Illegal argument exception: parameters 'email', 'password', must be filled");
-      return ResponseEntity.badRequest().body(new ErrorInfoDto(ErrorCode.SOMETHING_WENT_WRONG,
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(SOMETHING_WENT_WRONG,
           localizationService
-              .getLocalTextByKeyAndLangOrUseDefault(ErrorCode.SOMETHING_WENT_WRONG.toString(),
+              .getLocalTextByKeyAndLangOrUseDefault(SOMETHING_WENT_WRONG.toString(),
                   Utils.getLanguage(user),
                   "Something went wrong!")));
     } else {
@@ -315,9 +326,9 @@ public class UserProfileRestController {
       Optional<User> userOptional = userService.findById(user.getId());
       if (!userOptional.isPresent()) {
         LOG.error("The user with id:{} not found ", user.getId());
-        return ResponseEntity.badRequest().body(new ErrorInfoDto(ErrorCode.SOMETHING_WENT_WRONG,
+        return ResponseEntity.badRequest().body(new ErrorInfoDto(SOMETHING_WENT_WRONG,
             localizationService
-                .getLocalTextByKeyAndLangOrUseDefault(ErrorCode.SOMETHING_WENT_WRONG.toString(),
+                .getLocalTextByKeyAndLangOrUseDefault(SOMETHING_WENT_WRONG.toString(),
                     Utils.getLanguage(user),
                     "Something went wrong!")));
       }
@@ -334,9 +345,9 @@ public class UserProfileRestController {
       return ResponseEntity.ok().build();
     } catch (Exception ex) {
       LOG.error("Error updating the email", ex);
-      return ResponseEntity.badRequest().body(new ErrorInfoDto(ErrorCode.SOMETHING_WENT_WRONG,
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(SOMETHING_WENT_WRONG,
           localizationService
-              .getLocalTextByKeyAndLangOrUseDefault(ErrorCode.SOMETHING_WENT_WRONG.toString(),
+              .getLocalTextByKeyAndLangOrUseDefault(SOMETHING_WENT_WRONG.toString(),
                   Utils.getLanguage(user),
                   "Something went wrong!")));
     }
@@ -351,9 +362,9 @@ public class UserProfileRestController {
     if (isNullOrEmpty(userSecDto.getUserName()) || isNullOrEmpty(userSecDto.getPassword())) {
       LOG.error("Calling method 'updateUsername' of UserProfileRestController: "
           + "Illegal argument exception: parameters 'userName', 'password', must be filled");
-      return ResponseEntity.badRequest().body(new ErrorInfoDto(ErrorCode.SOMETHING_WENT_WRONG,
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(SOMETHING_WENT_WRONG,
           localizationService
-              .getLocalTextByKeyAndLangOrUseDefault(ErrorCode.SOMETHING_WENT_WRONG.toString(),
+              .getLocalTextByKeyAndLangOrUseDefault(SOMETHING_WENT_WRONG.toString(),
                   Utils.getLanguage(user),
                   "Something went wrong!")));
     } else {
@@ -388,9 +399,9 @@ public class UserProfileRestController {
       Optional<User> userOptional = userService.findById(user.getId());
       if (!userOptional.isPresent()) {
         LOG.error("The user with id:{} not found ", user.getId());
-        return ResponseEntity.badRequest().body(new ErrorInfoDto(ErrorCode.SOMETHING_WENT_WRONG,
+        return ResponseEntity.badRequest().body(new ErrorInfoDto(SOMETHING_WENT_WRONG,
             localizationService
-                .getLocalTextByKeyAndLangOrUseDefault(ErrorCode.SOMETHING_WENT_WRONG.toString(),
+                .getLocalTextByKeyAndLangOrUseDefault(SOMETHING_WENT_WRONG.toString(),
                     Utils.getLanguage(user),
                     "Something went wrong!")));
       }
@@ -407,9 +418,9 @@ public class UserProfileRestController {
       return ResponseEntity.ok().build();
     } catch (Exception ex) {
       LOG.error("Error updating the username", ex);
-      return ResponseEntity.badRequest().body(new ErrorInfoDto(ErrorCode.SOMETHING_WENT_WRONG,
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(SOMETHING_WENT_WRONG,
           localizationService
-              .getLocalTextByKeyAndLangOrUseDefault(ErrorCode.SOMETHING_WENT_WRONG.toString(),
+              .getLocalTextByKeyAndLangOrUseDefault(SOMETHING_WENT_WRONG.toString(),
                   Utils.getLanguage(user),
                   "Something went wrong!")));
     }
@@ -425,9 +436,9 @@ public class UserProfileRestController {
         .findByIdWithFullProfileAndLangAndCountryAndRoles(user.getId());
     if (!userOptional.isPresent()) {
       LOG.error("User with id:{} not fount", user.getId());
-      return ResponseEntity.badRequest().body(new ErrorInfoDto(ErrorCode.SOMETHING_WENT_WRONG,
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(SOMETHING_WENT_WRONG,
           localizationService
-              .getLocalTextByKeyAndLangOrUseDefault(ErrorCode.SOMETHING_WENT_WRONG.toString(),
+              .getLocalTextByKeyAndLangOrUseDefault(SOMETHING_WENT_WRONG.toString(),
                   Utils.getLanguage(user),
                   "Something went wrong!")));
     }
@@ -474,9 +485,9 @@ public class UserProfileRestController {
         .findByIdWithFullProfileAndLangAndCountryAndCity(user.getId());
     if (!userOptional.isPresent()) {
       LOG.error("User with id:{} not fount", user.getEmail());
-      return ResponseEntity.badRequest().body(new ErrorInfoDto(ErrorCode.SOMETHING_WENT_WRONG,
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(SOMETHING_WENT_WRONG,
           localizationService
-              .getLocalTextByKeyAndLangOrUseDefault(ErrorCode.SOMETHING_WENT_WRONG.toString(),
+              .getLocalTextByKeyAndLangOrUseDefault(SOMETHING_WENT_WRONG.toString(),
                   Utils.getLanguage(user),
                   "Something went wrong!")));
     }
@@ -518,9 +529,9 @@ public class UserProfileRestController {
     if (isNullOrEmpty(profile.getFirstName()) || isNullOrEmpty(profile.getLang())) {
       LOG.error("Calling method 'save' of UserProfileRestController: Illegal argument exception: " +
           "parameters 'firstName', 'lang', must be filled");
-      return ResponseEntity.badRequest().body(new ErrorInfoDto(ErrorCode.SOMETHING_WENT_WRONG,
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(SOMETHING_WENT_WRONG,
           localizationService
-              .getLocalTextByKeyAndLangOrUseDefault(ErrorCode.SOMETHING_WENT_WRONG.toString(),
+              .getLocalTextByKeyAndLangOrUseDefault(SOMETHING_WENT_WRONG.toString(),
                   Utils.getLanguage(user),
                   "Something went wrong!")));
     } else {
@@ -534,9 +545,9 @@ public class UserProfileRestController {
         .findSupportedLangByCode(profile.getLang().toUpperCase());
     if (!language.isPresent()) {
       LOG.error("Not found language {} or not supported", profile.getLang());
-      return ResponseEntity.badRequest().body(new ErrorInfoDto(ErrorCode.SOMETHING_WENT_WRONG,
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(SOMETHING_WENT_WRONG,
           localizationService
-              .getLocalTextByKeyAndLangOrUseDefault(ErrorCode.SOMETHING_WENT_WRONG.toString(),
+              .getLocalTextByKeyAndLangOrUseDefault(SOMETHING_WENT_WRONG.toString(),
                   Utils.getLanguage(user),
                   "Something went wrong!")));
     }
@@ -544,9 +555,9 @@ public class UserProfileRestController {
     Optional<User> userOptional = userService.findByIdWithFullProfile(user.getId());
     if (!userOptional.isPresent()) {
       LOG.error("User with id:{} not fount", user.getEmail());
-      return ResponseEntity.badRequest().body(new ErrorInfoDto(ErrorCode.SOMETHING_WENT_WRONG,
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(SOMETHING_WENT_WRONG,
           localizationService
-              .getLocalTextByKeyAndLangOrUseDefault(ErrorCode.SOMETHING_WENT_WRONG.toString(),
+              .getLocalTextByKeyAndLangOrUseDefault(SOMETHING_WENT_WRONG.toString(),
                   Utils.getLanguage(user),
                   "Something went wrong!")));
     }
@@ -600,9 +611,9 @@ public class UserProfileRestController {
       return ResponseEntity.ok().build();
     } catch (Exception ex) {
       LOG.error("Error saving a profile", ex);
-      return ResponseEntity.badRequest().body(new ErrorInfoDto(ErrorCode.SOMETHING_WENT_WRONG,
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(SOMETHING_WENT_WRONG,
           localizationService
-              .getLocalTextByKeyAndLangOrUseDefault(ErrorCode.SOMETHING_WENT_WRONG.toString(),
+              .getLocalTextByKeyAndLangOrUseDefault(SOMETHING_WENT_WRONG.toString(),
                   Utils.getLanguage(user),
                   "Something went wrong!")));
     }

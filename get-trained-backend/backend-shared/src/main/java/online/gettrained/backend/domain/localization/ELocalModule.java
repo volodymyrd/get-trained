@@ -7,5 +7,6 @@ public enum ELocalModule {
   COMMON,
   AUTH,
   DASHBOARD,
-  MENU
+  MENU,
+  SETTINGS
 }

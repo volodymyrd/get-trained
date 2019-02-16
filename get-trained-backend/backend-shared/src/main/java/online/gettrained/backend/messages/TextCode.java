@@ -34,6 +34,8 @@ public enum TextCode {
   LOCAL_LOCALIZATION_SAVED_SUCCESSFULLY("be_text.local_localization_saved_successfully"),
   LOCAL_LOCALIZATION_DELETED_SUCCESSFULLY("be_text.local_localization_deleted_successfully"),
 
+  SETTINGS_PASSWORD_CHANGED_SUCCESSFULLY("be_text.settings_password_changed_successfully"),
+
   USERS_USER_UNLOCKED_SUCCESSFULLY("be_text.users_user_unlocked_successfully"),
 
   NOTIF_MESSAGE_TEMPLATE_DELETED_SUCCESSFULLY(
