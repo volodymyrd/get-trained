@@ -13,9 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface BlobDataService {
 
-  String PATH = "fe/contents/fm";
-  String COMMON_PATH = "common/utils/file/get/";
-  String COMMON_PATH_FOR_FULL_FILE = "common/utils/fullFile/get/";
+  String COMMON_PATH = "common/utils/file/get";
+  String COMMON_PATH_FOR_FULL_FILE = "common/utils/fullFile/get";
 
   List<BlobData> rowMediaToBlobMedia(String rowMediaName, List<byte[]> rowMediaData);
 

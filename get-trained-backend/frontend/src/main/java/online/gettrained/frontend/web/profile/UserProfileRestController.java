@@ -3,7 +3,8 @@ package online.gettrained.frontend.web.profile;
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static online.gettrained.backend.exceptions.ErrorCode.SOMETHING_WENT_WRONG;
 import static online.gettrained.backend.exceptions.ErrorCode.WRONG_PASSWORD;
-import static online.gettrained.backend.messages.TextCode.SETTINGS_PASSWORD_CHANGED_SUCCESSFULLY;
+import static online.gettrained.backend.messages.TextCode.PROFILE_SUCCESS_AVATAR_DELETE;
+import static online.gettrained.backend.messages.TextCode.SETTINGS_SUCCESS_PASSWORD_CHANGED;
 
 import java.text.ParseException;
 import java.util.List;
@@ -100,7 +101,7 @@ public class UserProfileRestController {
 
     Optional<User> userOptional = userService.findByIdWithProfile(user.getId());
     if (!userOptional.isPresent()) {
-      LOG.error("User with id:{} not fount", user.getEmail());
+      LOG.error("User with id:{} not found", user.getEmail());
       return ResponseEntity.badRequest().body(new ErrorInfoDto(SOMETHING_WENT_WRONG,
           localizationService
               .getLocalTextByKeyAndLangOrUseDefault(SOMETHING_WENT_WRONG.toString(),
@@ -113,18 +114,23 @@ public class UserProfileRestController {
     try {
       userService.removeAvatar(user, user.getProfile());
       if (LOG.isDebugEnabled()) {
-        LOG.debug("User profile with id: {}, saved successfully", user.getId());
+        LOG.debug("Avatar for user profile with id: {} deleted successfully", user.getId());
       }
+      return ResponseEntity
+          .ok(new TextInfoDto(PROFILE_SUCCESS_AVATAR_DELETE,
+              localizationService.getLocalTextByKeyAndLangOrUseDefault(
+                  PROFILE_SUCCESS_AVATAR_DELETE.toString(),
+                  Utils.getLanguage(user),
+                  "Avatar deleted successfully."
+              )));
     } catch (Exception ex) {
-      LOG.error("Error saving a user profile", ex);
+      LOG.error("Error deleting an avatar", ex);
       return ResponseEntity.badRequest().body(new ErrorInfoDto(SOMETHING_WENT_WRONG,
           localizationService
               .getLocalTextByKeyAndLangOrUseDefault(SOMETHING_WENT_WRONG.toString(),
                   Utils.getLanguage(user),
                   "Something went wrong!")));
     }
-
-    return ResponseEntity.ok().build();
   }
 
   @PostMapping("/avatar/load")
@@ -142,7 +148,7 @@ public class UserProfileRestController {
 
     Optional<User> userOptional = userService.findByIdWithProfileWithLang(user.getId());
     if (!userOptional.isPresent()) {
-      LOG.error("User with id:{} not fount", user.getEmail());
+      LOG.error("User with id:{} not found", user.getEmail());
       return ResponseEntity.badRequest().body(new ErrorInfoDto(SOMETHING_WENT_WRONG,
           localizationService
               .getLocalTextByKeyAndLangOrUseDefault(SOMETHING_WENT_WRONG.toString(),
@@ -260,9 +266,9 @@ public class UserProfileRestController {
       }
 
       return ResponseEntity
-          .ok(new TextInfoDto(SETTINGS_PASSWORD_CHANGED_SUCCESSFULLY,
+          .ok(new TextInfoDto(SETTINGS_SUCCESS_PASSWORD_CHANGED,
               localizationService.getLocalTextByKeyAndLangOrUseDefault(
-                  SETTINGS_PASSWORD_CHANGED_SUCCESSFULLY.toString(),
+                  SETTINGS_SUCCESS_PASSWORD_CHANGED.toString(),
                   Utils.getLanguage(user),
                   "Password changed successfully."
               )));
@@ -447,7 +453,9 @@ public class UserProfileRestController {
 
     Profile profile = user.getProfile();
     profile.setUserId(user.getId());
-    profile.setAvatarUrl(blobDataService.getFileUrl(user.getProfile().getAvatarId()));
+    if (user.getProfile().getAvatarId() != null) {
+      profile.setAvatarUrl(blobDataService.getFileUrl(user.getProfile().getAvatarId()));
+    }
 
     profile.setRoles(
         user.getRoles().stream().map(r -> "S_" + r.getName()).collect(Collectors.toSet()));

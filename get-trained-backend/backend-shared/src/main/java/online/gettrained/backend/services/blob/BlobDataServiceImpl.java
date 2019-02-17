@@ -130,25 +130,25 @@ public class BlobDataServiceImpl implements BlobDataService {
       blobData.setType(type);
       blobData.setExtractMetaData(extractMd);
       blobData.setPublicAccess(publicAccess);
-      try {
-        if (blobData.getType() == BlobData.Type.IMAGE) {
+      if (blobData.getType() == BlobData.Type.IMAGE) {
+        try {
           BufferedImage bufferedImage = getBufferedImage(data);
           if (f.getSize() > IMAGE_SIZE_SHOULD_COMPRESS) {
             try {
               data = compressImage(bufferedImage, f.getContentType(), f.getSize());
               blobData.setSize((long) data.length);
+              blobData.setHeight(bufferedImage.getHeight());
+              blobData.setWidth(bufferedImage.getWidth());
             } catch (Exception ex) {
               LOG.error("Error compressing the image file", ex);
               data = f.getBytes();
             }
           }
-          blobData.setHeight(bufferedImage.getHeight());
-          blobData.setWidth(bufferedImage.getWidth());
+        } catch (Exception e) {
+          LOG.error("Error saving file with name " + f.getOriginalFilename(), e);
         }
-      } catch (Exception e) {
-        LOG.error("Error saving file with name " + f.getOriginalFilename(), e);
       }
-
+      blobData.setObject(data);
       return blobData;
     }).collect(Collectors.toList());
   }
@@ -356,7 +356,7 @@ public class BlobDataServiceImpl implements BlobDataService {
 
   @Override
   public String getFileUrl(long fileId) {
-    return PATH + "/" + fileId;
+    return COMMON_PATH + "/" + fileId;
   }
 
   @Override
