@@ -12,12 +12,17 @@ const { Types, Creators } = createActions(
     fetchMetadataSuccess: ['metadata'],
     fetchMetadataFailure: null,
 
-    uploadAvatar: ['data'],
+    fetchLightProfile: null,
+    fetchLightProfileLoading: null,
+    fetchLightProfileSuccess: ['lightProfile'],
+    fetchLightProfileFailure: null,
+
+    uploadAvatar: ['image', 'messages'],
     uploadAvatarLoading: null,
-    uploadAvatarSuccess: null,
+    uploadAvatarSuccess: ['avatarUrl'],
     uploadAvatarFailure: null,
 
-    deleteAvatar: ['data'],
+    deleteAvatar: ['messages'],
     deleteAvatarLoading: null,
     deleteAvatarSuccess: null,
     deleteAvatarFailure: null,

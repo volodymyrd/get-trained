@@ -37,12 +37,43 @@ export const signIn = (email, password, lang) => {
   })
 }
 
-const _post = (url, header, json) => {
+export const dataUpload = (url, data) => {
+  return _post(
+    url,
+    {
+      'Content-Type': 'multipart/form-data',
+      credentials: 'include',
+    },
+    data
+  )
+
+  // return apiClient.post(url, data, {
+  // onUploadProgress: (e) => {
+  //   console.log(e)
+  //   const progress = e.loaded / e.total
+  //   console.log(progress)
+  // },
+  // })
+}
+
+export const wrapFileForUploading = (files) => {
+  const data = new FormData()
+  files.forEach((file, index) => {
+    data.append('file', {
+      uri: file.uri,
+      type: file.type,
+      name: file.name,
+    })
+  })
+  return data
+}
+
+const _post = (url, header, jsonOrData) => {
   const apiClient = _getApiClient()
   apiClient.setHeaders(header)
 
-  if (json) {
-    return apiClient.post(url, json).then((response) => _callBack(response))
+  if (jsonOrData) {
+    return apiClient.post(url, jsonOrData).then((response) => _callBack(response))
   } else {
     return apiClient.post(url).then((response) => _callBack(response))
   }

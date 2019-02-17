@@ -18,3 +18,5 @@ react-native bundle --platform android --dev false --entry-file index.js   --bun
 ```
 
 - [link native lib](https://www.youtube.com/watch?v=e3ReNbQu79c)
+
+- [immutable](https://immutable-js.github.io/immutable-js/) 

@@ -1,14 +1,30 @@
-import { postPlainWithCredentials } from 'App/Utils/HttpUtils'
+import { wrapFileForUploading, dataUpload, postPlainWithCredentials } from 'App/Utils/HttpUtils'
 
-const uploadAvatar = () => {
-  return postPlainWithCredentials(`fe/profile/user/update-sec/password`)
+const BASE_URL = 'fe/profile/user'
+
+const getLightProfile = () => {
+  return postPlainWithCredentials(`${BASE_URL}/getLight`)
+}
+
+const uploadAvatar = (image) => {
+  return dataUpload(
+    `${BASE_URL}/avatar/load`,
+    wrapFileForUploading([
+      {
+        uri: image.sourceURL,
+        type: image.mime,
+        name: image.filename,
+      },
+    ])
+  )
 }
 
 const deleteAvatar = () => {
-  return postPlainWithCredentials(`fe/profile/user/update-sec/password`)
+  return postPlainWithCredentials(`${BASE_URL}/avatar/del`)
 }
 
 export const ProfileService = {
+  getLightProfile,
   uploadAvatar,
   deleteAvatar,
 }

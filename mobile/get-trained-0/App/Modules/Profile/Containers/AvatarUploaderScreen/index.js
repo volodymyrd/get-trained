@@ -1,14 +1,27 @@
 import React, {Component} from 'react'
-import {Container, Content, Button, Text, Form} from "native-base";
+import {
+  Container,
+  Content,
+  View,
+  Button,
+  Text,
+  Thumbnail,
+  Spinner
+} from "native-base";
 import ImagePicker from 'react-native-image-crop-picker';
 import connect from 'react-redux/es/connect/connect'
 import {setNavigationOptions} from "App/Modules/Dashboard/DashboardNavigator";
-import {} from "../../Metadata";
 import {somethingWentWrong} from 'App/Utils/MetadataUtils'
 import Error from "App/Components/Error";
 import Loading from "App/Components/Loading";
 import ProfileActions from "../../Stores/Actions";
-import {MODULE} from "../../Metadata";
+import {Config} from "App/Config";
+import {
+  MODULE,
+  btnAvatarUpload,
+  btnAvatarDelete,
+  successAvatarUpload,
+} from "../../Metadata";
 
 import styles from './styles'
 
@@ -20,14 +33,14 @@ class AvatarUploaderScreen extends Component {
     if (this.props.langCode
         && !(this.props.metadata.size
             && this.props.metadata.get('module') === MODULE)) {
-      //this.props.fetchMetadata(this.props.langCode.toUpperCase())
+      this.props.fetchMetadata(this.props.langCode.toUpperCase())
+    }
+    if (!this.props.lightProfile) {
+      this.props.fetchLightProfile()
     }
   }
 
   componentDidUpdate(prevProps) {
-  }
-
-  _uploaderHandler = () => {
   }
 
   _openImages = () => {
@@ -36,40 +49,73 @@ class AvatarUploaderScreen extends Component {
       height: 400,
       cropping: true
     }).then(image => {
-      console.log(image);
-    });
+      const localizations = this.props.metadata.get('localizations')
+      this.props.uploadAvatar(image,
+          [successAvatarUpload(localizations),
+            somethingWentWrong(localizations)])
+    })
+    .catch((err) => {
+      // console.log("openCamera catch" + err.toString())
+    })
   }
 
   render() {
     const {
       metadata,
+      lightProfile,
       failedRetrievingMetadata,
       fetchingMetadata,
       uploadingAvatar,
+      deleteAvatar,
+      deletingAvatar,
     } = this.props
 
-    // if (failedRetrievingMetadata) {
-    //   return <Error/>
-    // }
-    //
-    // if (fetchingMetadata || !metadata || !metadata.size) {
-    //   return <Loading/>
-    // }
-    //
-    // const localizations = metadata.get('localizations')
+    if (failedRetrievingMetadata) {
+      return <Error/>
+    }
+
+    if (fetchingMetadata || !metadata || !metadata.size) {
+      return <Loading/>
+    }
+
+    const localizations = metadata.get('localizations')
+
+    const avatarUrl = lightProfile && lightProfile.get('avatarUrl') ?
+        `${Config.API_URL}${lightProfile.get('avatarUrl')}` : undefined
 
     return (
         <Container>
           <Content style={styles.content}>
-            <Button
-                full
-                rounded
-                //style={{marginTop: 40}}
-                onPress={this._openImages}
-                //disabled={buttonDisabled || loading}
-            >
-              <Text>avatar</Text>
-            </Button>
+            {avatarUrl ?
+                <View>
+                  <View style={styles.avatar}>
+                    <Thumbnail large source={{uri: avatarUrl}}/>
+                  </View>
+                  <Button
+                      full
+                      rounded
+                      style={{marginTop: 40}}
+                      onPress={() => deleteAvatar(
+                          [somethingWentWrong(localizations)])}
+                      disabled={deletingAvatar}
+                  >
+                    {deletingAvatar ?
+                        <Spinner color='blue'/> :
+                        <Text>{btnAvatarDelete(localizations)}</Text>}
+                  </Button>
+                </View> :
+                <Button
+                    full
+                    rounded
+                    style={{marginTop: 40}}
+                    onPress={this._openImages}
+                    disabled={uploadingAvatar}
+                >
+                  {uploadingAvatar ?
+                      <Spinner color='blue'/> :
+                      <Text>{btnAvatarUpload(localizations)}</Text>}
+                </Button>
+            }
           </Content>
         </Container>
     )
@@ -78,21 +124,27 @@ class AvatarUploaderScreen extends Component {
 
 const mapStateToProps = (state) => ({
   langCode: state.main.get('langCode'),
-  fetchingMetadata: state.settings.root.get('fetchingMetadata'),
-  failedRetrievingMetadata: state.settings.root.get('failedRetrievingMetadata'),
-  metadata: state.settings.root.get('metadata'),
-  uploadingAvatar: state.settings.root.get('uploadingAvatar'),
+
+  fetchingMetadata: state.profile.root.get('fetchingMetadata'),
+  failedRetrievingMetadata: state.profile.root.get('failedRetrievingMetadata'),
+  metadata: state.profile.root.get('metadata'),
+
+  fetchingLightProfile: state.profile.root.get('fetchingLightProfile'),
+  lightProfile: state.profile.root.get('lightProfile'),
+
+  uploadingAvatar: state.profile.root.get('uploadingAvatar'),
+  deletingAvatar: state.profile.root.get('deletingAvatar'),
 })
 
 const mapDispatchToProps = (dispatch) => ({
   fetchMetadata: (langCode) => dispatch(ProfileActions.fetchMetadata(langCode)),
+  fetchLightProfile: () => dispatch(ProfileActions.fetchLightProfile()),
+  uploadAvatar: (image, messages) => dispatch(
+      ProfileActions.uploadAvatar(image, messages)),
+  deleteAvatar: (messages) => dispatch(ProfileActions.deleteAvatar(messages)),
 })
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(AvatarUploaderScreen)
-
-// AppRegistry.registerComponent(
-//     'AvatarUploaderScreen',
-//     () => UploadFromCameraRoll);
