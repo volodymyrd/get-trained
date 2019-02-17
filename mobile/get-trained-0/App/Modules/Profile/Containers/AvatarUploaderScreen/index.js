@@ -31,7 +31,8 @@ class AvatarUploaderScreen extends Component {
 
   componentDidMount() {
     if (this.props.langCode
-        && !(this.props.metadata.size
+        && !(this.props.metadata
+            && this.props.metadata.size
             && this.props.metadata.get('module') === MODULE)) {
       this.props.fetchMetadata(this.props.langCode.toUpperCase())
     }

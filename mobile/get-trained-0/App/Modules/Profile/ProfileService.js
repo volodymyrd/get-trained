@@ -11,9 +11,9 @@ const uploadAvatar = (image) => {
     `${BASE_URL}/avatar/load`,
     wrapFileForUploading([
       {
-        uri: image.sourceURL,
+        uri: image.path,
         type: image.mime,
-        name: image.filename,
+        name: `file_${new Date().toISOString()}`,
       },
     ])
   )
