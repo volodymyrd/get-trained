@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Form, Text, Button, Spinner} from 'native-base'
+import {Form} from 'native-base'
 import Email from "App/Components/Email";
 import Name from "App/Components/Name";
 import Password from "App/Components/Password";
+import ButtonWithLoader from "App/Components/ButtonWithLoader";
 
 class SignUp extends React.Component {
   constructor(props) {
@@ -142,15 +143,13 @@ class SignUp extends React.Component {
                     minLength={minPasswordLength}
                     onValid={this._passwordRepeatValid}
                     onInValid={this._passwordRepeatInValid}/>
-          <Button
-              full
-              rounded
+          <ButtonWithLoader
+              title={txtBtn}
               style={{marginTop: 40}}
-              onPress={() => signUpHandler(email, password, firstName)}
               disabled={buttonDisabled || loading}
-          >
-            {loading ? <Spinner color='blue'/> : <Text>{txtBtn}</Text>}
-          </Button>
+              loading={loading}
+              onPressHandler={() => signUpHandler(email, password, firstName)}
+          />
         </Form>
     )
   }

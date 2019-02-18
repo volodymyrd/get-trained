@@ -1,6 +1,5 @@
 import React from 'react'
-import { View } from 'react-native'
-import { Text } from 'native-base'
+import { View, Text } from 'native-base'
 import styles from './style'
 
 const Error = () => {

@@ -3,10 +3,7 @@ import {
   Container,
   Content,
   View,
-  Button,
-  Text,
   Thumbnail,
-  Spinner
 } from "native-base";
 import ImagePicker from 'react-native-image-crop-picker';
 import connect from 'react-redux/es/connect/connect'
@@ -14,6 +11,7 @@ import {setNavigationOptions} from "App/Modules/Dashboard/DashboardNavigator";
 import {somethingWentWrong} from 'App/Utils/MetadataUtils'
 import Error from "App/Components/Error";
 import Loading from "App/Components/Loading";
+import ButtonWithLoader from "App/Components/ButtonWithLoader";
 import ProfileActions from "../../Stores/Actions";
 import {Config} from "App/Config";
 import {
@@ -92,30 +90,22 @@ class AvatarUploaderScreen extends Component {
                   <View style={styles.avatar}>
                     <Thumbnail large source={{uri: avatarUrl}}/>
                   </View>
-                  <Button
-                      full
-                      rounded
+                  <ButtonWithLoader
+                      title={btnAvatarDelete(localizations)}
                       style={{marginTop: 40}}
-                      onPress={() => deleteAvatar(
-                          [somethingWentWrong(localizations)])}
                       disabled={deletingAvatar}
-                  >
-                    {deletingAvatar ?
-                        <Spinner color='blue'/> :
-                        <Text>{btnAvatarDelete(localizations)}</Text>}
-                  </Button>
+                      loading={deletingAvatar}
+                      onPressHandler={() => deleteAvatar(
+                          [somethingWentWrong(localizations)])}
+                  />
                 </View> :
-                <Button
-                    full
-                    rounded
+                <ButtonWithLoader
+                    title={btnAvatarUpload(localizations)}
                     style={{marginTop: 40}}
-                    onPress={this._openImages}
                     disabled={uploadingAvatar}
-                >
-                  {uploadingAvatar ?
-                      <Spinner color='blue'/> :
-                      <Text>{btnAvatarUpload(localizations)}</Text>}
-                </Button>
+                    loading={uploadingAvatar}
+                    onPressHandler={this._openImages}
+                />
             }
           </Content>
         </Container>

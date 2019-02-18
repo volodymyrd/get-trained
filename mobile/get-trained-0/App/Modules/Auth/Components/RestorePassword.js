@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Form, Text, Button, Spinner} from 'native-base'
+import {Form} from 'native-base'
 import Email from "App/Components/Email";
+import ButtonWithLoader from "App/Components/ButtonWithLoader";
 
 class RestorePassword extends React.Component {
   constructor(props) {
@@ -35,15 +36,13 @@ class RestorePassword extends React.Component {
           <Email txtEmail={txtEmail}
                  onValid={this._emailValid}
                  onInValid={this._emailInValid}/>
-          <Button
-              full
-              rounded
+          <ButtonWithLoader
+              title={txtBtn}
               style={{marginTop: 40}}
-              onPress={() => restorePasswordHandler(email)}
               disabled={buttonDisabled || loading}
-          >
-            {loading ? <Spinner color='blue'/> : <Text>{txtBtn}</Text>}
-          </Button>
+              loading={loading}
+              onPressHandler={() => restorePasswordHandler(email)}
+          />
         </Form>
     )
   }

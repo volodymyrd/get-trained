@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Form, Text, Button, Spinner} from 'native-base'
+import {Form} from 'native-base'
 import Password from "App/Components/Password";
+import ButtonWithLoader from "App/Components/ButtonWithLoader";
 
 import styles from './styles'
 
@@ -112,16 +113,14 @@ class ChangePassword extends React.Component {
                     minLength={minPasswordLength}
                     onValid={this._passwordRepeatValid}
                     onInValid={this._passwordRepeatInValid}/>
-          <Button
-              full
-              rounded
+          <ButtonWithLoader
+              title={txtBtn}
               style={styles.btn}
-              onPress={() => changePasswordHandler(
-                  oldPassword, newPassword, passwordRepeat)}
               disabled={buttonDisabled || loading}
-          >
-            {loading ? <Spinner color='blue'/> : <Text>{txtBtn}</Text>}
-          </Button>
+              loading={loading}
+              onPressHandler={() => changePasswordHandler(
+                  oldPassword, newPassword, passwordRepeat)}
+          />
         </Form>
     )
   }
