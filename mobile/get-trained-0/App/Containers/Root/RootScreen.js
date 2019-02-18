@@ -5,8 +5,7 @@ import { Root } from 'native-base'
 import { connect } from 'react-redux'
 import SplashScreen from 'App/Containers/SplashScreen/SplashScreen'
 import AuthScreen from 'App/Modules/Auth/Containers/AuthScreen'
-import { dashboardNavigator } from 'App/Modules/Dashboard/DashboardNavigator'
-import DashboardNavigator from '../../Modules/Dashboard/DashboardNavigator'
+import DashboardNavigator from 'App/Modules/Dashboard/DashboardNavigator'
 
 const AppStack = DashboardNavigator
 const AuthStack = createStackNavigator({ Auth: AuthScreen })

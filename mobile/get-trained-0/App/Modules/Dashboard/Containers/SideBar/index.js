@@ -12,10 +12,10 @@ import {
   Text,
 } from 'native-base'
 import {toHome} from 'App/Utils/NavigationUtils'
-import DashboardActions from '../Stores/Actions'
+import DashboardActions from '../../Stores/Actions'
 import Loading from "App/Components/Loading";
-import {MENU_MODULE} from "../Metadata";
-import {getMenu} from "../Components/Menu";
+import {MENU_MODULE} from "../../Metadata";
+import {getMenu} from "../../Components/Menu";
 
 class SideBar extends Component {
 
