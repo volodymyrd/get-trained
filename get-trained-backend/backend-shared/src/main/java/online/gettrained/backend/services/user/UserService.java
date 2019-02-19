@@ -38,6 +38,8 @@ public interface UserService {
 
   Optional<User> findByIdWithProfile(Long id);
 
+  Optional<User> findByIdWithRoles(long id);
+
   Optional<User> findByIdWithProfileWithLang(Long id);
 
   long countByEmail(String email);
@@ -55,6 +57,8 @@ public interface UserService {
   User saveUser(User user);
 
   User saveUserAndDeleteToken(User user, String token);
+
+  User addRole(User user, String roleName) throws NotFoundException;
 
   Profile saveProfile(User user, Profile profile);
 

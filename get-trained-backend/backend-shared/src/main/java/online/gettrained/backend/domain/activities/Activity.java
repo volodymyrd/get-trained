@@ -1,11 +1,14 @@
 package online.gettrained.backend.domain.activities;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
+import static javax.persistence.EnumType.STRING;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.Index;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import online.gettrained.backend.domain.BaseEntity;
@@ -14,8 +17,18 @@ import online.gettrained.backend.domain.BaseEntity;
  * List of sport activities.
  */
 @Entity
-@Table(name = "ACT_ACTIVITIES")
+@Table(name = "ACT_ACTIVITIES",
+    indexes = {@Index(name = "I_ACT_ACTIVITIES_STATUS", columnList = "STATUS")})
 public class Activity extends BaseEntity {
+
+  public enum Status {
+    ACTIVE, DISABLE
+  }
+
+  @JsonIgnore
+  @Enumerated(STRING)
+  @Column(name = "STATUS", nullable = false)
+  private Status status;
 
   @JsonIgnore
   @Column(name = "DEFAULT_NAME", nullable = false)

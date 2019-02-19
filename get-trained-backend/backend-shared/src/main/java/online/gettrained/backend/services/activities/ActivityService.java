@@ -5,6 +5,8 @@ import online.gettrained.backend.domain.activities.Activity;
 import online.gettrained.backend.domain.activities.Trainer;
 import online.gettrained.backend.domain.user.User;
 import online.gettrained.backend.dto.Page;
+import online.gettrained.backend.exceptions.ApplicationException;
+import online.gettrained.backend.exceptions.NotFoundException;
 
 /**
  * Main service for activity functionality.
@@ -12,6 +14,8 @@ import online.gettrained.backend.dto.Page;
 public interface ActivityService {
 
   Page<Activity> findAllActivities(User user, FrontendActivityConstraint constraint);
+
+  void becomeTrainer(User user, long activityId) throws NotFoundException, ApplicationException;
 
   Page<Trainer> findAllTrainers(User user, FrontendActivityConstraint constraint);
 

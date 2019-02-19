@@ -8,4 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface TrainerRepository extends JpaRepository<Trainer, Long> {
 
+  boolean existsByActivity_IdAndUser_Id(long activityId, long userId);
 }

@@ -12,6 +12,7 @@ public interface RoleRepository extends JpaRepository<UserRole, Long> {
   String ADMIN_ROLE = "ROLE_ADMIN";
   String ACTUATOR_ROLE = "ACTUATOR";
   String USER_ROLE = "ROLE_USER";
+  String TRAINER_ROLE = "ROLE_TRAINER";
   String COMPANY_ADMIN_ROLE = "ROLE_COMPANY_ADMIN";
   String COMPANY_HR_ROLE = "ROLE_COMPANY_HR";
 

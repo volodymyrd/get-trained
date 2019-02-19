@@ -1,5 +1,9 @@
 package online.gettrained.backend.services.user;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Strings.isNullOrEmpty;
+import static java.util.Objects.requireNonNull;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -137,6 +141,11 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  public Optional<User> findByIdWithRoles(long id) {
+    return userRepository.findOneByIdWithRoles(id);
+  }
+
+  @Override
   public long countByEmail(String email) {
     return userRepository.countByEmail(email.toLowerCase());
   }
@@ -182,6 +191,16 @@ public class UserServiceImpl implements UserService {
     User updatedUser = saveUser(user);
     userTokenRepository.deleteByToken(token);
     return updatedUser;
+  }
+
+  @Override
+  @Transactional
+  public User addRole(User user, String roleName) throws NotFoundException {
+    requireNonNull(user, "Parameter 'user' must be set");
+    checkArgument(!isNullOrEmpty(roleName), "Parameter 'roleName' must be set");
+    user.getRoles().add(roleRepository.findByName(roleName)
+        .orElseThrow(() -> new NotFoundException("Not found a role with name: " + roleName)));
+    return saveUser(user);
   }
 
   @Override
