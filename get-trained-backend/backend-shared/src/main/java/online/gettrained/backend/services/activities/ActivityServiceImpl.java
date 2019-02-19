@@ -61,7 +61,7 @@ public class ActivityServiceImpl implements ActivityService {
 
   @Override
   @Transactional
-  public void becomeTrainer(User user, long activityId)
+  public void addTrainer(User user, long activityId)
       throws NotFoundException, ApplicationException {
 
     Activity activity = activityRepository.findById(activityId)

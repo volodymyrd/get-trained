@@ -27,4 +27,5 @@
   <include file="patches/patch-0-notification-message-templates.xml"
     relativeToChangelogFile="true"/>
   <include file="patches/patch-0-dashboard.xml" relativeToChangelogFile="true"/>
+  <include file="patches/patch-0-activities.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

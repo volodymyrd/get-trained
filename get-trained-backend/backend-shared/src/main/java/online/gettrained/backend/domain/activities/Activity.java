@@ -53,6 +53,14 @@ public class Activity extends BaseEntity {
   @JsonInclude(NON_NULL)
   private Integer numberOfTrainers;
 
+  public Status getStatus() {
+    return status;
+  }
+
+  public void setStatus(Status status) {
+    this.status = status;
+  }
+
   public String getDefaultName() {
     return defaultName;
   }

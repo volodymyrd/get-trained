@@ -40,6 +40,8 @@ public enum TextCode {
 
   USERS_USER_UNLOCKED_SUCCESSFULLY("be_text.users_user_unlocked_successfully"),
 
+  ACTIVITY_YOU_BECAME_A_TRAINER("be_text.activity_you_became_a_trainer"),
+
   NOTIF_MESSAGE_TEMPLATE_DELETED_SUCCESSFULLY(
       "be_text.notif_message_template_deleted_successfully");
 

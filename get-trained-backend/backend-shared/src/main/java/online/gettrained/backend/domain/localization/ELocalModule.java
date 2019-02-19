@@ -10,4 +10,5 @@ public enum ELocalModule {
   MENU,
   PROFILE,
   SETTINGS,
+  BACKEND
 }

@@ -15,7 +15,7 @@ public interface ActivityService {
 
   Page<Activity> findAllActivities(User user, FrontendActivityConstraint constraint);
 
-  void becomeTrainer(User user, long activityId) throws NotFoundException, ApplicationException;
+  void addTrainer(User user, long activityId) throws NotFoundException, ApplicationException;
 
   Page<Trainer> findAllTrainers(User user, FrontendActivityConstraint constraint);
 
