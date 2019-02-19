@@ -3,9 +3,9 @@ package online.gettrained.backend.constraints.frontend;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Set;
-import online.gettrained.backend.constraints.SelectOption;
+import online.gettrained.backend.constraints.DateSelectOption;
+import online.gettrained.backend.constraints.StringSelectOption;
 import online.gettrained.backend.json_serializers.DateSelectOptionJsonDeserializer;
 import online.gettrained.backend.json_serializers.PageableJsonDeserializer;
 import org.springframework.data.domain.Pageable;
@@ -20,10 +20,9 @@ public class FrontendBasicConstraint implements Serializable {
   private String langCode;
   @JsonDeserialize(using = PageableJsonDeserializer.class)
   private Pageable pageable;
-  private Set<SelectOption<String>> soLangCodes;
-  private Set<SelectOption<Long>> soCompanyIds;
+  private Set<StringSelectOption> soLangCodes;
   @JsonDeserialize(using = DateSelectOptionJsonDeserializer.class)
-  private Set<SelectOption<Date>> soDateCreated;
+  private Set<DateSelectOption> soDateCreated;
 
   @JsonIgnore
   private Integer timezoneOffset;
@@ -48,30 +47,21 @@ public class FrontendBasicConstraint implements Serializable {
     this.pageable = pageable;
   }
 
-  public Set<SelectOption<String>> getSoLangCodes() {
+  public Set<StringSelectOption> getSoLangCodes() {
     return soLangCodes;
   }
 
   public void setSoLangCodes(
-      Set<SelectOption<String>> soLangCodes) {
+      Set<StringSelectOption> soLangCodes) {
     this.soLangCodes = soLangCodes;
   }
 
-  public Set<SelectOption<Long>> getSoCompanyIds() {
-    return soCompanyIds;
-  }
-
-  public void setSoCompanyIds(
-      Set<SelectOption<Long>> soCompanyIds) {
-    this.soCompanyIds = soCompanyIds;
-  }
-
-  public Set<SelectOption<Date>> getSoDateCreated() {
+  public Set<DateSelectOption> getSoDateCreated() {
     return soDateCreated;
   }
 
   public void setSoDateCreated(
-      Set<SelectOption<Date>> soDateCreated) {
+      Set<DateSelectOption> soDateCreated) {
     this.soDateCreated = soDateCreated;
   }
 
@@ -105,7 +95,6 @@ public class FrontendBasicConstraint implements Serializable {
         "langCode='" + langCode + '\'' +
         ", pageable=" + pageable +
         ", soLangCodes=" + soLangCodes +
-        ", soCompanyIds=" + soCompanyIds +
         ", soDateCreated=" + soDateCreated +
         ", timezoneOffset=" + timezoneOffset +
         ", withoutCount=" + withoutCount +
