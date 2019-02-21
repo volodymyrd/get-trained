@@ -11,7 +11,7 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import online.gettrained.backend.domain.BaseEntity;
+import online.gettrained.backend.domain.AuditableBaseEntity;
 import online.gettrained.backend.domain.user.User;
 
 /**
@@ -26,10 +26,10 @@ import online.gettrained.backend.domain.user.User;
             columnList = "REF_TRAINER_ID, REF_USER_ID",
             unique = true)
     })
-public class TrainerConnections extends BaseEntity {
+public class TrainerConnections extends AuditableBaseEntity {
 
   public enum Status {
-    PENDING, CONNECTED
+    PENDING_ON_TRAINEE, CONNECTED
   }
 
   @Enumerated(STRING)
@@ -45,4 +45,28 @@ public class TrainerConnections extends BaseEntity {
   @ManyToOne(fetch = LAZY)
   @JoinColumn(name = "REF_USER_ID", nullable = false)
   private User trainee;
+
+  public Status getStatus() {
+    return status;
+  }
+
+  public void setStatus(Status status) {
+    this.status = status;
+  }
+
+  public Trainer getTrainer() {
+    return trainer;
+  }
+
+  public void setTrainer(Trainer trainer) {
+    this.trainer = trainer;
+  }
+
+  public User getTrainee() {
+    return trainee;
+  }
+
+  public void setTrainee(User trainee) {
+    this.trainee = trainee;
+  }
 }

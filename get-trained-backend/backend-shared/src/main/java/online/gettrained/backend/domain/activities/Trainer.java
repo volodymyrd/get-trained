@@ -14,7 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import online.gettrained.backend.domain.BaseEntity;
+import online.gettrained.backend.domain.AuditableBaseEntity;
 import online.gettrained.backend.domain.user.User;
 
 /**
@@ -31,7 +31,7 @@ import online.gettrained.backend.domain.user.User;
             columnList = "REF_ACTIVITY_ID, REF_USER_ID",
             unique = true)
     })
-public class Trainer extends BaseEntity {
+public class Trainer extends AuditableBaseEntity {
 
   public enum Status {
     NEW, PENDING, VERIFIED

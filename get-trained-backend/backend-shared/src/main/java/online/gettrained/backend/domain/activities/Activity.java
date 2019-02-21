@@ -11,7 +11,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.Index;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import online.gettrained.backend.domain.BaseEntity;
+import online.gettrained.backend.domain.AuditableBaseEntity;
 
 /**
  * List of sport activities.
@@ -19,7 +19,7 @@ import online.gettrained.backend.domain.BaseEntity;
 @Entity
 @Table(name = "ACT_ACTIVITIES",
     indexes = {@Index(name = "I_ACT_ACTIVITIES_STATUS", columnList = "STATUS")})
-public class Activity extends BaseEntity {
+public class Activity extends AuditableBaseEntity {
 
   public enum Status {
     ACTIVE, DISABLE

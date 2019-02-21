@@ -1,5 +1,6 @@
 package online.gettrained.backend.repositories.activities;
 
+import java.util.Optional;
 import online.gettrained.backend.domain.activities.TrainerConnections;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -8,4 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface TrainerConnectionsRepository extends JpaRepository<TrainerConnections, Long> {
 
+  Optional<TrainerConnections> findByTrainer_IdAndTrainee_Id(long trainerId, long traineeId);
 }

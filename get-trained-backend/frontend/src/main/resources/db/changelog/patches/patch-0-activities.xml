@@ -17,6 +17,7 @@
       <column name="STATUS">ACTIVE</column>
       <column name="DEFAULT_NAME">Fitness</column>
       <column name="LOCAL_KEY_NAME">activity.name.fitness</column>
+      <column name="DELETED" valueBoolean="false"/>
     </insert>
 
     <insert tableName="LOCAL_LOCALIZATION">
