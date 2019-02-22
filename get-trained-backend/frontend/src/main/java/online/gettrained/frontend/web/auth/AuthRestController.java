@@ -10,7 +10,7 @@ import static online.gettrained.backend.messages.TextCode.AUTH_SUCCESS_SIGNED_IN
 import static online.gettrained.backend.messages.TextCode.AUTH_SUCCESS_SIGNED_OUT;
 import static online.gettrained.backend.messages.TextCode.AUTH_SUCCESS_SIGNED_UP;
 import static online.gettrained.frontend.web.Utils.getLanguage;
-import static online.gettrained.frontend.web.dto.TextInfoDto.Type.I;
+import static online.gettrained.backend.dto.TextInfoDto.Type.I;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -38,7 +38,7 @@ import online.gettrained.backend.utils.SecurityUtils;
 import online.gettrained.frontend.services.HelperService;
 import online.gettrained.frontend.web.Utils;
 import online.gettrained.frontend.web.auth.dto.UserRegistrationDto;
-import online.gettrained.frontend.web.dto.TextInfoDto;
+import online.gettrained.backend.dto.TextInfoDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -110,6 +110,7 @@ public class AuthRestController {
             new Date(), email
         );
     if (number > 0) {
+
       LOG.info("The request is already processing");
       return ResponseEntity.ok(new TextInfoDto(
           I,

@@ -3,7 +3,7 @@ package online.gettrained.backend.messages;
 /**
  * Text codes for localization text or message.
  */
-public enum TextCode {
+public enum TextCode implements MessageCode {
   UNDEFINE("be_text.undefined"),
 
   COMMON_MESSAGE_NOTHING_TO_DELETE("be_text.common_message_nothing_to_delete"),
@@ -50,7 +50,7 @@ public enum TextCode {
   private final String text;
 
   /**
-   * @param text
+   *
    */
   TextCode(final String text) {
     this.text = text;

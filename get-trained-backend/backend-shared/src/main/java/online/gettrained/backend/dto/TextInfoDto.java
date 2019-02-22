@@ -1,13 +1,13 @@
-package online.gettrained.frontend.web.dto;
-
-import online.gettrained.backend.messages.TextCode;
+package online.gettrained.backend.dto;
 
 import java.io.Serializable;
+import online.gettrained.backend.messages.MessageCode;
+import online.gettrained.backend.messages.TextCode;
 
 /**
  * Text info dto.
  */
-public final class TextInfoDto implements Serializable {
+public class TextInfoDto implements Serializable {
 
   private static final long serialVersionUID = 6675667389765791924L;
 
@@ -23,20 +23,22 @@ public final class TextInfoDto implements Serializable {
     /**
      * Warning.
      */
-    W
+    W,
+    /**
+     * Error.
+     */
+    E,
   }
 
   private final Type type;
-  private final TextCode code;
+  private final MessageCode code;
   private final String message;
 
   public TextInfoDto(TextCode code, String message) {
-    this.type = Type.S;
-    this.code = code;
-    this.message = message;
+    this(Type.S, code, message);
   }
 
-  public TextInfoDto(Type type, TextCode code, String message) {
+  public TextInfoDto(Type type, MessageCode code, String message) {
     this.type = type;
     this.code = code;
     this.message = message;
@@ -46,7 +48,7 @@ public final class TextInfoDto implements Serializable {
     return type;
   }
 
-  public TextCode getCode() {
+  public MessageCode getCode() {
     return code;
   }
 

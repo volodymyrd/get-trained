@@ -1,11 +1,11 @@
 package online.gettrained.backend.exceptions;
 
-import java.io.Serializable;
+import online.gettrained.backend.dto.TextInfoDto;
 
 /**
  * Error info dto.
  */
-public final class ErrorInfoDto implements Serializable {
+public final class ErrorInfoDto extends TextInfoDto {
 
   private static final long serialVersionUID = 6675667389765791924L;
 
@@ -13,6 +13,7 @@ public final class ErrorInfoDto implements Serializable {
   private final String message;
 
   public ErrorInfoDto(ErrorCode code, String message) {
+    super(Type.E, code, message);
     this.code = code;
     this.message = message;
   }

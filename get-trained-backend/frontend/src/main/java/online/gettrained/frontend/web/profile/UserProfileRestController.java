@@ -29,7 +29,7 @@ import online.gettrained.frontend.validators.email.EmailValidator;
 import online.gettrained.frontend.validators.password.PasswordValidator;
 import online.gettrained.frontend.validators.username.UsernameValidator;
 import online.gettrained.frontend.web.Utils;
-import online.gettrained.frontend.web.dto.TextInfoDto;
+import online.gettrained.backend.dto.TextInfoDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;

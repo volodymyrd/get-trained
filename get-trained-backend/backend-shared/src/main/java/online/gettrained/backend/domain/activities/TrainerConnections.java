@@ -11,7 +11,7 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import online.gettrained.backend.domain.AuditableBaseEntity;
+import online.gettrained.backend.domain.AuditableNonDeletableBaseEntity;
 import online.gettrained.backend.domain.user.User;
 
 /**
@@ -26,7 +26,7 @@ import online.gettrained.backend.domain.user.User;
             columnList = "REF_TRAINER_ID, REF_USER_ID",
             unique = true)
     })
-public class TrainerConnections extends AuditableBaseEntity {
+public class TrainerConnections extends AuditableNonDeletableBaseEntity {
 
   public enum Status {
     PENDING_ON_TRAINEE, CONNECTED

@@ -23,7 +23,7 @@ import online.gettrained.backend.services.auth.AuthService;
 import online.gettrained.backend.services.localization.LocalizationService;
 import online.gettrained.backend.utils.FileUtils;
 import online.gettrained.frontend.web.Utils;
-import online.gettrained.frontend.web.dto.TextInfoDto;
+import online.gettrained.backend.dto.TextInfoDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;

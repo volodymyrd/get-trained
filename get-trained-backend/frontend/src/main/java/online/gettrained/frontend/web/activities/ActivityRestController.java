@@ -5,6 +5,7 @@ import static online.gettrained.backend.messages.TextCode.ACTIVITY_YOU_BECAME_A_
 
 import online.gettrained.backend.constraints.frontend.activities.FrontendActivityConstraint;
 import online.gettrained.backend.domain.user.User;
+import online.gettrained.backend.dto.TextInfoDto;
 import online.gettrained.backend.exceptions.ApplicationException;
 import online.gettrained.backend.exceptions.ErrorInfoDto;
 import online.gettrained.backend.exceptions.NotFoundException;
@@ -12,7 +13,6 @@ import online.gettrained.backend.services.activities.ActivityService;
 import online.gettrained.backend.services.auth.AuthService;
 import online.gettrained.backend.services.localization.LocalizationService;
 import online.gettrained.frontend.web.Utils;
-import online.gettrained.frontend.web.dto.TextInfoDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -119,7 +119,7 @@ public class ActivityRestController {
               "Something went wrong!")));
     } catch (ApplicationException e) {
       LOG.error("Error adding a new trainer: {}", e.getMessage());
-      return ResponseEntity.badRequest().body(e.getErrorInfo());
+      return ResponseEntity.badRequest().body(e.getInfo());
     } catch (Exception e) {
       LOG.error("Error adding a new trainer", e);
       return ResponseEntity.badRequest().body(new ErrorInfoDto(
@@ -160,7 +160,7 @@ public class ActivityRestController {
               "Something went wrong!")));
     } catch (ApplicationException e) {
       LOG.error("Error adding a new trainer: {}", e.getMessage());
-      return ResponseEntity.badRequest().body(e.getErrorInfo());
+      return ResponseEntity.badRequest().body(e.getInfo());
     } catch (Exception e) {
       LOG.error("Error adding a new trainer", e);
       return ResponseEntity.badRequest().body(new ErrorInfoDto(
@@ -203,7 +203,7 @@ public class ActivityRestController {
               "Something went wrong!")));
     } catch (ApplicationException e) {
       LOG.error("Error adding a new trainer: {}", e.getMessage());
-      return ResponseEntity.badRequest().body(e.getErrorInfo());
+      return ResponseEntity.badRequest().body(e.getInfo());
     } catch (Exception e) {
       LOG.error("Error adding a new trainer", e);
       return ResponseEntity.badRequest().body(new ErrorInfoDto(

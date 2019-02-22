@@ -1,9 +1,11 @@
 package online.gettrained.backend.exceptions;
 
+import online.gettrained.backend.messages.MessageCode;
+
 /**
  * Error codes for localization errors
  */
-public enum ErrorCode {
+public enum ErrorCode implements MessageCode {
   NO_ERRORS("no_errors"),
 
   SOMETHING_WENT_WRONG("be_error.something_went_wrong"),

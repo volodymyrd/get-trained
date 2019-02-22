@@ -19,7 +19,8 @@ public interface ActivityService {
 
   void addTrainer(User user, long activityId) throws NotFoundException, ApplicationException;
 
-  void requestTrainee(User user, long activityId, String traineeEmail) throws NotFoundException;
+  void requestTrainee(User user, long activityId, String traineeEmail)
+      throws NotFoundException, ApplicationException;
 
   Page<Trainer> findAllTrainers(User user, FrontendActivityConstraint constraint);
 

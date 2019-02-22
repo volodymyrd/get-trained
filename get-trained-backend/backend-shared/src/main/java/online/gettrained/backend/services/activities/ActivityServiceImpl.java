@@ -15,6 +15,8 @@ import online.gettrained.backend.domain.activities.Trainer.Visibility;
 import online.gettrained.backend.domain.activities.TrainerConnections;
 import online.gettrained.backend.domain.user.User;
 import online.gettrained.backend.dto.Page;
+import online.gettrained.backend.dto.TextInfoDto;
+import online.gettrained.backend.dto.TextInfoDto.Type;
 import online.gettrained.backend.exceptions.ApplicationException;
 import online.gettrained.backend.exceptions.ErrorInfoDto;
 import online.gettrained.backend.exceptions.NotFoundException;
@@ -113,7 +115,7 @@ public class ActivityServiceImpl implements ActivityService {
   @Override
   @Transactional
   public void requestTrainee(User user, long activityId, String traineeEmail)
-      throws NotFoundException {
+      throws NotFoundException, ApplicationException {
     Activity activity = activityRepository.findById(activityId)
         .orElseThrow(() -> new NotFoundException("Not found an activity with id: " + activityId));
 
@@ -143,9 +145,21 @@ public class ActivityServiceImpl implements ActivityService {
         connections.setDeleted(true);
         connections.setUserLastChanged(user);
       } else if (connections.getStatus() == CONNECTED) {
-
+        throw new ApplicationException(new TextInfoDto(
+            Type.I,
+            ACTIVITY_YOU_ARE_ALREADY_TRAINER,
+            localizationService.getLocalTextByKeyAndLangOrUseDefault(
+                ACTIVITY_YOU_ARE_ALREADY_TRAINER.toString(),
+                user.getLoginLang(),
+                "You are already a trainer")));
       } else {
-
+        throw new ApplicationException(new TextInfoDto(
+            Type.I,
+            ACTIVITY_YOU_ARE_ALREADY_TRAINER,
+            localizationService.getLocalTextByKeyAndLangOrUseDefault(
+                ACTIVITY_YOU_ARE_ALREADY_TRAINER.toString(),
+                user.getLoginLang(),
+                "You are already a trainer")));
       }
     }
 
