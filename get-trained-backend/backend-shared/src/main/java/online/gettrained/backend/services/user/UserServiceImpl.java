@@ -392,4 +392,13 @@ public class UserServiceImpl implements UserService {
     saveUser(lockedUser);
     LOG.info("User with id:{} unlocked successfully", lockedUser.getId());
   }
+
+  @Override
+  public boolean hasRoles(long userId, List<String> roleNames) {
+    requireNonNull(roleNames, "Parameter 'roleNames' must be set");
+    if (!roleNames.isEmpty()) {
+      return userRepository.existsByIdAndRoles_NameIn(userId, roleNames);
+    }
+    return false;
+  }
 }

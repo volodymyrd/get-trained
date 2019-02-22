@@ -1,12 +1,19 @@
 package online.gettrained.backend.services.activities;
 
+import static online.gettrained.backend.constraints.SelectOption.Option.EQ;
+import static online.gettrained.backend.constraints.SelectOption.Sign.I;
 import static online.gettrained.backend.domain.activities.TrainerConnections.Status.CONNECTED;
 import static online.gettrained.backend.domain.activities.TrainerConnections.Status.PENDING_ON_TRAINEE;
+import static online.gettrained.backend.exceptions.ErrorCode.ACTIVITY_CONNECTION_REQUEST_EXISTS;
+import static online.gettrained.backend.exceptions.ErrorCode.ACTIVITY_YOU_ARE_ALREADY_CONNECTED;
 import static online.gettrained.backend.exceptions.ErrorCode.ACTIVITY_YOU_ARE_ALREADY_TRAINER;
 import static online.gettrained.backend.repositories.user.RoleRepository.TRAINER_ROLE;
+import static online.gettrained.backend.utils.CommonUtils.immutableListOf;
 import static online.gettrained.backend.utils.CommonUtils.immutableSetOf;
+import static org.springframework.data.domain.Sort.Direction.ASC;
 
 import java.util.Optional;
+import online.gettrained.backend.constraints.LongSelectOption;
 import online.gettrained.backend.constraints.frontend.activities.FrontendActivityConstraint;
 import online.gettrained.backend.domain.activities.Activity;
 import online.gettrained.backend.domain.activities.Trainer;
@@ -22,6 +29,7 @@ import online.gettrained.backend.exceptions.ErrorInfoDto;
 import online.gettrained.backend.exceptions.NotFoundException;
 import online.gettrained.backend.repositories.activities.ActivityDAO;
 import online.gettrained.backend.repositories.activities.ActivityRepository;
+import online.gettrained.backend.repositories.activities.TrainerConnectionsDAO;
 import online.gettrained.backend.repositories.activities.TrainerConnectionsRepository;
 import online.gettrained.backend.repositories.activities.TrainerDAO;
 import online.gettrained.backend.repositories.activities.TrainerRepository;
@@ -29,6 +37,7 @@ import online.gettrained.backend.services.localization.LocalizationService;
 import online.gettrained.backend.services.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,8 +49,6 @@ public class ActivityServiceImpl implements ActivityService {
 
   private static final Logger LOG = LoggerFactory.getLogger(ActivityServiceImpl.class);
 
-  private static final long FITNESS_ACTIVITY_ID = -1;
-
   private final LocalizationService localizationService;
   private final UserService userService;
   private final ActivityRepository activityRepository;
@@ -49,6 +56,7 @@ public class ActivityServiceImpl implements ActivityService {
   private final TrainerConnectionsRepository trainerConnectionsRepository;
   private final ActivityDAO activityDAO;
   private final TrainerDAO trainerDAO;
+  private final TrainerConnectionsDAO connectionsDAO;
 
   public ActivityServiceImpl(
       LocalizationService localizationService,
@@ -57,7 +65,8 @@ public class ActivityServiceImpl implements ActivityService {
       TrainerRepository trainerRepository,
       TrainerConnectionsRepository trainerConnectionsRepository,
       ActivityDAO activityDAO,
-      TrainerDAO trainerDAO) {
+      TrainerDAO trainerDAO,
+      TrainerConnectionsDAO connectionsDAO) {
     this.localizationService = localizationService;
     this.userService = userService;
     this.activityRepository = activityRepository;
@@ -65,6 +74,7 @@ public class ActivityServiceImpl implements ActivityService {
     this.trainerConnectionsRepository = trainerConnectionsRepository;
     this.activityDAO = activityDAO;
     this.trainerDAO = trainerDAO;
+    this.connectionsDAO = connectionsDAO;
   }
 
   @Override
@@ -113,10 +123,17 @@ public class ActivityServiceImpl implements ActivityService {
   }
 
   @Override
+  public void requestFitnessTrainee(User user, String traineeEmail)
+      throws NotFoundException, ApplicationException {
+    requestTrainee(user, FITNESS_ACTIVITY_ID, traineeEmail);
+  }
+
+  @Override
   @Transactional
   public void requestTrainee(User user, long activityId, String traineeEmail)
       throws NotFoundException, ApplicationException {
-    Activity activity = activityRepository.findById(activityId)
+
+    activityRepository.findById(activityId)
         .orElseThrow(() -> new NotFoundException("Not found an activity with id: " + activityId));
 
     Trainer trainer = trainerRepository
@@ -147,19 +164,19 @@ public class ActivityServiceImpl implements ActivityService {
       } else if (connections.getStatus() == CONNECTED) {
         throw new ApplicationException(new TextInfoDto(
             Type.I,
-            ACTIVITY_YOU_ARE_ALREADY_TRAINER,
+            ACTIVITY_YOU_ARE_ALREADY_CONNECTED,
             localizationService.getLocalTextByKeyAndLangOrUseDefault(
-                ACTIVITY_YOU_ARE_ALREADY_TRAINER.toString(),
+                ACTIVITY_YOU_ARE_ALREADY_CONNECTED.toString(),
                 user.getLoginLang(),
-                "You are already a trainer")));
+                "You are already connected")));
       } else {
         throw new ApplicationException(new TextInfoDto(
             Type.I,
-            ACTIVITY_YOU_ARE_ALREADY_TRAINER,
+            ACTIVITY_CONNECTION_REQUEST_EXISTS,
             localizationService.getLocalTextByKeyAndLangOrUseDefault(
-                ACTIVITY_YOU_ARE_ALREADY_TRAINER.toString(),
+                ACTIVITY_CONNECTION_REQUEST_EXISTS.toString(),
                 user.getLoginLang(),
-                "You are already a trainer")));
+                "Connection request already exists")));
       }
     }
 
@@ -171,6 +188,26 @@ public class ActivityServiceImpl implements ActivityService {
   @Override
   public Page<Trainer> findAllTrainers(User user, FrontendActivityConstraint constraint) {
     return trainerDAO.findAll(constraint);
+  }
+
+  @Override
+  public Page<TrainerConnections> findMyConnections(User user, int offset, int pageSize) {
+    boolean isTrainer = userService.hasRoles(user.getId(), immutableListOf(TRAINER_ROLE));
+    FrontendActivityConstraint constraint = new FrontendActivityConstraint();
+    if (isTrainer) {
+      constraint.setPageable(PageRequest.of(offset, pageSize, ASC, "traineeFullName"));
+      constraint.setSoUserTrainerIds(immutableSetOf(new LongSelectOption(I, EQ, user.getId())));
+    } else {
+      constraint.setPageable(PageRequest.of(offset, pageSize, ASC, "trainerFullName"));
+      constraint.setSoUserTraineeIds(immutableSetOf(new LongSelectOption(I, EQ, user.getId())));
+    }
+    return findAllConnections(user, constraint);
+  }
+
+  @Override
+  public Page<TrainerConnections> findAllConnections(
+      User user, FrontendActivityConstraint constraint) {
+    return connectionsDAO.findAll(constraint);
   }
 
   @Override

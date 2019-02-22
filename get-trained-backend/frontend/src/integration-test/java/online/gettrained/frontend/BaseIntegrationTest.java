@@ -58,6 +58,11 @@ import org.springframework.web.multipart.MultipartFile;
 @DirtiesContext(classMode = AFTER_CLASS)
 public class BaseIntegrationTest {
 
+  protected static final long TRAINER_USER_ID = -2;
+  protected static final long TRAINEE_USER_ID = -3;
+
+  protected String TRAINEE_EMAIL = "trainee@get-trained.online";
+
   protected static final int HTTP_OK = 200;
   protected static final int HTTP_BAD_REQUEST = 400;
   protected static final int HTTP_UNAUTHORIZED = 401;
@@ -86,7 +91,7 @@ public class BaseIntegrationTest {
   protected User user;
 
   protected long getUserId() {
-    return -2L;
+    return TRAINER_USER_ID;
   }
 
   protected void setUser(long id) {

@@ -40,10 +40,12 @@
     <appender-ref ref="ROLLIN"/>
   </logger>
   <!--<logger name="org.hibernate.type" level="TRACE"/>-->
-  <logger name="online.gettrained.backend" level="debug">
+  <logger name="online.gettrained.backend" level="debug" additivity="false">
+    <appender-ref ref="CONSOLE"/>
     <appender-ref ref="ROLLIN"/>
   </logger>
-  <logger name="online.gettrained.frontend" level="debug">
+  <logger name="online.gettrained.frontend" level="debug" additivity="false">
+    <appender-ref ref="CONSOLE"/>
     <appender-ref ref="ROLLIN"/>
   </logger>
 

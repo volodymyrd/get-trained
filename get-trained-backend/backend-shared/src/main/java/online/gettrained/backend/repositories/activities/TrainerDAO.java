@@ -41,7 +41,7 @@ public class TrainerDAO extends BaseRepository {
     Map<String, Object> parameters = new HashMap<>();
 
     ParametrizedSQLConstraint tempSql = SelectOption
-        .toParametrizedSQLConstraint(constraint.getSoActivityStatuses(), "t.STATUS");
+        .toParametrizedSQLConstraint(constraint.getSoTrainerStatuses(), "t.STATUS");
     if (!tempSql.isEmpty()) {
       whereClause.append(buildSQLClause(whereClause, tempSql.getSql()));
       parameters.putAll(tempSql.getParameters());
@@ -81,6 +81,7 @@ public class TrainerDAO extends BaseRepository {
     parameters.forEach(countQuery::setParameter);
 
     Page<Trainer> page = new Page<>();
+    page.setCount(((Number) countQuery.getSingleResult()).longValue());
     page.setData(((List<Object[]>) dataQuery
         .setFirstResult((int) constraint.getPageable().getOffset())
         .setMaxResults(constraint.getPageable().getPageSize())

@@ -88,4 +88,6 @@ public interface UserService {
       throws NoAuthorityException, NotFoundException;
 
   void unlockUserByEmail(User user, String email) throws NoAuthorityException, NotFoundException;
+
+  boolean hasRoles(long userId, List<String> roleNames);
 }

@@ -25,7 +25,9 @@ public enum ErrorCode implements MessageCode {
 
   USER_PROFILE_AVATAR_EXCEED_MAX_SIZE("be_error.user_profile_avatar_exceed_max_size"),
 
-  ACTIVITY_YOU_ARE_ALREADY_TRAINER("be_error.activity_you_are_already_trainer");
+  ACTIVITY_YOU_ARE_ALREADY_TRAINER("be_error.activity_you_are_already_trainer"),
+  ACTIVITY_YOU_ARE_ALREADY_CONNECTED("be_error.activity_you_are_already_connected"),
+  ACTIVITY_CONNECTION_REQUEST_EXISTS("be_error.activity_connection_request_exists");
 
   private final String text;
 

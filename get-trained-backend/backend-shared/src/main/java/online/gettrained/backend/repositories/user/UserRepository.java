@@ -110,4 +110,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
   void lockUser(@Param("id") Long id);
 
   Optional<User> findByIdAndRoles_NameIn(Long id, List<String> roleNames);
+
+  boolean existsByIdAndRoles_NameIn(Long id, List<String> roleNames);
 }

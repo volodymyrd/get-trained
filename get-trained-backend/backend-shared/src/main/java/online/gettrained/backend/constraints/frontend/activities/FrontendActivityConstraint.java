@@ -9,6 +9,7 @@ import online.gettrained.backend.domain.activities.Activity;
 import online.gettrained.backend.domain.activities.Activity.Status;
 import online.gettrained.backend.domain.activities.Trainer;
 import online.gettrained.backend.domain.activities.Trainer.Visibility;
+import online.gettrained.backend.domain.activities.TrainerConnections;
 
 /**
  * Constraints for activities.
@@ -17,6 +18,7 @@ public final class FrontendActivityConstraint extends FrontendBasicConstraint {
 
   private Set<SelectOption<Activity.Status>> soActivityStatuses;
   private Set<SelectOption<Trainer.Status>> soTrainerStatuses;
+  private Set<SelectOption<TrainerConnections.Status>> soConnectionsStatuses;
   private Set<SelectOption<Trainer.Visibility>> soTrainerVisibilities;
   private Set<LongSelectOption> soActivityIds;
   private Set<StringSelectOption> soActivityNames;
@@ -40,6 +42,15 @@ public final class FrontendActivityConstraint extends FrontendBasicConstraint {
   public void setSoTrainerStatuses(
       Set<SelectOption<Trainer.Status>> soTrainerStatuses) {
     this.soTrainerStatuses = soTrainerStatuses;
+  }
+
+  public Set<SelectOption<TrainerConnections.Status>> getSoConnectionsStatuses() {
+    return soConnectionsStatuses;
+  }
+
+  public void setSoConnectionsStatuses(
+      Set<SelectOption<TrainerConnections.Status>> soConnectionsStatuses) {
+    this.soConnectionsStatuses = soConnectionsStatuses;
   }
 
   public Set<SelectOption<Visibility>> getSoTrainerVisibilities() {
@@ -101,6 +112,7 @@ public final class FrontendActivityConstraint extends FrontendBasicConstraint {
     return "FrontendActivityConstraint{" +
         "soActivityStatuses=" + soActivityStatuses +
         ", soTrainerStatuses=" + soTrainerStatuses +
+        ", soConnectionsStatuses=" + soConnectionsStatuses +
         ", soTrainerVisibilities=" + soTrainerVisibilities +
         ", soActivityIds=" + soActivityIds +
         ", soActivityNames=" + soActivityNames +

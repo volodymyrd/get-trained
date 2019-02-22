@@ -42,6 +42,9 @@ public enum TextCode implements MessageCode {
 
   ACTIVITY_YOU_BECAME_A_TRAINER("be_text.activity_you_became_a_trainer"),
 
+  ACTIVITY_SUCCESS_SENT_TRAINEE_CONNECTION_REQUEST(
+      "be_text.activity_success_sent_trainee_connection_request"),
+
   NOTIF_MESSAGE_TEMPLATE_DELETED_SUCCESSFULLY(
       "be_text.notif_message_template_deleted_successfully");
 

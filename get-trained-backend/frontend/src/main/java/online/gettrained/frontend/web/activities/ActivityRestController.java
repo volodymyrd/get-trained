@@ -1,6 +1,7 @@
 package online.gettrained.frontend.web.activities;
 
 import static online.gettrained.backend.exceptions.ErrorCode.SOMETHING_WENT_WRONG;
+import static online.gettrained.backend.messages.TextCode.ACTIVITY_SUCCESS_SENT_TRAINEE_CONNECTION_REQUEST;
 import static online.gettrained.backend.messages.TextCode.ACTIVITY_YOU_BECAME_A_TRAINER;
 
 import online.gettrained.backend.constraints.frontend.activities.FrontendActivityConstraint;
@@ -142,13 +143,13 @@ public class ActivityRestController {
     User user = authService.getCurrentUserOrException();
 
     try {
-      activityService.addFitnessTrainer(user);
+      activityService.requestFitnessTrainee(user, email);
       return ResponseEntity
-          .ok(new TextInfoDto(ACTIVITY_YOU_BECAME_A_TRAINER,
+          .ok(new TextInfoDto(ACTIVITY_SUCCESS_SENT_TRAINEE_CONNECTION_REQUEST,
               localizationService.getLocalTextByKeyAndLangOrUseDefault(
-                  ACTIVITY_YOU_BECAME_A_TRAINER.toString(),
+                  ACTIVITY_SUCCESS_SENT_TRAINEE_CONNECTION_REQUEST.toString(),
                   Utils.getLanguage(user),
-                  "You are a trainer now."
+                  "Request sent to trainee successfully"
               )));
     } catch (NotFoundException e) {
       LOG.error("Not found exception: {}", e.getMessage());
@@ -159,10 +160,16 @@ public class ActivityRestController {
               Utils.getLanguage(user),
               "Something went wrong!")));
     } catch (ApplicationException e) {
-      LOG.error("Error adding a new trainer: {}", e.getMessage());
-      return ResponseEntity.badRequest().body(e.getInfo());
+      LOG.error("Error creating trainee request: {}", e.getMessage());
+      switch (e.getInfo().getType()) {
+        case I:
+        case W:
+          return ResponseEntity.ok(e.getInfo());
+        default:
+          return ResponseEntity.badRequest().body(e.getInfo());
+      }
     } catch (Exception e) {
-      LOG.error("Error adding a new trainer", e);
+      LOG.error("Error creating trainee request", e);
       return ResponseEntity.badRequest().body(new ErrorInfoDto(
           SOMETHING_WENT_WRONG,
           localizationService.getLocalTextByKeyAndLangOrUseDefault(
