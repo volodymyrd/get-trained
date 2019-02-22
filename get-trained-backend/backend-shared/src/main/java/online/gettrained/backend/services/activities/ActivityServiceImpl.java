@@ -156,6 +156,7 @@ public class ActivityServiceImpl implements ActivityService {
       connections = new TrainerConnections();
       connections.setTrainee(traineeUser);
       connections.setTrainer(trainer);
+      connections.setUserTrainer(user);
     } else {
       connections = connectionsOptional.get();
       if (connections.isDeleted()) {
