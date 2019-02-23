@@ -47,19 +47,19 @@ public class ActivityRestController {
 
   @PostMapping("/getMyConnections")
   public ResponseEntity<?> getMyConnections(
-      @RequestParam("offset") int offset, @RequestParam("pageSite") int pageSite) {
+      @RequestParam("offset") int offset, @RequestParam("pageSize") int pageSize) {
 
     LOG.info("Calling method 'findMyConnections' of ActivityRestController");
 
     if (LOG.isDebugEnabled()) {
       LOG.debug("Calling method 'findMyConnections' of ActivityRestController "
-          + "with offset:{}, pageSite:{}", offset, pageSite);
+          + "with offset:{}, pageSite:{}", offset, pageSize);
     }
 
     User user = authService.getCurrentUserOrException();
 
     try {
-      return ResponseEntity.ok(activityService.findMyConnections(user, offset, pageSite));
+      return ResponseEntity.ok(activityService.findMyConnections(user, offset, pageSize));
     } catch (Exception e) {
       LOG.error("Error getting my connections", e);
       return ResponseEntity.badRequest().body(new ErrorInfoDto(
