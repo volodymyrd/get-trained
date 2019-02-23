@@ -108,9 +108,9 @@ public class TrainerConnectionsDAO extends BaseRepository {
             connections.setTrainerLogoUrl(blobDataService.getFileUrl(((Number) r[4]).intValue()));
           }
           connections.setTraineeUserId(((Number) r[5]).longValue());
-          connections.setTrainerFullName((String) r[6]);
+          connections.setTraineeFullName((String) r[6]);
           if (r[7] != null) {
-            connections.setTrainerLogoUrl(blobDataService.getFileUrl(((Number) r[7]).intValue()));
+            connections.setTraineeLogoUrl(blobDataService.getFileUrl(((Number) r[7]).intValue()));
           }
           return connections;
         }).collect(Collectors.toList()));

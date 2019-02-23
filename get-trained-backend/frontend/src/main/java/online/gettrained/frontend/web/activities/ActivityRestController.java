@@ -45,6 +45,32 @@ public class ActivityRestController {
     this.activityService = activityService;
   }
 
+  @PostMapping("/getMyConnections")
+  public ResponseEntity<?> getMyConnections(
+      @RequestParam("offset") int offset, @RequestParam("pageSite") int pageSite) {
+
+    LOG.info("Calling method 'findMyConnections' of ActivityRestController");
+
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("Calling method 'findMyConnections' of ActivityRestController "
+          + "with offset:{}, pageSite:{}", offset, pageSite);
+    }
+
+    User user = authService.getCurrentUserOrException();
+
+    try {
+      return ResponseEntity.ok(activityService.findMyConnections(user, offset, pageSite));
+    } catch (Exception e) {
+      LOG.error("Error getting my connections", e);
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(
+          SOMETHING_WENT_WRONG,
+          localizationService.getLocalTextByKeyAndLangOrUseDefault(
+              SOMETHING_WENT_WRONG.toString(),
+              Utils.getLanguage(user),
+              "Something went wrong!")));
+    }
+  }
+
   @PostMapping("/getAll")
   public ResponseEntity<?> getAllActivities(@RequestBody FrontendActivityConstraint constraint) {
 

@@ -20,6 +20,7 @@ import online.gettrained.backend.constraints.LongSelectOption;
 import online.gettrained.backend.constraints.SelectOption;
 import online.gettrained.backend.constraints.frontend.activities.FrontendActivityConstraint;
 import online.gettrained.backend.domain.activities.Trainer;
+import online.gettrained.backend.domain.activities.TrainerConnections;
 import online.gettrained.backend.dto.Page;
 import online.gettrained.backend.dto.TextInfoDto;
 import online.gettrained.backend.repositories.activities.TrainerConnectionsRepository;
@@ -76,7 +77,7 @@ public class ActivityRestControllerTest extends BaseIntegrationTest {
 
   @Test
   @SuppressWarnings("unchecked")
-  public void test_005_requestFitnessTrainee() {
+  public void test_005_getAllTrainers() {
     FrontendActivityConstraint constraint = new FrontendActivityConstraint();
     constraint.setPageable(PageRequest.of(0, 10, ASC, "fullName"));
     constraint.setSoTrainerVisibilities(immutableSetOf(new SelectOption<>(I, EQ, PUBLIC)));
@@ -90,8 +91,7 @@ public class ActivityRestControllerTest extends BaseIntegrationTest {
     assertEquals(HTTP_OK, response.getStatusCodeValue());
     Page<Trainer> trainerPage = (Page<Trainer>) response.getBody();
     assertNotNull(trainerPage);
-    assertEquals(1, trainerPage.getCount().intValue());
-    assertEquals(1, trainerPage.getData().size());
+    pageValidation(trainerPage);
     Trainer trainer = trainerPage.getData().get(0);
     assertEquals(1, trainer.getTrainerId().longValue());
     assertEquals(TRAINER_USER_ID, trainer.getTrainerUserId().longValue());
@@ -100,7 +100,6 @@ public class ActivityRestControllerTest extends BaseIntegrationTest {
 
   @Test
   public void test_010_requestFitnessTrainee() {
-
     // Act
     ResponseEntity<?> response = activityRestController.requestFitnessTrainee(TRAINEE_EMAIL);
 
@@ -110,5 +109,38 @@ public class ActivityRestControllerTest extends BaseIntegrationTest {
     assertNotNull(infoDto);
     assertEquals(ACTIVITY_SUCCESS_SENT_TRAINEE_CONNECTION_REQUEST, infoDto.getCode());
     trainerConnectionsRepository.findByTrainer_IdAndTrainee_Id(getUserId(), TRAINEE_USER_ID);
+  }
+
+  @Test
+  public void test_015_getMyConnectionsForTrainer() {
+    validateConnections(activityRestController.getMyConnections(0, 10));
+  }
+
+  @Test
+  public void test_015_getMyConnectionsForTrainee() {
+    setUser(TRAINEE_USER_ID);
+
+    validateConnections(activityRestController.getMyConnections(0, 10));
+  }
+
+  private static void pageValidation(Page<?> page) {
+    assertEquals(1, page.getCount().intValue());
+    assertEquals(1, page.getData().size());
+  }
+
+  @SuppressWarnings("unchecked")
+  private static void validateConnections(ResponseEntity<?> response) {
+    assertEquals(HTTP_OK, response.getStatusCodeValue());
+    Page<TrainerConnections> connections = (Page<TrainerConnections>) response.getBody();
+    assertNotNull(connections);
+    pageValidation(connections);
+    connections.getData().forEach(c -> {
+      assertNotNull(c.getConnectionId());
+      assertNotNull(c.getTrainerId());
+      assertNotNull(c.getTrainerUserId());
+      assertFalse(c.getTrainerFullName().isEmpty());
+      assertNotNull(c.getTraineeUserId());
+      assertFalse(c.getTraineeFullName().isEmpty());
+    });
   }
 }
