@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Container, Content} from "native-base";
 import connect from 'react-redux/es/connect/connect'
-import {setNavigationOptions} from "App/Modules/Dashboard/DashboardNavigator";
+import {setNavigationOptions} from "App/Modules/Dashboard/NavigationOptions";
 import {toHome} from "App/Utils/NavigationUtils";
 import {
   txtOldPassword,

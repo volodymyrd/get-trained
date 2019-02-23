@@ -2,10 +2,6 @@ import { wrapFileForUploading, dataUpload, postPlainWithCredentials } from 'App/
 
 const BASE_URL = 'fe/profile/user'
 
-const getLightProfile = () => {
-  return postPlainWithCredentials(`${BASE_URL}/getLight`)
-}
-
 const uploadAvatar = (image) => {
   return dataUpload(
     `${BASE_URL}/avatar/load`,
@@ -24,7 +20,6 @@ const deleteAvatar = () => {
 }
 
 export const ProfileService = {
-  getLightProfile,
   uploadAvatar,
   deleteAvatar,
 }

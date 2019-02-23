@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import connect from 'react-redux/es/connect/connect'
 import Settings from '../Components/Settings'
-import {setNavigationOptions} from "../../Dashboard/DashboardNavigator";
+import {setNavigationOptions} from "App/Modules/Dashboard/NavigationOptions";
 
 class SettingsScreen extends Component {
   static navigationOptions = ({navigation}) =>

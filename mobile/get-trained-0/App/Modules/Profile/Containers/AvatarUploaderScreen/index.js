@@ -7,7 +7,7 @@ import {
 } from "native-base";
 import ImagePicker from 'react-native-image-crop-picker';
 import connect from 'react-redux/es/connect/connect'
-import {setNavigationOptions} from "App/Modules/Dashboard/DashboardNavigator";
+import {setNavigationOptions} from "App/Modules/Dashboard/NavigationOptions";
 import {somethingWentWrong} from 'App/Utils/MetadataUtils'
 import Error from "App/Components/Error";
 import Loading from "App/Components/Loading";

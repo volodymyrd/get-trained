@@ -20,7 +20,7 @@ export function* fetchMetadata({ langCode }) {
 export function* fetchLightProfile() {
   yield put(ProfileActions.fetchLightProfileLoading())
 
-  const profile = yield call(ProfileService.getLightProfile)
+  const profile = yield call(MainService.getLightProfile)
 
   if (profile && profile.data) {
     yield put(ProfileActions.fetchLightProfileSuccess(profile.data))

@@ -1,0 +1,43 @@
+import { put, call } from 'redux-saga/effects'
+import { error, success } from 'App/Components/Notification'
+import { MainService } from 'App/Services/MainService'
+import { HomeService } from '../HomeService'
+import HomeActions from '../Stores/Actions'
+import { MODULE } from '../Metadata'
+
+export function* fetchMetadata({ langCode }) {
+  yield put(HomeActions.fetchMetadataLoading())
+
+  const metadata = yield call(MainService.fetchMetadata, langCode, MODULE)
+
+  if (metadata && metadata.data) {
+    yield put(HomeActions.fetchMetadataSuccess(metadata.data))
+  } else {
+    yield put(HomeActions.fetchMetadataFailure())
+  }
+}
+
+export function* fetchLightProfile() {
+  yield put(HomeActions.fetchLightProfileLoading())
+
+  const profile = yield call(MainService.getLightProfile)
+
+  if (profile && profile.data) {
+    yield put(HomeActions.fetchLightProfileSuccess(profile.data))
+  } else {
+    yield put(HomeActions.fetchLightProfileFailure())
+  }
+}
+
+export function* fetchConnections({ offset, pageSize, messages }) {
+  yield put(HomeActions.fetchConnectionsLoading())
+
+  const response = yield call(HomeService.getConnections, offset, pageSize)
+  console.log(response)
+  if (response && response.data) {
+    yield put(HomeActions.fetchConnectionsSuccess(response.data))
+  } else {
+    yield put(HomeActions.fetchConnectionsFailure())
+    yield call(error, messages[0])
+  }
+}

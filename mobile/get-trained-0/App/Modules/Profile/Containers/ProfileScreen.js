@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import connect from 'react-redux/es/connect/connect'
 import Profile from '../Components/Profile'
-import {setNavigationOptions} from "../../Dashboard/DashboardNavigator";
+import {setNavigationOptions} from "App/Modules/Dashboard/NavigationOptions";
 
 class ProfileScreen extends Component {
   static navigationOptions = ({navigation}) =>

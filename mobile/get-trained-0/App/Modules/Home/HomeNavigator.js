@@ -1,12 +1,12 @@
 import { createStackNavigator } from 'react-navigation'
-import SettingsScreen from './Containers/HomeScreen'
+import HomeScreen from './Containers/HomeScreen'
 
 const HomeNavigator = createStackNavigator(
   {
-    Settings: { screen: SettingsScreen },
+    Home: { screen: HomeScreen },
   },
   {
-    initialRouteName: 'Settings',
+    initialRouteName: 'Home',
   }
 )
 export default HomeNavigator
