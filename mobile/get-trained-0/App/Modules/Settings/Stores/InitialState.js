@@ -9,4 +9,8 @@ export const INITIAL_STATE = Map({
   failedRetrievingMetadata: false,
   fetchingChangePassword: false,
   passwordChanged: false,
+  fetchingIsTrainer: false,
+  isTrainer: false,
+  fetchingBecomeTrainer: false,
+  fetchingRemoveTrainer: false,
 })

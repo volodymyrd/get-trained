@@ -80,9 +80,11 @@ class ChangePasswordScreen extends Component {
 
 const mapStateToProps = (state) => ({
   langCode: state.main.get('langCode'),
+
   fetchingMetadata: state.settings.root.get('fetchingMetadata'),
   failedRetrievingMetadata: state.settings.root.get('failedRetrievingMetadata'),
   metadata: state.settings.root.get('metadata'),
+
   fetchingChangePassword: state.settings.root.get('fetchingChangePassword'),
   passwordChanged: state.settings.root.get('passwordChanged'),
 })

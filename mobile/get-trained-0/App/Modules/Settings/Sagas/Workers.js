@@ -1,8 +1,8 @@
 import { put, call } from 'redux-saga/effects'
 import { error, success } from 'App/Components/Notification'
 import { MainService } from 'App/Services/MainService'
-import SettingsActions from '../Stores/Actions'
 import { SettingsService } from '../SettingsService'
+import SettingsActions from '../Stores/Actions'
 import { MODULE } from '../Metadata'
 
 export function* fetchMetadata({ langCode }) {
@@ -27,7 +27,6 @@ export function* fetchChangePassword({ oldPassword, newPassword, repeatPassword,
     repeatPassword
   )
 
-  console.log(response)
   if (response && response.data) {
     if (response.ok === true) {
       yield put(SettingsActions.fetchChangePasswordSuccess())
@@ -39,5 +38,16 @@ export function* fetchChangePassword({ oldPassword, newPassword, repeatPassword,
   } else {
     yield put(SettingsActions.fetchChangePasswordFailure())
     yield call(error, messages[0])
+  }
+}
+
+export function* fetchIsTrainer() {
+  yield put(SettingsActions.fetchIsTrainerLoading())
+
+  const response = yield call(SettingsService.fetchIsTrainer)
+  if (response && response.data) {
+    yield put(SettingsActions.fetchIsTrainerSuccess(response.data.flag))
+  } else {
+    yield put(SettingsActions.fetchIsTrainerFailure())
   }
 }

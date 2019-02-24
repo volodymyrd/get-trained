@@ -16,6 +16,11 @@ const { Types, Creators } = createActions(
     fetchChangePasswordLoading: null,
     fetchChangePasswordSuccess: null,
     fetchChangePasswordFailure: null,
+
+    fetchIsTrainer: null,
+    fetchIsTrainerLoading: null,
+    fetchIsTrainerSuccess: ['isTrainer'],
+    fetchIsTrainerFailure: null,
   },
   { prefix: 'SETTINGS_' }
 )

@@ -44,6 +44,22 @@ export const fetchChangePasswordFailure = (state) =>
     passwordChanged: false,
   })
 
+export const fetchIsTrainerLoading = (state) =>
+  state.merge({
+    fetchingIsTrainer: true,
+  })
+
+export const fetchIsTrainerSuccess = (state, { isTrainer }) =>
+  state.merge({
+    fetchingIsTrainer: false,
+    isTrainer,
+  })
+
+export const fetchIsTrainerFailure = (state) =>
+  state.merge({
+    fetchingIsTrainer: false,
+  })
+
 /**
  * @see https://github.com/infinitered/reduxsauce#createreducer
  */
@@ -55,4 +71,8 @@ export const settings = createReducer(INITIAL_STATE, {
   [SettingsTypes.FETCH_CHANGE_PASSWORD_LOADING]: fetchChangePasswordLoading,
   [SettingsTypes.FETCH_CHANGE_PASSWORD_SUCCESS]: fetchChangePasswordSuccess,
   [SettingsTypes.FETCH_CHANGE_PASSWORD_FAILURE]: fetchChangePasswordFailure,
+
+  [SettingsTypes.FETCH_IS_TRAINER_LOADING]: fetchIsTrainerLoading,
+  [SettingsTypes.FETCH_IS_TRAINER_SUCCESS]: fetchIsTrainerSuccess,
+  [SettingsTypes.FETCH_IS_TRAINER_FAILURE]: fetchIsTrainerFailure,
 })

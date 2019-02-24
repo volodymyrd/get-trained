@@ -8,6 +8,11 @@ const changePassword = (password, newPassword, confirmPassword) => {
   })
 }
 
+const fetchIsTrainer = () => {
+  return postPlainWithCredentials(`fe/activity/fitness/isTrainer`)
+}
+
 export const SettingsService = {
   changePassword,
+  fetchIsTrainer,
 }
