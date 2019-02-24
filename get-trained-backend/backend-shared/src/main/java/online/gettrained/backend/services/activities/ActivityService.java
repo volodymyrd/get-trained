@@ -22,6 +22,10 @@ public interface ActivityService {
 
   void addTrainer(User user, long activityId) throws NotFoundException, ApplicationException;
 
+  void removeFitnessTrainer(User user) throws NotFoundException;
+
+  void removeTrainer(User user, long activityId) throws NotFoundException;
+
   void requestFitnessTrainee(User user, String traineeEmail)
       throws NotFoundException, ApplicationException;
 
@@ -33,6 +37,10 @@ public interface ActivityService {
   Page<TrainerConnections> findMyConnections(User user, int offset, int pageSize);
 
   Page<TrainerConnections> findAllConnections(User user, FrontendActivityConstraint constraint);
+
+  boolean isFitnessTrainer(User user) throws NotFoundException;
+
+  boolean isTrainer(User user, long activityId) throws NotFoundException;
 
   void requestTrainer(User user, long trainerId);
 

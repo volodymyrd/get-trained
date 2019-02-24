@@ -40,7 +40,9 @@ public enum TextCode implements MessageCode {
 
   USERS_USER_UNLOCKED_SUCCESSFULLY("be_text.users_user_unlocked_successfully"),
 
-  ACTIVITY_YOU_BECAME_A_TRAINER("be_text.activity_you_became_a_trainer"),
+  ACTIVITY_SUCCESS_TRAINER_ADDED("be_text.activity_success_trainer_added"),
+
+  ACTIVITY_SUCCESS_TRAINER_REMOVED("be_text.activity_success_trainer_removed"),
 
   ACTIVITY_SUCCESS_SENT_TRAINEE_CONNECTION_REQUEST(
       "be_text.activity_success_sent_trainee_connection_request"),

@@ -20,4 +20,11 @@ public interface TrainerRepository extends JpaRepository<Trainer, Long> {
       Set<Status> statuses,
       Set<Visibility> visibilities,
       boolean deleted);
+
+  Optional<Trainer> findByActivity_IdAndUser_Id(long activityId, long userId);
+
+  Optional<Trainer> findByActivity_IdAndUser_IdAndDeleted(
+      long activityId, long userId, boolean deleted);
+
+  boolean existsByUser_IdAndDeleted(long userId, boolean deleted);
 }

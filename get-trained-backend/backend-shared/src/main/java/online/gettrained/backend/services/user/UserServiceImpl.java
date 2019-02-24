@@ -205,6 +205,16 @@ public class UserServiceImpl implements UserService {
 
   @Override
   @Transactional
+  public User removeRole(User user, String roleName) throws NotFoundException {
+    requireNonNull(user, "Parameter 'user' must be set");
+    checkArgument(!isNullOrEmpty(roleName), "Parameter 'roleName' must be set");
+    user.getRoles().remove(roleRepository.findByName(roleName)
+        .orElseThrow(() -> new NotFoundException("Not found a role with name: " + roleName)));
+    return saveUser(user);
+  }
+
+  @Override
+  @Transactional
   public Profile saveProfile(User user, Profile profile) {
     profile = profileRepository.save(profile);
     if (user != null && user.getId() != null) {

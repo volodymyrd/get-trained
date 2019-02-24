@@ -12,6 +12,7 @@ import static online.gettrained.backend.utils.CommonUtils.immutableListOf;
 import static online.gettrained.backend.utils.CommonUtils.immutableSetOf;
 import static org.springframework.data.domain.Sort.Direction.ASC;
 
+import java.util.Date;
 import java.util.Optional;
 import online.gettrained.backend.constraints.LongSelectOption;
 import online.gettrained.backend.constraints.frontend.activities.FrontendActivityConstraint;
@@ -95,20 +96,28 @@ public class ActivityServiceImpl implements ActivityService {
     Activity activity = activityRepository.findById(activityId)
         .orElseThrow(() -> new NotFoundException("Not found an activity with id: " + activityId));
 
-    if (trainerRepository
-        .existsByActivity_IdAndUser_IdAndDeleted(activityId, user.getId(), false)) {
-      LOG.warn("The user with id:{} is already a trainer for the activity with id:{}",
-          user.getId(), activity.getId());
-      throw new ApplicationException(new ErrorInfoDto(
-          ACTIVITY_YOU_ARE_ALREADY_TRAINER,
-          localizationService.getLocalTextByKeyAndLangOrUseDefault(
-              ACTIVITY_YOU_ARE_ALREADY_TRAINER.toString(),
-              user.getLoginLang(),
-              "You are already a trainer")));
+    Optional<Trainer> trainerOptional = trainerRepository
+        .findByActivity_IdAndUser_Id(activityId, user.getId());
+
+    Trainer trainer;
+    if (trainerOptional.isPresent()) {
+      trainer = trainerOptional.get();
+      if (!trainer.isDeleted()) {
+        LOG.warn("The user with id:{} is already a trainer for the activity with id:{}",
+            user.getId(), activity.getId());
+        throw new ApplicationException(new ErrorInfoDto(
+            ACTIVITY_YOU_ARE_ALREADY_TRAINER,
+            localizationService.getLocalTextByKeyAndLangOrUseDefault(
+                ACTIVITY_YOU_ARE_ALREADY_TRAINER.toString(),
+                user.getLoginLang(),
+                "You are already a trainer")));
+      }
+    } else {
+      trainer = new Trainer();
+      trainer.setUser(user);
+      trainer.setActivity(activity);
     }
-    Trainer trainer = new Trainer();
-    trainer.setUser(user);
-    trainer.setActivity(activity);
+
     trainer.setStatus(Status.VERIFIED);
     trainer.setVisibility(Visibility.PUBLIC);
     trainer.setDeleted(false);
@@ -120,6 +129,40 @@ public class ActivityServiceImpl implements ActivityService {
     }
     LOG.info("New trainer created for the user with id:{} and the activity with id:{}",
         user.getId(), activity.getId());
+  }
+
+  @Override
+  public void removeFitnessTrainer(User user) throws NotFoundException {
+    removeTrainer(user, FITNESS_ACTIVITY_ID);
+  }
+
+  @Override
+  @Transactional
+  public void removeTrainer(User user, long activityId) throws NotFoundException {
+    activityRepository.findById(activityId)
+        .orElseThrow(() -> new NotFoundException("Not found an activity with id: " + activityId));
+
+    Optional<Trainer> trainerOptional =
+        trainerRepository.findByActivity_IdAndUser_IdAndDeleted(activityId, user.getId(), false);
+
+    if (trainerOptional.isPresent()) {
+      Trainer trainer = trainerOptional.get();
+      trainer.setUserLastChanged(user);
+      trainer.setDeleted(true);
+      trainer.setDateDeleted(new Date());
+      trainerRepository.save(trainer);
+      if (!trainerRepository.existsByUser_IdAndDeleted(user.getId(), false)) {
+        User userWithRoles = userService.findByIdWithRoles(user.getId())
+            .orElseThrow(() -> new NotFoundException("Not found a user with id: " + user.getId()));
+        if (userWithRoles.getRoles().stream().anyMatch(r -> r.getName().equals(TRAINER_ROLE))) {
+          userService.removeRole(userWithRoles, TRAINER_ROLE);
+        }
+      }
+      LOG.info("Trainer with id {} deleted successfully", trainer.getId());
+    } else {
+      LOG.warn("Not found a trainer for user with id:{} and activity with id:{}",
+          user.getId(), activityId);
+    }
   }
 
   @Override
@@ -209,6 +252,25 @@ public class ActivityServiceImpl implements ActivityService {
   public Page<TrainerConnections> findAllConnections(
       User user, FrontendActivityConstraint constraint) {
     return connectionsDAO.findAll(constraint);
+  }
+
+  @Override
+  public boolean isFitnessTrainer(User user) throws NotFoundException {
+    return isTrainer(user, FITNESS_ACTIVITY_ID);
+  }
+
+  @Override
+  public boolean isTrainer(User user, long activityId) throws NotFoundException {
+    activityRepository.findById(activityId)
+        .orElseThrow(() -> new NotFoundException("Not found an activity with id: " + activityId));
+
+    if (!userService.hasRoles(user.getId(), immutableListOf(TRAINER_ROLE))) {
+      LOG.warn("User with id {} doesn't have a role {}", user.getId(), TRAINER_ROLE);
+      return false;
+    }
+
+    return trainerRepository
+        .existsByActivity_IdAndUser_IdAndDeleted(activityId, user.getId(), false);
   }
 
   @Override

@@ -2,7 +2,8 @@ package online.gettrained.frontend.web.activities;
 
 import static online.gettrained.backend.exceptions.ErrorCode.SOMETHING_WENT_WRONG;
 import static online.gettrained.backend.messages.TextCode.ACTIVITY_SUCCESS_SENT_TRAINEE_CONNECTION_REQUEST;
-import static online.gettrained.backend.messages.TextCode.ACTIVITY_YOU_BECAME_A_TRAINER;
+import static online.gettrained.backend.messages.TextCode.ACTIVITY_SUCCESS_TRAINER_ADDED;
+import static online.gettrained.backend.messages.TextCode.ACTIVITY_SUCCESS_TRAINER_REMOVED;
 
 import online.gettrained.backend.constraints.frontend.activities.FrontendActivityConstraint;
 import online.gettrained.backend.domain.user.User;
@@ -14,6 +15,7 @@ import online.gettrained.backend.services.activities.ActivityService;
 import online.gettrained.backend.services.auth.AuthService;
 import online.gettrained.backend.services.localization.LocalizationService;
 import online.gettrained.frontend.web.Utils;
+import online.gettrained.frontend.web.dto.FlagResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -121,6 +123,26 @@ public class ActivityRestController {
     }
   }
 
+  @PostMapping("/fitness/isTrainer")
+  public ResponseEntity<?> isFitnessTrainer() {
+
+    LOG.info("Calling method 'isFitnessTrainer' of ActivityRestController");
+
+    User user = authService.getCurrentUserOrException();
+
+    try {
+      return ResponseEntity.ok(new FlagResponse(activityService.isFitnessTrainer(user)));
+    } catch (Exception e) {
+      LOG.error("Error getting all trainers", e);
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(
+          SOMETHING_WENT_WRONG,
+          localizationService.getLocalTextByKeyAndLangOrUseDefault(
+              SOMETHING_WENT_WRONG.toString(),
+              Utils.getLanguage(user),
+              "Something went wrong!")));
+    }
+  }
+
   @PostMapping("/fitness/trainer/add")
   public ResponseEntity<?> addFitnessTrainer() {
     LOG.info("Calling method 'addFitnessTrainer' of ActivityRestController");
@@ -129,13 +151,13 @@ public class ActivityRestController {
 
     try {
       activityService.addFitnessTrainer(user);
-      return ResponseEntity
-          .ok(new TextInfoDto(ACTIVITY_YOU_BECAME_A_TRAINER,
-              localizationService.getLocalTextByKeyAndLangOrUseDefault(
-                  ACTIVITY_YOU_BECAME_A_TRAINER.toString(),
-                  Utils.getLanguage(user),
-                  "You are a trainer now."
-              )));
+      return ResponseEntity.ok(new TextInfoDto(
+          ACTIVITY_SUCCESS_TRAINER_ADDED,
+          localizationService.getLocalTextByKeyAndLangOrUseDefault(
+              ACTIVITY_SUCCESS_TRAINER_ADDED.toString(),
+              Utils.getLanguage(user),
+              "You are a trainer now."
+          )));
     } catch (NotFoundException e) {
       LOG.error("Not found exception: {}", e.getMessage());
       return ResponseEntity.badRequest().body(new ErrorInfoDto(
@@ -158,6 +180,40 @@ public class ActivityRestController {
     }
   }
 
+  @PostMapping("/fitness/trainer/remove")
+  public ResponseEntity<?> removeFitnessTrainer() {
+    LOG.info("Calling method 'removeFitnessTrainer' of ActivityRestController");
+
+    User user = authService.getCurrentUserOrException();
+
+    try {
+      activityService.removeFitnessTrainer(user);
+      return ResponseEntity.ok(new TextInfoDto(
+          ACTIVITY_SUCCESS_TRAINER_REMOVED,
+          localizationService.getLocalTextByKeyAndLangOrUseDefault(
+              ACTIVITY_SUCCESS_TRAINER_REMOVED.toString(),
+              Utils.getLanguage(user),
+              "You are not a trainer now."
+          )));
+    } catch (NotFoundException e) {
+      LOG.error("Not found exception: {}", e.getMessage());
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(
+          SOMETHING_WENT_WRONG,
+          localizationService.getLocalTextByKeyAndLangOrUseDefault(
+              SOMETHING_WENT_WRONG.toString(),
+              Utils.getLanguage(user),
+              "Something went wrong!")));
+    } catch (Exception e) {
+      LOG.error("Error removing a trainer", e);
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(
+          SOMETHING_WENT_WRONG,
+          localizationService.getLocalTextByKeyAndLangOrUseDefault(
+              SOMETHING_WENT_WRONG.toString(),
+              Utils.getLanguage(user),
+              "Something went wrong!")));
+    }
+  }
+
   @PostMapping("/fitness/request/trainee")
   public ResponseEntity<?> requestFitnessTrainee(@RequestParam("email") String email) {
     LOG.info("Calling method 'requestFitnessTrainee' of ActivityRestController");
@@ -170,13 +226,13 @@ public class ActivityRestController {
 
     try {
       activityService.requestFitnessTrainee(user, email);
-      return ResponseEntity
-          .ok(new TextInfoDto(ACTIVITY_SUCCESS_SENT_TRAINEE_CONNECTION_REQUEST,
-              localizationService.getLocalTextByKeyAndLangOrUseDefault(
-                  ACTIVITY_SUCCESS_SENT_TRAINEE_CONNECTION_REQUEST.toString(),
-                  Utils.getLanguage(user),
-                  "Request sent to trainee successfully"
-              )));
+      return ResponseEntity.ok(new TextInfoDto(
+          ACTIVITY_SUCCESS_SENT_TRAINEE_CONNECTION_REQUEST,
+          localizationService.getLocalTextByKeyAndLangOrUseDefault(
+              ACTIVITY_SUCCESS_SENT_TRAINEE_CONNECTION_REQUEST.toString(),
+              Utils.getLanguage(user),
+              "Request sent to trainee successfully"
+          )));
     } catch (NotFoundException e) {
       LOG.error("Not found exception: {}", e.getMessage());
       return ResponseEntity.badRequest().body(new ErrorInfoDto(
@@ -219,13 +275,13 @@ public class ActivityRestController {
 
     try {
       activityService.addTrainer(user, activityId);
-      return ResponseEntity
-          .ok(new TextInfoDto(ACTIVITY_YOU_BECAME_A_TRAINER,
-              localizationService.getLocalTextByKeyAndLangOrUseDefault(
-                  ACTIVITY_YOU_BECAME_A_TRAINER.toString(),
-                  Utils.getLanguage(user),
-                  "You are a trainer now."
-              )));
+      return ResponseEntity.ok(new TextInfoDto(
+          ACTIVITY_SUCCESS_TRAINER_ADDED,
+          localizationService.getLocalTextByKeyAndLangOrUseDefault(
+              ACTIVITY_SUCCESS_TRAINER_ADDED.toString(),
+              Utils.getLanguage(user),
+              "You are a trainer now."
+          )));
     } catch (NotFoundException e) {
       LOG.error("Not found exception: {}", e.getMessage());
       return ResponseEntity.badRequest().body(new ErrorInfoDto(

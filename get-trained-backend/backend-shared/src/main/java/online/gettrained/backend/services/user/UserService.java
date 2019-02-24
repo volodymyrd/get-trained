@@ -60,6 +60,8 @@ public interface UserService {
 
   User addRole(User user, String roleName) throws NotFoundException;
 
+  User removeRole(User user, String roleName) throws NotFoundException;
+
   Profile saveProfile(User user, Profile profile);
 
   Profile saveProfile(User user, Profile profile, Set<String> emails, Set<String> phones);
