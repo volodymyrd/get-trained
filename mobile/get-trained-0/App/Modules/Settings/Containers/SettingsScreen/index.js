@@ -39,7 +39,11 @@ class SettingsScreen extends Component {
       fetchingMetadata,
       metadata,
       failedRetrievingMetadata,
-      isTrainer
+      isTrainer,
+      fetchAddTrainer,
+      fetchRemoveTrainer,
+      fetchingAddTrainer,
+      fetchingRemoveTrainer
     } = this.props
 
     if (failedRetrievingMetadata) {
@@ -61,10 +65,10 @@ class SettingsScreen extends Component {
                     txtBecomeTrainerBtn(localizations)
                 }
                 //style={styles.btn}
-                //disabled={buttonDisabled || loading}
-                //loading={loading}
+                disabled={fetchingAddTrainer || fetchingRemoveTrainer}
+                loading={fetchingAddTrainer || fetchingRemoveTrainer}
                 onPressHandler={isTrainer ?
-                    this.removeTrainer : this.becomeTrainer}
+                    () => fetchRemoveTrainer([]) : () => fetchAddTrainer([])}
             />
           </Content>
         </Container>
@@ -80,12 +84,18 @@ const mapStateToProps = (state) => ({
   metadata: state.settings.root.get('metadata'),
 
   isTrainer: state.settings.root.get('isTrainer'),
+  fetchingAddTrainer: state.settings.root.get('fetchingAddTrainer'),
+  fetchingRemoveTrainer: state.settings.root.get('fetchingRemoveTrainer'),
 })
 
 const mapDispatchToProps = (dispatch) => ({
   fetchMetadata: (langCode) => dispatch(
       SettingsActions.fetchMetadata(langCode)),
   fetchIsTrainer: () => dispatch(SettingsActions.fetchIsTrainer()),
+  fetchAddTrainer: (message) =>
+      dispatch(SettingsActions.fetchAddTrainer(message)),
+  fetchRemoveTrainer: (message) =>
+      dispatch(SettingsActions.fetchRemoveTrainer(message)),
 })
 
 export default connect(

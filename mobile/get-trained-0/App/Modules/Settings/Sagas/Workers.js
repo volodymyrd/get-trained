@@ -51,3 +51,31 @@ export function* fetchIsTrainer() {
     yield put(SettingsActions.fetchIsTrainerFailure())
   }
 }
+
+export function* fetchAddTrainer({ messages }) {
+  yield put(SettingsActions.fetchAddTrainerLoading())
+
+  const response = yield call(SettingsService.fetchAddTrainer)
+  console.log(response)
+  if (response && response.data) {
+    yield put(SettingsActions.fetchAddTrainerSuccess())
+    yield call(success, response.data.message)
+  } else {
+    yield put(SettingsActions.fetchAddTrainerFailure())
+    yield call(error, messages[0])
+  }
+}
+
+export function* fetchRemoveTrainer({ messages }) {
+  yield put(SettingsActions.fetchRemoveTrainerLoading())
+
+  const response = yield call(SettingsService.fetchRemoveTrainer)
+  console.log(response)
+  if (response && response.data) {
+    yield put(SettingsActions.fetchRemoveTrainerSuccess())
+    yield call(success, response.data.message)
+  } else {
+    yield put(SettingsActions.fetchRemoveTrainerFailure())
+    yield call(error, messages[0])
+  }
+}

@@ -21,6 +21,16 @@ const { Types, Creators } = createActions(
     fetchIsTrainerLoading: null,
     fetchIsTrainerSuccess: ['isTrainer'],
     fetchIsTrainerFailure: null,
+
+    fetchAddTrainer: ['messages'],
+    fetchAddTrainerLoading: null,
+    fetchAddTrainerSuccess: null,
+    fetchAddTrainerFailure: null,
+
+    fetchRemoveTrainer: ['messages'],
+    fetchRemoveTrainerLoading: null,
+    fetchRemoveTrainerSuccess: null,
+    fetchRemoveTrainerFailure: null,
   },
   { prefix: 'SETTINGS_' }
 )

@@ -60,6 +60,38 @@ export const fetchIsTrainerFailure = (state) =>
     fetchingIsTrainer: false,
   })
 
+export const fetchAddTrainerLoading = (state) =>
+  state.merge({
+    fetchingAddTrainer: true,
+  })
+
+export const fetchAddTrainerSuccess = (state, { isTrainer }) =>
+  state.merge({
+    fetchingAddTrainer: false,
+    isTrainer,
+  })
+
+export const fetchAddTrainerFailure = (state) =>
+  state.merge({
+    fetchingAddTrainer: false,
+  })
+
+export const fetchRemoveTrainerLoading = (state) =>
+  state.merge({
+    fetchingRemoveTrainer: true,
+  })
+
+export const fetchRemoveTrainerSuccess = (state, { isTrainer }) =>
+  state.merge({
+    fetchingRemoveTrainer: false,
+    isTrainer,
+  })
+
+export const fetchRemoveTrainerFailure = (state) =>
+  state.merge({
+    fetchingRemoveTrainer: false,
+  })
+
 /**
  * @see https://github.com/infinitered/reduxsauce#createreducer
  */
@@ -75,4 +107,12 @@ export const settings = createReducer(INITIAL_STATE, {
   [SettingsTypes.FETCH_IS_TRAINER_LOADING]: fetchIsTrainerLoading,
   [SettingsTypes.FETCH_IS_TRAINER_SUCCESS]: fetchIsTrainerSuccess,
   [SettingsTypes.FETCH_IS_TRAINER_FAILURE]: fetchIsTrainerFailure,
+
+  [SettingsTypes.FETCH_ADD_TRAINER_LOADING]: fetchAddTrainerLoading,
+  [SettingsTypes.FETCH_ADD_TRAINER_SUCCESS]: fetchAddTrainerSuccess,
+  [SettingsTypes.FETCH_ADD_TRAINER_FAILURE]: fetchAddTrainerFailure,
+
+  [SettingsTypes.FETCH_REMOVE_TRAINER_LOADING]: fetchRemoveTrainerLoading,
+  [SettingsTypes.FETCH_REMOVE_TRAINER_SUCCESS]: fetchRemoveTrainerSuccess,
+  [SettingsTypes.FETCH_REMOVE_TRAINER_FAILURE]: fetchRemoveTrainerFailure,
 })

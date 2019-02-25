@@ -11,6 +11,6 @@ export const INITIAL_STATE = Map({
   passwordChanged: false,
   fetchingIsTrainer: false,
   isTrainer: false,
-  fetchingBecomeTrainer: false,
+  fetchingAddTrainer: false,
   fetchingRemoveTrainer: false,
 })
