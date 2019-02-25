@@ -4,9 +4,9 @@ import static online.gettrained.backend.constraints.SelectOption.Option.EQ;
 import static online.gettrained.backend.constraints.SelectOption.Sign.I;
 import static online.gettrained.backend.domain.activities.TrainerConnections.Status.CONNECTED;
 import static online.gettrained.backend.domain.activities.TrainerConnections.Status.PENDING_ON_TRAINEE;
-import static online.gettrained.backend.exceptions.ErrorCode.ACTIVITY_CONNECTION_REQUEST_EXISTS;
-import static online.gettrained.backend.exceptions.ErrorCode.ACTIVITY_YOU_ARE_ALREADY_CONNECTED;
-import static online.gettrained.backend.exceptions.ErrorCode.ACTIVITY_YOU_ARE_ALREADY_TRAINER;
+import static online.gettrained.backend.messages.TextCode.ACTIVITY_CONNECTION_REQUEST_EXISTS;
+import static online.gettrained.backend.messages.TextCode.ACTIVITY_YOU_ARE_ALREADY_CONNECTED;
+import static online.gettrained.backend.messages.TextCode.ACTIVITY_YOU_ARE_ALREADY_TRAINER;
 import static online.gettrained.backend.repositories.user.RoleRepository.TRAINER_ROLE;
 import static online.gettrained.backend.utils.CommonUtils.immutableListOf;
 import static online.gettrained.backend.utils.CommonUtils.immutableSetOf;
@@ -26,7 +26,6 @@ import online.gettrained.backend.dto.Page;
 import online.gettrained.backend.dto.TextInfoDto;
 import online.gettrained.backend.dto.TextInfoDto.Type;
 import online.gettrained.backend.exceptions.ApplicationException;
-import online.gettrained.backend.exceptions.ErrorInfoDto;
 import online.gettrained.backend.exceptions.NotFoundException;
 import online.gettrained.backend.repositories.activities.ActivityDAO;
 import online.gettrained.backend.repositories.activities.ActivityRepository;
@@ -105,7 +104,8 @@ public class ActivityServiceImpl implements ActivityService {
       if (!trainer.isDeleted()) {
         LOG.warn("The user with id:{} is already a trainer for the activity with id:{}",
             user.getId(), activity.getId());
-        throw new ApplicationException(new ErrorInfoDto(
+        throw new ApplicationException(new TextInfoDto(
+            Type.I,
             ACTIVITY_YOU_ARE_ALREADY_TRAINER,
             localizationService.getLocalTextByKeyAndLangOrUseDefault(
                 ACTIVITY_YOU_ARE_ALREADY_TRAINER.toString(),

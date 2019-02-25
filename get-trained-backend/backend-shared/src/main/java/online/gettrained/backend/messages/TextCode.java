@@ -41,11 +41,12 @@ public enum TextCode implements MessageCode {
   USERS_USER_UNLOCKED_SUCCESSFULLY("be_text.users_user_unlocked_successfully"),
 
   ACTIVITY_SUCCESS_TRAINER_ADDED("be_text.activity_success_trainer_added"),
-
   ACTIVITY_SUCCESS_TRAINER_REMOVED("be_text.activity_success_trainer_removed"),
-
   ACTIVITY_SUCCESS_SENT_TRAINEE_CONNECTION_REQUEST(
       "be_text.activity_success_sent_trainee_connection_request"),
+  ACTIVITY_YOU_ARE_ALREADY_TRAINER("be_text.activity_you_are_already_trainer"),
+  ACTIVITY_YOU_ARE_ALREADY_CONNECTED("be_text.activity_you_are_already_connected"),
+  ACTIVITY_CONNECTION_REQUEST_EXISTS("be_text.activity_connection_request_exists"),
 
   NOTIF_MESSAGE_TEMPLATE_DELETED_SUCCESSFULLY(
       "be_text.notif_message_template_deleted_successfully");
