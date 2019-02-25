@@ -17,6 +17,11 @@ const { Types, Creators } = createActions(
     fetchLightProfileSuccess: ['lightProfile'],
     fetchLightProfileFailure: null,
 
+    fetchIsTrainer: null,
+    fetchIsTrainerLoading: null,
+    fetchIsTrainerSuccess: ['isTrainer'],
+    fetchIsTrainerFailure: null,
+
     fetchConnections: ['offset', 'pageSize'],
     fetchConnectionsLoading: null,
     fetchConnectionsSuccess: ['connections'],

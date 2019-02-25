@@ -9,5 +9,7 @@ export const INITIAL_STATE = Map({
   failedRetrievingMetadata: false,
   fetchingLightProfile: false,
   lightProfile: undefined,
+  fetchingIsTrainer: false,
+  isTrainer: false,
   fetchingConnections: false,
 })

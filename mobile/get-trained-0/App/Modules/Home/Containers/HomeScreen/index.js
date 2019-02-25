@@ -15,7 +15,6 @@ import {
 } from 'native-base'
 import {MODULE} from "../../Metadata";
 import HomeActions from "../../Stores/Actions";
-import {fetchConnections} from "../../Sagas/Workers";
 
 class HomeScreen extends Component {
   static navigationOptions = ({navigation}) =>
@@ -32,7 +31,8 @@ class HomeScreen extends Component {
       this.props.fetchLightProfile()
     }
 
-    this.props.fetchConnections(0, 10, []);
+    this.props.fetchIsTrainer()
+    this.props.fetchConnections(0, 10, [])
   }
 
   componentDidUpdate(prevProps) {
@@ -56,6 +56,8 @@ const mapStateToProps = (state) => ({
   failedRetrievingMetadata: state.home.root.get('failedRetrievingMetadata'),
   metadata: state.home.root.get('metadata'),
 
+  isTrainer: state.settings.root.get('isTrainer'),
+
   fetchingLightProfile: state.home.root.get('fetchingLightProfile'),
   lightProfile: state.home.root.get('lightProfile'),
 })
@@ -63,6 +65,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   fetchMetadata: (langCode) => dispatch(HomeActions.fetchMetadata(langCode)),
   fetchLightProfile: () => dispatch(HomeActions.fetchLightProfile()),
+  fetchIsTrainer: () => dispatch(HomeActions.fetchIsTrainer()),
   fetchConnections: (offset, pageSize, messages) => dispatch(
       HomeActions.fetchConnections(offset, pageSize, messages)),
 })

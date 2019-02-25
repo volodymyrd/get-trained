@@ -8,10 +8,6 @@ const changePassword = (password, newPassword, confirmPassword) => {
   })
 }
 
-const fetchIsTrainer = () => {
-  return postPlainWithCredentials(`fe/activity/fitness/isTrainer`)
-}
-
 const fetchAddTrainer = () => {
   return postPlainWithCredentials(`fe/activity/fitness/trainer/add`)
 }
@@ -22,7 +18,6 @@ const fetchRemoveTrainer = () => {
 
 export const SettingsService = {
   changePassword,
-  fetchIsTrainer,
   fetchAddTrainer,
   fetchRemoveTrainer,
 }

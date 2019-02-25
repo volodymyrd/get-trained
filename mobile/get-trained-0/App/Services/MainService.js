@@ -12,6 +12,10 @@ const fetchMetadata = (langCode, module) => {
   return postWithCredentials(`${METADATA_URL}?lang=${langCode.toUpperCase()}&module=${module}`)
 }
 
+const fetchIsTrainer = () => {
+  return postPlainWithCredentials(`fe/activity/fitness/isTrainer`)
+}
+
 const getLightProfile = () => {
   return postPlainWithCredentials(`${PROFILE_URL}/getLight`)
 }
@@ -19,5 +23,6 @@ const getLightProfile = () => {
 export const MainService = {
   fetchAccess,
   fetchMetadata,
+  fetchIsTrainer,
   getLightProfile,
 }

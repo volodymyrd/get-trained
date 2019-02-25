@@ -29,6 +29,17 @@ export function* fetchLightProfile() {
   }
 }
 
+export function* fetchIsTrainer() {
+  yield put(HomeActions.fetchIsTrainerLoading())
+
+  const response = yield call(MainService.fetchIsTrainer)
+  if (response && response.data) {
+    yield put(HomeActions.fetchIsTrainerSuccess(response.data.flag))
+  } else {
+    yield put(HomeActions.fetchIsTrainerFailure())
+  }
+}
+
 export function* fetchConnections({ offset, pageSize, messages }) {
   yield put(HomeActions.fetchConnectionsLoading())
 

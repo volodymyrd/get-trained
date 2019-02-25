@@ -6,6 +6,7 @@ import ButtonWithLoader from "App/Components/ButtonWithLoader";
 import Error from "App/Components/Error";
 import Loading from "App/Components/Loading";
 import SettingsActions from "../../Stores/Actions";
+import {somethingWentWrong} from 'App/Utils/MetadataUtils'
 import {MODULE, txtBecomeTrainerBtn, txtRemoveTrainerBtn} from "../../Metadata";
 
 import styles from './styles'
@@ -24,14 +25,6 @@ class SettingsScreen extends Component {
   }
 
   componentDidUpdate(prevProps) {
-  }
-
-  becomeTrainer = () => {
-    console.log('becomeTrainer')
-  }
-
-  removeTrainer = () => {
-    console.log('removeTrainer')
   }
 
   render() {
@@ -68,7 +61,10 @@ class SettingsScreen extends Component {
                 disabled={fetchingAddTrainer || fetchingRemoveTrainer}
                 loading={fetchingAddTrainer || fetchingRemoveTrainer}
                 onPressHandler={isTrainer ?
-                    () => fetchRemoveTrainer([]) : () => fetchAddTrainer([])}
+                    () => fetchRemoveTrainer(
+                        [somethingWentWrong(localizations)])
+                    : () => fetchAddTrainer(
+                        [somethingWentWrong(localizations)])}
             />
           </Content>
         </Container>

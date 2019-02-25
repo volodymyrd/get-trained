@@ -43,6 +43,22 @@ export const fetchLightProfileFailure = (state) =>
     lightProfile: undefined,
   })
 
+export const fetchIsTrainerLoading = (state) =>
+  state.merge({
+    fetchingIsTrainer: true,
+  })
+
+export const fetchIsTrainerSuccess = (state, { isTrainer }) =>
+  state.merge({
+    fetchingIsTrainer: false,
+    isTrainer,
+  })
+
+export const fetchIsTrainerFailure = (state) =>
+  state.merge({
+    fetchingIsTrainer: false,
+  })
+
 export const fetchConnectionsLoading = (state) =>
   state.merge({
     fetchingConnections: true,
@@ -70,6 +86,10 @@ export const home = createReducer(INITIAL_STATE, {
   [HomeTypes.FETCH_LIGHT_PROFILE_LOADING]: fetchLightProfileLoading,
   [HomeTypes.FETCH_LIGHT_PROFILE_SUCCESS]: fetchLightProfileSuccess,
   [HomeTypes.FETCH_LIGHT_PROFILE_FAILURE]: fetchLightProfileFailure,
+
+  [HomeTypes.FETCH_IS_TRAINER_LOADING]: fetchIsTrainerLoading,
+  [HomeTypes.FETCH_IS_TRAINER_SUCCESS]: fetchIsTrainerSuccess,
+  [HomeTypes.FETCH_IS_TRAINER_FAILURE]: fetchIsTrainerFailure,
 
   [HomeTypes.FETCH_CONNECTIONS_LOADING]: fetchConnectionsLoading,
   [HomeTypes.FETCH_CONNECTIONS_SUCCESS]: fetchConnectionsSuccess,
