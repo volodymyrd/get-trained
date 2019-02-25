@@ -1,13 +1,13 @@
 import React, {Component} from 'react'
 import connect from 'react-redux/es/connect/connect'
-import {Container, Content} from "native-base";
-import {setNavigationOptions} from "App/Modules/Dashboard/NavigationOptions";
-import ButtonWithLoader from "App/Components/ButtonWithLoader";
-import Error from "App/Components/Error";
-import Loading from "App/Components/Loading";
-import SettingsActions from "../../Stores/Actions";
+import {Container, Content} from 'native-base'
+import {setNavigationOptions} from 'App/Modules/Dashboard/NavigationOptions'
+import ButtonWithLoader from "App/Components/ButtonWithLoader"
+import Error from 'App/Components/Error'
+import Loading from 'App/Components/Loading'
+import SettingsActions from '../../Stores/Actions'
 import {somethingWentWrong} from 'App/Utils/MetadataUtils'
-import {MODULE, txtBecomeTrainerBtn, txtRemoveTrainerBtn} from "../../Metadata";
+import {MODULE, txtBecomeTrainerBtn, txtRemoveTrainerBtn} from '../../Metadata'
 
 import styles from './styles'
 

@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import connect from 'react-redux/es/connect/connect'
 import {setNavigationOptions} from 'App/Modules/Dashboard/NavigationOptions'
+import ButtonWithLoader from 'App/Components/ButtonWithLoader'
 import Home from '../../Components/Home'
 import {
   Body,
@@ -8,13 +9,17 @@ import {
   Container,
   Content,
   Header,
+  Footer,
+  FooterTab,
   Icon,
   Left,
   Right,
-  Title
+  Title,
+  Text,
 } from 'native-base'
-import {MODULE} from "../../Metadata";
-import HomeActions from "../../Stores/Actions";
+import {MODULE, addTraineeBtn} from '../../Metadata';
+import HomeActions from '../../Stores/Actions';
+import Error from "../../../Settings/Containers/SettingsScreen";
 
 class HomeScreen extends Component {
   static navigationOptions = ({navigation}) =>
@@ -39,11 +44,42 @@ class HomeScreen extends Component {
   }
 
   render() {
+    const {
+      fetchingMetadata,
+      metadata,
+      failedRetrievingMetadata,
+      isTrainer,
+    } = this.props
+
+    if (failedRetrievingMetadata) {
+      return <Error/>
+    }
+
+    if (fetchingMetadata || !metadata || !metadata.size) {
+      return <Loading/>
+    }
+
+    const localizations = metadata.get('localizations')
+
     return (
         <Container>
           <Content padder>
             <Home/>
           </Content>
+          {isTrainer &&
+          <Footer>
+            <FooterTab>
+              <ButtonWithLoader
+                  title={addTraineeBtn(localizations)}
+                  //style={styles.btn}
+                  //disabled={}
+                  //loading={}
+                  icon='md-person-add'
+                  onPressHandler={() => console.log('add')}
+              />
+            </FooterTab>
+          </Footer>
+          }
         </Container>
     )
   }

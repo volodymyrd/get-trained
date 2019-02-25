@@ -2,13 +2,11 @@ import { text } from 'App/Utils/MetadataUtils'
 
 export const MODULE = 'HOME'
 
-export const successAvatarUpload = (localizations) => {
-  return text(
-    localizations.get(keys.PROFILE_TXT_SUCCESS_AVATAR_UPLOAD),
-    'Avatar uploaded successfully'
-  )
+export const addTraineeBtn = (localizations) => {
+  return text(localizations.get(keys.HOME_BTN_ADD_TRAINEE), 'Add trainee')
 }
 
 const keys = {
   HOME_TXT_: 'home.txt_',
+  HOME_BTN_ADD_TRAINEE: 'home.btn.add_trainee',
 }
