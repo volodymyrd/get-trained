@@ -24,8 +24,7 @@ import {
 import styles from './styles'
 
 class AvatarUploaderScreen extends Component {
-  static navigationOptions = ({navigation}) =>
-      setNavigationOptions(navigation, navigation.getParam('title', 'Avatar'))
+  static navigationOptions = ({navigation}) => setNavigationOptions(navigation)
 
   componentDidMount() {
     if (this.props.langCode

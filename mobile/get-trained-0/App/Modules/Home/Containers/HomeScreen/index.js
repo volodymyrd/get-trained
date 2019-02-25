@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import connect from 'react-redux/es/connect/connect'
 import {setNavigationOptions} from 'App/Modules/Dashboard/NavigationOptions'
+import Error from 'App/Components/Error'
+import Loading from 'App/Components/Loading'
 import ButtonWithLoader from 'App/Components/ButtonWithLoader'
 import Home from '../../Components/Home'
 import {
@@ -17,21 +19,22 @@ import {
   Title,
   Text,
 } from 'native-base'
-import {MODULE, addTraineeBtn} from '../../Metadata';
-import HomeActions from '../../Stores/Actions';
-import Error from "../../../Settings/Containers/SettingsScreen";
+import HomeActions from '../../Stores/Actions'
+import {MODULE, titleHome, titleAddTrainee, addTraineeBtn} from '../../Metadata'
 
 class HomeScreen extends Component {
-  static navigationOptions = ({navigation}) =>
-      setNavigationOptions(navigation, 'Home')
+  static navigationOptions = ({navigation}) => setNavigationOptions(navigation)
 
   componentDidMount() {
-    if (this.props.langCode
-        && !(this.props.metadata
-            && this.props.metadata.size
-            && this.props.metadata.get('module') === MODULE)) {
-      this.props.fetchMetadata(this.props.langCode.toUpperCase())
+    const {langCode, metadata, fetchMetadata, navigation} = this.props
+
+    if (langCode
+        && !(metadata && metadata.size && metadata.get('module') === MODULE)) {
+      fetchMetadata(langCode.toUpperCase())
+    } else {
+      navigation.setParams({title: titleHome(metadata.get('localizations'))})
     }
+
     if (!this.props.lightProfile) {
       this.props.fetchLightProfile()
     }
@@ -41,10 +44,15 @@ class HomeScreen extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    const {metadata, navigation} = this.props
+    if (prevProps.metadata && !prevProps.metadata.size && metadata.size) {
+      navigation.setParams({title: titleHome(metadata.get('localizations'))})
+    }
   }
 
   render() {
     const {
+      navigation,
       fetchingMetadata,
       metadata,
       failedRetrievingMetadata,
@@ -75,7 +83,9 @@ class HomeScreen extends Component {
                   //disabled={}
                   //loading={}
                   icon='md-person-add'
-                  onPressHandler={() => console.log('add')}
+                  onPressHandler={() => navigation.navigate(
+                      'AddTrainee',
+                      {title: titleAddTrainee(localizations)})}
               />
             </FooterTab>
           </Footer>

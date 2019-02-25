@@ -19,9 +19,7 @@ import {MODULE} from "../../Metadata";
 import styles from './styles'
 
 class ChangePasswordScreen extends Component {
-  static navigationOptions = ({navigation}) =>
-      setNavigationOptions(navigation,
-          navigation.getParam('title', 'Change Password'))
+  static navigationOptions = ({navigation}) => setNavigationOptions(navigation)
 
   componentDidMount() {
     if (this.props.langCode

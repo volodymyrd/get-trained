@@ -12,8 +12,7 @@ import {MODULE, txtBecomeTrainerBtn, txtRemoveTrainerBtn} from '../../Metadata'
 import styles from './styles'
 
 class SettingsScreen extends Component {
-  static navigationOptions = ({navigation}) =>
-      setNavigationOptions(navigation, navigation.getParam('title', 'Settings'))
+  static navigationOptions = ({navigation}) => setNavigationOptions(navigation)
 
   componentDidMount() {
     if (this.props.langCode

@@ -26,16 +26,16 @@ export const getMenu = (navigation, localizations) => {
               })
             ),
         },
-        {
-          id: 'profile_personal',
-          title: getTxt(localizations, MENU_PROFILE_PERSONAL, 'Personal Info'),
-          fun: () => navigation.navigate('_Profile'),
-        },
-        {
-          id: 'profile_contacts',
-          title: getTxt(localizations, MENU_PROFILE_CONTACTS, 'Contacts'),
-          fun: () => navigation.navigate('_Profile'),
-        },
+        // {
+        //   id: 'profile_personal',
+        //   title: getTxt(localizations, MENU_PROFILE_PERSONAL, 'Personal Info'),
+        //   fun: () => navigation.navigate('_Profile'),
+        // },
+        // {
+        //   id: 'profile_contacts',
+        //   title: getTxt(localizations, MENU_PROFILE_CONTACTS, 'Contacts'),
+        //   fun: () => navigation.navigate('_Profile'),
+        // },
       ],
     },
     {
