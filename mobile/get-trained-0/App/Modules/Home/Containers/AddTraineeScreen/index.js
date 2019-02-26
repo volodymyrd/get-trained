@@ -30,6 +30,8 @@ class HomeScreen extends Component {
       fetchingMetadata,
       metadata,
       failedRetrievingMetadata,
+      fetchingTraineeRequest,
+      fetchTraineeRequest,
     } = this.props
 
     if (failedRetrievingMetadata) {
@@ -47,8 +49,8 @@ class HomeScreen extends Component {
           <Content padder>
             <AddConnectionByEmail txtEmail={'Email of a Trainee'}
                                   txtBtn={'Add'}
-                                  loading={false}
-                                  addHandler={() => console.log('add')}/>
+                                  loading={fetchingTraineeRequest}
+                                  addHandler={fetchTraineeRequest}/>
           </Content>
         </Container>
     )
@@ -61,10 +63,14 @@ const mapStateToProps = (state) => ({
   fetchingMetadata: state.home.root.get('fetchingMetadata'),
   failedRetrievingMetadata: state.home.root.get('failedRetrievingMetadata'),
   metadata: state.home.root.get('metadata'),
+
+  fetchingTraineeRequest: state.home.root.get('fetchingTraineeRequest'),
 })
 
 const mapDispatchToProps = (dispatch) => ({
   fetchMetadata: (langCode) => dispatch(HomeActions.fetchMetadata(langCode)),
+  fetchTraineeRequest: (email) =>
+      dispatch(HomeActions.fetchTraineeRequest(email)),
 })
 
 export default connect(

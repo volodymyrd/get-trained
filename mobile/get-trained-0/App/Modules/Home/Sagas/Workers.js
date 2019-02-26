@@ -1,10 +1,10 @@
 import { put, call } from 'redux-saga/effects'
-import { error, success } from 'App/Components/Notification'
+import { error, success, info } from 'App/Components/Notification'
 import { MainService } from 'App/Services/MainService'
 import { HomeService } from '../HomeService'
 import HomeActions from '../Stores/Actions'
 import { MODULE } from '../Metadata'
-import {fetchTraineeRequestLoading} from "../Stores/Reducers";
+import { fetchTraineeRequestLoading } from '../Stores/Reducers'
 
 export function* fetchMetadata({ langCode }) {
   yield put(HomeActions.fetchMetadataLoading())
@@ -60,7 +60,18 @@ export function* fetchTraineeRequest({ email, messages }) {
   const response = yield call(HomeService.traineeRequest, email)
   console.log(response)
   if (response && response.data) {
-    yield put(HomeActions.fetchTraineeRequestSuccess(response.data))
+    if (response.ok) {
+      yield put(HomeActions.fetchTraineeRequestSuccess())
+      yield call(success, response.data.message)
+    } else {
+      if (response.data.type !== 'E') {
+        yield put(HomeActions.fetchTraineeRequestSuccess())
+        yield call(info, response.data.message)
+      } else {
+        yield put(HomeActions.fetchTraineeRequestFailure())
+        yield call(error, response.data.message)
+      }
+    }
   } else {
     yield put(HomeActions.fetchTraineeRequestFailure())
     yield call(error, messages[0])
