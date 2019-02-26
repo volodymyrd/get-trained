@@ -8,6 +8,11 @@ const getConnections = (offset, pageSize) => {
   )
 }
 
+const traineeRequest = (email) => {
+  return postPlainWithCredentials(`${BASE_URL}/fitness/request/trainee?email=${email}`)
+}
+
 export const HomeService = {
   getConnections,
+  traineeRequest,
 }

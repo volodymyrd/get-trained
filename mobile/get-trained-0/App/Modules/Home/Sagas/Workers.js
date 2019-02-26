@@ -4,6 +4,7 @@ import { MainService } from 'App/Services/MainService'
 import { HomeService } from '../HomeService'
 import HomeActions from '../Stores/Actions'
 import { MODULE } from '../Metadata'
+import {fetchTraineeRequestLoading} from "../Stores/Reducers";
 
 export function* fetchMetadata({ langCode }) {
   yield put(HomeActions.fetchMetadataLoading())
@@ -49,6 +50,19 @@ export function* fetchConnections({ offset, pageSize, messages }) {
     yield put(HomeActions.fetchConnectionsSuccess(response.data))
   } else {
     yield put(HomeActions.fetchConnectionsFailure())
+    yield call(error, messages[0])
+  }
+}
+
+export function* fetchTraineeRequest({ email, messages }) {
+  yield put(HomeActions.fetchTraineeRequestLoading())
+
+  const response = yield call(HomeService.traineeRequest, email)
+  console.log(response)
+  if (response && response.data) {
+    yield put(HomeActions.fetchTraineeRequestSuccess(response.data))
+  } else {
+    yield put(HomeActions.fetchTraineeRequestFailure())
     yield call(error, messages[0])
   }
 }

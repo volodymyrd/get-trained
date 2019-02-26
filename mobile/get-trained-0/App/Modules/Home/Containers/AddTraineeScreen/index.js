@@ -7,6 +7,7 @@ import Loading from 'App/Components/Loading'
 import ButtonWithLoader from 'App/Components/ButtonWithLoader'
 import HomeActions from '../../Stores/Actions'
 import {MODULE, addTraineeBtn} from '../../Metadata'
+import AddConnectionByEmail from "../../Components/AddConnectionByEmail";
 
 class HomeScreen extends Component {
   static navigationOptions = ({navigation}) =>
@@ -44,7 +45,10 @@ class HomeScreen extends Component {
     return (
         <Container>
           <Content padder>
-            <Text>Add trainee</Text>
+            <AddConnectionByEmail txtEmail={'Email of a Trainee'}
+                                  txtBtn={'Add'}
+                                  loading={false}
+                                  addHandler={() => console.log('add')}/>
           </Content>
         </Container>
     )

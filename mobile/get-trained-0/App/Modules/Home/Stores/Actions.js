@@ -26,6 +26,11 @@ const { Types, Creators } = createActions(
     fetchConnectionsLoading: null,
     fetchConnectionsSuccess: ['connections'],
     fetchConnectionsFailure: null,
+
+    fetchTraineeRequest: ['email'],
+    fetchTraineeRequestLoading: null,
+    fetchTraineeRequestSuccess: null,
+    fetchTraineeRequestFailure: null,
   },
   { prefix: 'HOME_' }
 )

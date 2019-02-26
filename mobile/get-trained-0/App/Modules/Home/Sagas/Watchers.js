@@ -1,6 +1,12 @@
 import { takeLatest } from 'redux-saga/effects'
 import { HomeTypes } from '../Stores/Actions'
-import { fetchMetadata, fetchLightProfile, fetchIsTrainer, fetchConnections } from './Workers'
+import {
+  fetchMetadata,
+  fetchLightProfile,
+  fetchIsTrainer,
+  fetchConnections,
+  fetchTraineeRequest,
+} from './Workers'
 
 export default function*() {
   yield [
@@ -8,5 +14,6 @@ export default function*() {
     takeLatest(HomeTypes.FETCH_LIGHT_PROFILE, fetchLightProfile),
     takeLatest(HomeTypes.FETCH_IS_TRAINER, fetchIsTrainer),
     takeLatest(HomeTypes.FETCH_CONNECTIONS, fetchConnections),
+    takeLatest(HomeTypes.FETCH_TRAINEE_REQUEST, fetchTraineeRequest),
   ]
 }

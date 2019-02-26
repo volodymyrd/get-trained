@@ -75,6 +75,22 @@ export const fetchConnectionsFailure = (state) =>
     fetchingConnections: false,
   })
 
+export const fetchTraineeRequestLoading = (state) =>
+  state.merge({
+    fetchingTraineeRequest: true,
+  })
+
+export const fetchTraineeRequestSuccess = (state, { connections }) =>
+  state.merge({
+    fetchingTraineeRequest: false,
+    connections,
+  })
+
+export const fetchTraineeRequestFailure = (state) =>
+  state.merge({
+    fetchingTraineeRequest: false,
+  })
+
 /**
  * @see https://github.com/infinitered/reduxsauce#createreducer
  */
@@ -94,4 +110,8 @@ export const home = createReducer(INITIAL_STATE, {
   [HomeTypes.FETCH_CONNECTIONS_LOADING]: fetchConnectionsLoading,
   [HomeTypes.FETCH_CONNECTIONS_SUCCESS]: fetchConnectionsSuccess,
   [HomeTypes.FETCH_CONNECTIONS_FAILURE]: fetchConnectionsFailure,
+
+  [HomeTypes.FETCH_TRAINEE_REQUEST_LOADING]: fetchTraineeRequestLoading,
+  [HomeTypes.FETCH_TRAINEE_REQUEST_SUCCESS]: fetchTraineeRequestSuccess,
+  [HomeTypes.FETCH_TRAINEE_REQUEST_FAILURE]: fetchTraineeRequestFailure,
 })

@@ -12,4 +12,5 @@ export const INITIAL_STATE = Map({
   fetchingIsTrainer: false,
   isTrainer: false,
   fetchingConnections: false,
+  fetchingTraineeRequest: false,
 })
