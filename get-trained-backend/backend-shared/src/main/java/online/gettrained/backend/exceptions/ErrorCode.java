@@ -23,7 +23,11 @@ public enum ErrorCode implements MessageCode {
   USERNAME_CONTAINS_ILLEGAL_SYMBOLS("be_error.username_contains_illegal_symbols"),
   USERNAME_ALREADY_EXIST("be_error.username_already_exist"),
 
-  USER_PROFILE_AVATAR_EXCEED_MAX_SIZE("be_error.user_profile_avatar_exceed_max_size");
+  USER_PROFILE_AVATAR_EXCEED_MAX_SIZE("be_error.user_profile_avatar_exceed_max_size"),
+
+  ACTIVITY_NOT_FOUND_TRAINEE_WITH_EMAIL("be_error.activity_not_found_trainee_with_email"),
+  ACTIVITY_CANNOT_BE_TRAINER_FOR_YOURSELF("be_error.activity_cannot_be_trainer_for_yourself");
+
 
   private final String text;
 

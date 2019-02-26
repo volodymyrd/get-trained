@@ -4,6 +4,8 @@ import static online.gettrained.backend.constraints.SelectOption.Option.EQ;
 import static online.gettrained.backend.constraints.SelectOption.Sign.I;
 import static online.gettrained.backend.domain.activities.TrainerConnections.Status.CONNECTED;
 import static online.gettrained.backend.domain.activities.TrainerConnections.Status.PENDING_ON_TRAINEE;
+import static online.gettrained.backend.exceptions.ErrorCode.ACTIVITY_CANNOT_BE_TRAINER_FOR_YOURSELF;
+import static online.gettrained.backend.exceptions.ErrorCode.ACTIVITY_NOT_FOUND_TRAINEE_WITH_EMAIL;
 import static online.gettrained.backend.messages.TextCode.ACTIVITY_CONNECTION_REQUEST_EXISTS;
 import static online.gettrained.backend.messages.TextCode.ACTIVITY_YOU_ARE_ALREADY_CONNECTED;
 import static online.gettrained.backend.messages.TextCode.ACTIVITY_YOU_ARE_ALREADY_TRAINER;
@@ -26,6 +28,7 @@ import online.gettrained.backend.dto.Page;
 import online.gettrained.backend.dto.TextInfoDto;
 import online.gettrained.backend.dto.TextInfoDto.Type;
 import online.gettrained.backend.exceptions.ApplicationException;
+import online.gettrained.backend.exceptions.ErrorInfoDto;
 import online.gettrained.backend.exceptions.NotFoundException;
 import online.gettrained.backend.repositories.activities.ActivityDAO;
 import online.gettrained.backend.repositories.activities.ActivityRepository;
@@ -189,10 +192,24 @@ public class ActivityServiceImpl implements ActivityService {
             "Not found a verified and public trainer for a user with id:" + user.getId()));
 
     User traineeUser = userService.findOneByEmail(traineeEmail)
-        .orElseThrow(() -> new NotFoundException("Not found a user with email:" + traineeEmail));
+        .orElseThrow(() -> new ApplicationException(new ErrorInfoDto(
+            ACTIVITY_NOT_FOUND_TRAINEE_WITH_EMAIL,
+            localizationService.getLocalTextByKeyAndLangOrUseDefault(
+                ACTIVITY_NOT_FOUND_TRAINEE_WITH_EMAIL.toString(),
+                user.getLoginLang(),
+                "Not found a trainee with such email."))));
+
+    if (traineeUser.getId().equals(user.getId())) {
+      throw new ApplicationException(new ErrorInfoDto(
+          ACTIVITY_CANNOT_BE_TRAINER_FOR_YOURSELF,
+          localizationService.getLocalTextByKeyAndLangOrUseDefault(
+              ACTIVITY_CANNOT_BE_TRAINER_FOR_YOURSELF.toString(),
+              user.getLoginLang(),
+              "You cannot be a trainer for yourself.")));
+    }
 
     Optional<TrainerConnections> connectionsOptional = trainerConnectionsRepository
-        .findByTrainer_IdAndTrainee_Id(trainer.getId(), user.getId());
+        .findByTrainer_IdAndTrainee_Id(trainer.getId(), traineeUser.getId());
 
     TrainerConnections connections;
     if (!connectionsOptional.isPresent()) {
