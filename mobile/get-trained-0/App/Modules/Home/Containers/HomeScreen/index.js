@@ -4,7 +4,7 @@ import {setNavigationOptions} from 'App/Modules/Dashboard/NavigationOptions'
 import Error from 'App/Components/Error'
 import Loading from 'App/Components/Loading'
 import ButtonWithLoader from 'App/Components/ButtonWithLoader'
-import Home from '../../Components/Home'
+import Connections from '../../Components/Connections'
 import {
   Body,
   Button,
@@ -57,13 +57,19 @@ class HomeScreen extends Component {
       metadata,
       failedRetrievingMetadata,
       isTrainer,
+      connections,
+      fetchingTraineeRequest,
     } = this.props
 
     if (failedRetrievingMetadata) {
       return <Error/>
     }
 
-    if (fetchingMetadata || !metadata || !metadata.size) {
+    if (fetchingMetadata
+        || !metadata 
+        || !metadata.size
+        || !connections
+        || !connections.size) {
       return <Loading/>
     }
 
@@ -72,7 +78,7 @@ class HomeScreen extends Component {
     return (
         <Container>
           <Content padder>
-            <Home/>
+            <Connections isTrainer={isTrainer} connections={connections}/>
           </Content>
           {isTrainer &&
           <Footer>
@@ -80,8 +86,8 @@ class HomeScreen extends Component {
               <ButtonWithLoader
                   title={addTraineeBtn(localizations)}
                   //style={styles.btn}
-                  //disabled={}
-                  //loading={}
+                  disabled={fetchingTraineeRequest}
+                  loading={fetchingTraineeRequest}
                   icon='md-person-add'
                   onPressHandler={() => navigation.navigate(
                       'AddTrainee',
@@ -102,10 +108,14 @@ const mapStateToProps = (state) => ({
   failedRetrievingMetadata: state.home.root.get('failedRetrievingMetadata'),
   metadata: state.home.root.get('metadata'),
 
-  isTrainer: state.settings.root.get('isTrainer'),
+  isTrainer: state.home.root.get('isTrainer'),
 
   fetchingLightProfile: state.home.root.get('fetchingLightProfile'),
   lightProfile: state.home.root.get('lightProfile'),
+
+  connections: state.home.root.get('connections'),
+
+  fetchingTraineeRequest: state.home.root.get('fetchingTraineeRequest'),
 })
 
 const mapDispatchToProps = (dispatch) => ({

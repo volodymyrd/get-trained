@@ -2,6 +2,10 @@ import { create } from 'apisauce'
 import { Config } from 'App/Config'
 import base64 from './Base64'
 
+export const getUrl = (url) => {
+  return `${Config.API_URL}${url}`
+}
+
 export const post = (url, json) => {
   return _post(url, { 'Content-Type': 'application/json' }, json)
 }

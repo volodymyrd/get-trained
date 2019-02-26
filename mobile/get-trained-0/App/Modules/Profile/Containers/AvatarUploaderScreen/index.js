@@ -7,13 +7,13 @@ import {
 } from "native-base";
 import ImagePicker from 'react-native-image-crop-picker';
 import connect from 'react-redux/es/connect/connect'
+import {getUrl} from 'App/Utils/HttpUtils'
 import {setNavigationOptions} from "App/Modules/Dashboard/NavigationOptions";
 import {somethingWentWrong} from 'App/Utils/MetadataUtils'
 import Error from "App/Components/Error";
 import Loading from "App/Components/Loading";
 import ButtonWithLoader from "App/Components/ButtonWithLoader";
 import ProfileActions from "../../Stores/Actions";
-import {Config} from "App/Config";
 import {
   MODULE,
   btnAvatarUpload,
@@ -79,7 +79,7 @@ class AvatarUploaderScreen extends Component {
     const localizations = metadata.get('localizations')
 
     const avatarUrl = lightProfile && lightProfile.get('avatarUrl') ?
-        `${Config.API_URL}${lightProfile.get('avatarUrl')}` : undefined
+        getUrl(lightProfile.get('avatarUrl')) : undefined
 
     return (
         <Container>
