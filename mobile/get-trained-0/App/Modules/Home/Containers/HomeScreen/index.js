@@ -40,7 +40,7 @@ class HomeScreen extends Component {
     }
 
     this.props.fetchIsTrainer()
-    this.props.fetchConnections(0, 10, [])
+    this._getConnections()
   }
 
   componentDidUpdate(prevProps) {
@@ -50,6 +50,10 @@ class HomeScreen extends Component {
     }
   }
 
+  _getConnections = () => {
+    this.props.fetchConnections(0, 10, [])
+  }
+
   render() {
     const {
       navigation,
@@ -57,6 +61,7 @@ class HomeScreen extends Component {
       metadata,
       failedRetrievingMetadata,
       isTrainer,
+      fetchingConnections,
       connections,
       fetchingTraineeRequest,
     } = this.props
@@ -66,7 +71,7 @@ class HomeScreen extends Component {
     }
 
     if (fetchingMetadata
-        || !metadata 
+        || !metadata
         || !metadata.size
         || !connections
         || !connections.size) {
@@ -77,9 +82,12 @@ class HomeScreen extends Component {
 
     return (
         <Container>
-          <Content padder>
-            <Connections isTrainer={isTrainer} connections={connections}/>
-          </Content>
+          <Connections isTrainer={isTrainer}
+                       refreshing={fetchingConnections}
+                       refreshHandler={this._getConnections}
+                       connections={connections}/>
+          {/*<Content padder>*/}
+          {/*</Content>*/}
           {isTrainer &&
           <Footer>
             <FooterTab>
@@ -113,6 +121,7 @@ const mapStateToProps = (state) => ({
   fetchingLightProfile: state.home.root.get('fetchingLightProfile'),
   lightProfile: state.home.root.get('lightProfile'),
 
+  fetchingConnections: state.home.root.get('fetchingConnections'),
   connections: state.home.root.get('connections'),
 
   fetchingTraineeRequest: state.home.root.get('fetchingTraineeRequest'),

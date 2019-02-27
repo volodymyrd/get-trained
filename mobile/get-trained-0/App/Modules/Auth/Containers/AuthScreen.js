@@ -11,6 +11,7 @@ import {
   Text,
   Button,
 } from 'native-base';
+import {Map} from 'immutable'
 import Error from "App/Components/Error";
 import Loading from "App/Components/Loading";
 import {AuthStep} from '../Stores/InitialState'
@@ -101,7 +102,7 @@ class AuthScreen extends React.Component {
       return <Error/>
     }
 
-    if (!langCode || fetchingMetadata || !metadata || !metadata.size) {
+    if (!langCode || fetchingMetadata || !metadata || !Map.isMap(metadata)) {
       return <Loading/>
     }
 

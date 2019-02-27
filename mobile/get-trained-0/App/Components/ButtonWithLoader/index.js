@@ -7,6 +7,10 @@ class ButtonWithLoader extends Component {
     const {
       title,
       onPressHandler,
+      notFull,
+      notRounded,
+      small,
+      transparent,
       style,
       loading,
       disabled,
@@ -17,8 +21,10 @@ class ButtonWithLoader extends Component {
 
     return (
       <Button
-        full
-        rounded
+        full={!notFull}
+        rounded={!notRounded}
+        small={small}
+        transparent={transparent}
         style={style}
         onPress={onPressHandler}
         disabled={disabled}
@@ -35,6 +41,10 @@ class ButtonWithLoader extends Component {
 ButtonWithLoader.propTypes = {
   title: PropTypes.string.isRequired,
   onPressHandler: PropTypes.func.isRequired,
+  notFull: PropTypes.bool,
+  notRounded: PropTypes.bool,
+  small: PropTypes.bool,
+  transparent: PropTypes.bool,
   style: PropTypes.object,
   loading: PropTypes.bool,
   disabled: PropTypes.bool,

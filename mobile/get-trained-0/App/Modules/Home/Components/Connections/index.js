@@ -6,12 +6,14 @@ import TraineeItem from './TraineeItem'
 
 class Connections extends Component {
   render() {
-    const { isTrainer, connections } = this.props
+    const { isTrainer, connections, refreshing, refreshHandler } = this.props
 
     return (
       <FlatList
         data={connections.get('data').toJSON()}
         keyExtractor={(item) => item.connectionId.toString()}
+        refreshing={refreshing}
+        onRefresh={refreshHandler}
         renderItem={({ item }) =>
           isTrainer ? <TraineeItem item={item} /> : <TrainerItem item={item} />
         }
@@ -23,6 +25,8 @@ class Connections extends Component {
 Connections.propTypes = {
   isTrainer: PropTypes.bool.isRequired,
   connections: PropTypes.object.isRequired,
+  refreshing: PropTypes.bool.isRequired,
+  refreshHandler: PropTypes.func.isRequired,
 }
 
 export default Connections
