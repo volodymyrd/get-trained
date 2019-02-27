@@ -41,7 +41,7 @@ public class TrainerConnections extends AuditableNonDeletableBaseEntity {
   }
 
   @Enumerated(STRING)
-  @Column(name = "STATUS", nullable = false)
+  @Column(name = "STATUS", nullable = false, length = 30)
   private Status status;
 
   @JsonIgnore

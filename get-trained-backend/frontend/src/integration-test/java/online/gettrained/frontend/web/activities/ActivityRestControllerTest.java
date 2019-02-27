@@ -4,6 +4,10 @@ import static online.gettrained.backend.constraints.SelectOption.Option.EQ;
 import static online.gettrained.backend.constraints.SelectOption.Sign.I;
 import static online.gettrained.backend.domain.activities.Trainer.Status.VERIFIED;
 import static online.gettrained.backend.domain.activities.Trainer.Visibility.PUBLIC;
+import static online.gettrained.backend.domain.activities.TrainerConnections.Status.CONNECTED;
+import static online.gettrained.backend.domain.activities.TrainerConnections.Status.PENDING_ON_TRAINEE;
+import static online.gettrained.backend.messages.TextCode.ACTIVITY_SUCCESS_ACCEPT_CONNECTION;
+import static online.gettrained.backend.messages.TextCode.ACTIVITY_SUCCESS_REMOVE_CONNECTION;
 import static online.gettrained.backend.messages.TextCode.ACTIVITY_SUCCESS_SENT_TRAINEE_CONNECTION_REQUEST;
 import static online.gettrained.backend.messages.TextCode.ACTIVITY_SUCCESS_TRAINER_ADDED;
 import static online.gettrained.backend.messages.TextCode.ACTIVITY_SUCCESS_TRAINER_REMOVED;
@@ -163,15 +167,7 @@ public class ActivityRestControllerTest extends BaseIntegrationTest {
 
   @Test
   public void test_030_requestFitnessTrainee() {
-    // Act
-    ResponseEntity<?> response = activityRestController.requestFitnessTrainee(TRAINEE_EMAIL);
-
-    // Assert
-    assertEquals(HTTP_OK, response.getStatusCodeValue());
-    TextInfoDto infoDto = (TextInfoDto) response.getBody();
-    assertNotNull(infoDto);
-    assertEquals(ACTIVITY_SUCCESS_SENT_TRAINEE_CONNECTION_REQUEST, infoDto.getCode());
-    trainerConnectionsRepository.findByTrainer_IdAndTrainee_Id(getUserId(), TRAINEE_USER_ID);
+    testRequestFitnessTrainee();
   }
 
   @Test
@@ -184,6 +180,43 @@ public class ActivityRestControllerTest extends BaseIntegrationTest {
     setUser(TRAINEE_USER_ID);
 
     validateConnections(activityRestController.getMyConnections(0, 10));
+  }
+
+  @Test
+  public void test_060_removeConnection() {
+    // Act
+    ResponseEntity<?> response = activityRestController.removeConnection(1);
+
+    // Assert
+    validateTextResponse(response, ACTIVITY_SUCCESS_REMOVE_CONNECTION);
+    assertFalse(trainerConnectionsRepository
+        .findByUserTrainer_IdAndTrainee_Id(getUserId(), TRAINEE_USER_ID).isPresent());
+  }
+
+  @Test
+  public void test_065_requestFitnessTraineeAgain() {
+    testRequestFitnessTrainee();
+  }
+
+  @Test
+  public void test_070_acceptConnection() {
+    setUser(TRAINEE_USER_ID);
+
+    // Act
+    ResponseEntity<?> response = activityRestController.acceptConnection(2);
+
+    // Assert
+    validateTextResponse(response, ACTIVITY_SUCCESS_ACCEPT_CONNECTION);
+    validateConnection(CONNECTED);
+  }
+
+  private void testRequestFitnessTrainee() {
+    // Act
+    ResponseEntity<?> response = activityRestController.requestFitnessTrainee(TRAINEE_EMAIL);
+
+    // Assert
+    validateTextResponse(response, ACTIVITY_SUCCESS_SENT_TRAINEE_CONNECTION_REQUEST);
+    validateConnection(PENDING_ON_TRAINEE);
   }
 
   private static void pageValidation(Page<?> page) {
@@ -205,5 +238,19 @@ public class ActivityRestControllerTest extends BaseIntegrationTest {
       assertNotNull(c.getTraineeUserId());
       assertFalse(c.getTraineeFullName().isEmpty());
     });
+  }
+
+  private static void validateTextResponse(ResponseEntity<?> response, MessageCode code) {
+    assertEquals(HTTP_OK, response.getStatusCodeValue());
+    TextInfoDto infoDto = (TextInfoDto) response.getBody();
+    assertNotNull(infoDto);
+    assertEquals(code, infoDto.getCode());
+  }
+
+  private void validateConnection(TrainerConnections.Status status) {
+    TrainerConnections connections =
+        trainerConnectionsRepository.findByUserTrainer_IdAndTrainee_Id(getUserId(), TRAINEE_USER_ID)
+            .orElseThrow(IllegalStateException::new);
+    assertEquals(status, connections.getStatus());
   }
 }

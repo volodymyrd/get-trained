@@ -1,6 +1,8 @@
 package online.gettrained.frontend.web.activities;
 
 import static online.gettrained.backend.exceptions.ErrorCode.SOMETHING_WENT_WRONG;
+import static online.gettrained.backend.messages.TextCode.ACTIVITY_SUCCESS_ACCEPT_CONNECTION;
+import static online.gettrained.backend.messages.TextCode.ACTIVITY_SUCCESS_REMOVE_CONNECTION;
 import static online.gettrained.backend.messages.TextCode.ACTIVITY_SUCCESS_SENT_TRAINEE_CONNECTION_REQUEST;
 import static online.gettrained.backend.messages.TextCode.ACTIVITY_SUCCESS_TRAINER_ADDED;
 import static online.gettrained.backend.messages.TextCode.ACTIVITY_SUCCESS_TRAINER_REMOVED;
@@ -261,8 +263,88 @@ public class ActivityRestController {
     }
   }
 
+  @PostMapping("/connection/accept")
+  public ResponseEntity<?> acceptConnection(@RequestParam("connectionId") long connectionId) {
+
+    LOG.info("Calling method 'acceptConnection' of ActivityRestController");
+
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("Calling method 'acceptConnection' of ActivityRestController with connectionId:{}",
+          connectionId);
+    }
+
+    User user = authService.getCurrentUserOrException();
+
+    try {
+      activityService.acceptConnectionRequest(user, connectionId);
+      return ResponseEntity.ok(new TextInfoDto(
+          ACTIVITY_SUCCESS_ACCEPT_CONNECTION,
+          localizationService.getLocalTextByKeyAndLangOrUseDefault(
+              ACTIVITY_SUCCESS_ACCEPT_CONNECTION.toString(),
+              Utils.getLanguage(user),
+              "Connection accepted!"
+          )));
+    } catch (NotFoundException e) {
+      LOG.error("Not found exception: {}", e.getMessage());
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(
+          SOMETHING_WENT_WRONG,
+          localizationService.getLocalTextByKeyAndLangOrUseDefault(
+              SOMETHING_WENT_WRONG.toString(),
+              Utils.getLanguage(user),
+              "Something went wrong!")));
+    } catch (Exception e) {
+      LOG.error("Error accepting connection", e);
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(
+          SOMETHING_WENT_WRONG,
+          localizationService.getLocalTextByKeyAndLangOrUseDefault(
+              SOMETHING_WENT_WRONG.toString(),
+              Utils.getLanguage(user),
+              "Something went wrong!")));
+    }
+  }
+
+  @PostMapping("/connection/remove")
+  public ResponseEntity<?> removeConnection(@RequestParam("connectionId") long connectionId) {
+
+    LOG.info("Calling method 'removeConnection' of ActivityRestController");
+
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("Calling method 'removeConnection' of ActivityRestController with connectionId:{}",
+          connectionId);
+    }
+
+    User user = authService.getCurrentUserOrException();
+
+    try {
+      activityService.removeConnection(user, connectionId);
+      return ResponseEntity.ok(new TextInfoDto(
+          ACTIVITY_SUCCESS_REMOVE_CONNECTION,
+          localizationService.getLocalTextByKeyAndLangOrUseDefault(
+              ACTIVITY_SUCCESS_REMOVE_CONNECTION.toString(),
+              Utils.getLanguage(user),
+              "Connection removed!"
+          )));
+    } catch (NotFoundException e) {
+      LOG.error("Not found exception: {}", e.getMessage());
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(
+          SOMETHING_WENT_WRONG,
+          localizationService.getLocalTextByKeyAndLangOrUseDefault(
+              SOMETHING_WENT_WRONG.toString(),
+              Utils.getLanguage(user),
+              "Something went wrong!")));
+    } catch (Exception e) {
+      LOG.error("Error removing connection", e);
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(
+          SOMETHING_WENT_WRONG,
+          localizationService.getLocalTextByKeyAndLangOrUseDefault(
+              SOMETHING_WENT_WRONG.toString(),
+              Utils.getLanguage(user),
+              "Something went wrong!")));
+    }
+  }
+
   @PostMapping("/trainer/add")
-  public ResponseEntity<?> addTrainer(@RequestParam("activityId") Long activityId) {
+  public ResponseEntity<?> addTrainer(@RequestParam("activityId") long activityId) {
 
     LOG.info("Calling method 'addTrainer' of ActivityRestController");
 

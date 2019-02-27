@@ -10,4 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface TrainerConnectionsRepository extends JpaRepository<TrainerConnections, Long> {
 
   Optional<TrainerConnections> findByTrainer_IdAndTrainee_Id(long trainerId, long traineeId);
+
+  Optional<TrainerConnections> findByUserTrainer_IdAndTrainee_Id(long userTrainerId, long traineeId);
 }

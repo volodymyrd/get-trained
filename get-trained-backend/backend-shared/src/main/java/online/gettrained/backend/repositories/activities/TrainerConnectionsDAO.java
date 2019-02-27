@@ -13,6 +13,7 @@ import online.gettrained.backend.constraints.SelectOption;
 import online.gettrained.backend.constraints.SelectOption.ParametrizedSQLConstraint;
 import online.gettrained.backend.constraints.frontend.activities.FrontendActivityConstraint;
 import online.gettrained.backend.domain.activities.TrainerConnections;
+import online.gettrained.backend.domain.activities.TrainerConnections.Status;
 import online.gettrained.backend.dto.Page;
 import online.gettrained.backend.repositories.BaseRepository;
 import online.gettrained.backend.services.blob.BlobDataService;
@@ -32,7 +33,7 @@ public class TrainerConnectionsDAO extends BaseRepository {
 
   @SuppressWarnings("unchecked")
   public Page<TrainerConnections> findAll(FrontendActivityConstraint constraint) {
-    final Set<String> sortedColumns = immutableSetOf("trainerFullName", "traineeFullName");
+    final Set<String> sortedColumns = immutableSetOf("trainerFullName", "traineeFullName, status");
 
     requireNonNull(constraint, "Parameter 'constraint' must be set.");
     requireNonNull(constraint.getPageable(), "Parameter 'constraint.pageable' must be set.");
@@ -69,7 +70,7 @@ public class TrainerConnectionsDAO extends BaseRepository {
     }
 
     Query dataQuery = getEntityManager().createNativeQuery(
-        "SELECT c.ID AS cId, trainers.ID AS tainerId, "
+        "SELECT c.ID AS cId, trainers.ID AS tainerId, c.STATUS AS status, "
             + " u_trainer.ID AS userTrainerId, "
             + " p_trainer.FULL_NAME AS trainerfullName, p_trainer.BLOB_DATA_ID AS trainerLogo,"
             + " u_trainee.ID AS userTraineeId, "
@@ -102,15 +103,16 @@ public class TrainerConnectionsDAO extends BaseRepository {
           TrainerConnections connections = new TrainerConnections();
           connections.setConnectionId(((Number) r[0]).longValue());
           connections.setTrainerId(((Number) r[1]).longValue());
-          connections.setTrainerUserId(((Number) r[2]).longValue());
-          connections.setTrainerFullName((String) r[3]);
-          if (r[4] != null) {
-            connections.setTrainerLogoUrl(blobDataService.getFileUrl(((Number) r[4]).intValue()));
+          connections.setStatus(Status.valueOf((String) r[2]));
+          connections.setTrainerUserId(((Number) r[3]).longValue());
+          connections.setTrainerFullName((String) r[4]);
+          if (r[5] != null) {
+            connections.setTrainerLogoUrl(blobDataService.getFileUrl(((Number) r[5]).intValue()));
           }
-          connections.setTraineeUserId(((Number) r[5]).longValue());
-          connections.setTraineeFullName((String) r[6]);
-          if (r[7] != null) {
-            connections.setTraineeLogoUrl(blobDataService.getFileUrl(((Number) r[7]).intValue()));
+          connections.setTraineeUserId(((Number) r[6]).longValue());
+          connections.setTraineeFullName((String) r[7]);
+          if (r[8] != null) {
+            connections.setTraineeLogoUrl(blobDataService.getFileUrl(((Number) r[8]).intValue()));
           }
           return connections;
         }).collect(Collectors.toList()));

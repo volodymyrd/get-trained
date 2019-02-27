@@ -1,5 +1,6 @@
 package online.gettrained.backend.services.activities;
 
+import static java.util.Objects.requireNonNull;
 import static online.gettrained.backend.constraints.SelectOption.Option.EQ;
 import static online.gettrained.backend.constraints.SelectOption.Sign.I;
 import static online.gettrained.backend.domain.activities.TrainerConnections.Status.CONNECTED;
@@ -95,6 +96,8 @@ public class ActivityServiceImpl implements ActivityService {
   public void addTrainer(User user, long activityId)
       throws NotFoundException, ApplicationException {
 
+    requireNonNull(user, "Parameter 'user' must be filled.");
+
     Activity activity = activityRepository.findById(activityId)
         .orElseThrow(() -> new NotFoundException("Not found an activity with id: " + activityId));
 
@@ -145,6 +148,8 @@ public class ActivityServiceImpl implements ActivityService {
     activityRepository.findById(activityId)
         .orElseThrow(() -> new NotFoundException("Not found an activity with id: " + activityId));
 
+    requireNonNull(user, "Parameter 'user' must be filled.");
+
     Optional<Trainer> trainerOptional =
         trainerRepository.findByActivity_IdAndUser_IdAndDeleted(activityId, user.getId(), false);
 
@@ -178,6 +183,8 @@ public class ActivityServiceImpl implements ActivityService {
   @Transactional
   public void requestTrainee(User user, long activityId, String traineeEmail)
       throws NotFoundException, ApplicationException {
+
+    requireNonNull(user, "Parameter 'user' must be filled.");
 
     activityRepository.findById(activityId)
         .orElseThrow(() -> new NotFoundException("Not found an activity with id: " + activityId));
@@ -220,7 +227,7 @@ public class ActivityServiceImpl implements ActivityService {
     } else {
       connections = connectionsOptional.get();
       if (connections.isDeleted()) {
-        connections.setDeleted(true);
+        connections.setDeleted(false);
         connections.setUserLastChanged(user);
       } else if (connections.getStatus() == CONNECTED) {
         throw new ApplicationException(new TextInfoDto(
@@ -243,7 +250,74 @@ public class ActivityServiceImpl implements ActivityService {
 
     connections.setStatus(PENDING_ON_TRAINEE);
     connections = trainerConnectionsRepository.save(connections);
-    LOG.info("Request with id:{} for trainee created successfully", connections.getId());
+    LOG.info("Request with id:{} for trainee with email {} created successfully",
+        connections.getId(), traineeEmail);
+  }
+
+  @Override
+  @Transactional
+  public void acceptConnectionRequest(User user, long connectionId) throws NotFoundException {
+    requireNonNull(user, "Parameter 'user' must be filled.");
+
+    TrainerConnections connections = trainerConnectionsRepository.findById(connectionId)
+        .orElseThrow(
+            () -> new NotFoundException("Not found a connection with id: " + connectionId));
+
+    if (connections.isDeleted()) {
+      throw new NotFoundException("Connection is deleted with id: " + connectionId);
+    }
+
+    if (!connections.getUserTrainer().getId().equals(user.getId())
+        && !connections.getTrainee().getId().equals(user.getId())) {
+      LOG.error("User with id:{} cannot accept a foreign connection with id:{}",
+          user.getId(), connectionId);
+      throw new IllegalArgumentException("User cannot accept a foreign connection.");
+    }
+
+    switch (connections.getStatus()) {
+      case PENDING_ON_TRAINEE:
+        if (!connections.getTrainee().getId().equals(user.getId())) {
+          LOG.error("Trainee with id:{} cannot accept a foreign connection with id:{}",
+              user.getId(), connectionId);
+          throw new IllegalArgumentException("Trainee cannot accept a foreign connection.");
+        }
+        break;
+      case CONNECTED:
+        LOG.info("Connection with id:{} already accepted", connectionId);
+        return;
+    }
+
+    connections.setStatus(CONNECTED);
+    connections.setUserLastChanged(user);
+    trainerConnectionsRepository.save(connections);
+
+    LOG.info("Connection with id:{} accepted by user with id:{}", connectionId, user.getId());
+  }
+
+  @Override
+  @Transactional
+  public void removeConnection(User user, long connectionId) throws NotFoundException {
+    requireNonNull(user, "Parameter 'user' must be filled.");
+
+    TrainerConnections connections = trainerConnectionsRepository.findById(connectionId)
+        .orElseThrow(
+            () -> new NotFoundException("Not found a connection with id: " + connectionId));
+
+    if (connections.isDeleted()) {
+      LOG.warn("Connection with id:{} is deleted, nothing to change", connectionId);
+      return;
+    }
+
+    if (!connections.getUserTrainer().getId().equals(user.getId())
+        && !connections.getTrainee().getId().equals(user.getId())) {
+      LOG.error("User with id:{} cannot delete a foreign connection with id:{}",
+          user.getId(), connectionId);
+      throw new IllegalArgumentException("User cannot delete a foreign connection.");
+    }
+
+    trainerConnectionsRepository.deleteById(connectionId);
+
+    LOG.info("Trying to delete the connection with id:{}", connectionId);
   }
 
   @Override
@@ -292,21 +366,6 @@ public class ActivityServiceImpl implements ActivityService {
 
   @Override
   public void requestTrainer(User user, long trainerId) {
-
-  }
-
-  @Override
-  public void confirmConnection(User user, long connectionId) {
-
-  }
-
-  @Override
-  public void rejectConnection(User user, long connectionId) {
-
-  }
-
-  @Override
-  public void removeConnection(User user, long connectionId) {
 
   }
 
