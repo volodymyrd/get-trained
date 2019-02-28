@@ -4,7 +4,6 @@ import { MainService } from 'App/Services/MainService'
 import { HomeService } from '../HomeService'
 import HomeActions from '../Stores/Actions'
 import { MODULE } from '../Metadata'
-import { fetchTraineeRequestLoading } from '../Stores/Reducers'
 
 export function* fetchMetadata({ langCode }) {
   yield put(HomeActions.fetchMetadataLoading())
@@ -74,6 +73,30 @@ export function* fetchTraineeRequest({ email, messages }) {
     }
   } else {
     yield put(HomeActions.fetchTraineeRequestFailure())
+    yield call(error, messages[0])
+  }
+}
+
+export function* fetchDeleteConnection({ connectionId, messages }) {
+  yield put(HomeActions.fetchDeleteConnectionLoading())
+
+  const response = yield call(HomeService.deleteConnection, connectionId)
+  console.log(response)
+  if (response && response.data) {
+    if (response.ok) {
+      yield put(HomeActions.fetchDeleteConnectionSuccess())
+      yield call(success, response.data.message)
+    } else {
+      if (response.data.type !== 'E') {
+        yield put(HomeActions.fetchDeleteConnectionSuccess())
+        yield call(info, response.data.message)
+      } else {
+        yield put(HomeActions.fetchDeleteConnectionFailure())
+        yield call(error, response.data.message)
+      }
+    }
+  } else {
+    yield put(HomeActions.fetchDeleteConnectionFailure())
     yield call(error, messages[0])
   }
 }

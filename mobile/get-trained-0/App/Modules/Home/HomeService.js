@@ -12,7 +12,12 @@ const traineeRequest = (email) => {
   return postPlainWithCredentials(`${BASE_URL}/fitness/request/trainee?email=${email}`)
 }
 
+const deleteConnection = (connectionId) => {
+  return postPlainWithCredentials(`${BASE_URL}/connection/remove?connectionId=${connectionId}`)
+}
+
 export const HomeService = {
   getConnections,
   traineeRequest,
+  deleteConnection,
 }

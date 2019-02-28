@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import connect from 'react-redux/es/connect/connect'
 import {setNavigationOptions} from 'App/Modules/Dashboard/NavigationOptions'
+import {Map} from 'immutable'
 import Error from 'App/Components/Error'
 import Loading from 'App/Components/Loading'
 import ButtonWithLoader from 'App/Components/ButtonWithLoader'
@@ -29,7 +30,9 @@ class HomeScreen extends Component {
     const {langCode, metadata, fetchMetadata, navigation} = this.props
 
     if (langCode
-        && !(metadata && metadata.size && metadata.get('module') === MODULE)) {
+        && !(metadata
+            && Map.isMap(metadata)
+            && metadata.get('module') === MODULE)) {
       fetchMetadata(langCode.toUpperCase())
     } else {
       navigation.setParams({title: titleHome(metadata.get('localizations'))})
@@ -45,7 +48,9 @@ class HomeScreen extends Component {
 
   componentDidUpdate(prevProps) {
     const {metadata, navigation} = this.props
-    if (prevProps.metadata && !prevProps.metadata.size && metadata.size) {
+    if (prevProps.metadata
+        && !Map.isMap(prevProps.metadata)
+        && Map.isMap(metadata)) {
       navigation.setParams({title: titleHome(metadata.get('localizations'))})
     }
   }
@@ -72,9 +77,9 @@ class HomeScreen extends Component {
 
     if (fetchingMetadata
         || !metadata
-        || !metadata.size
+        || !Map.isMap(metadata)
         || !connections
-        || !connections.size) {
+        || !Map.isMap(connections)) {
       return <Loading/>
     }
 
@@ -85,6 +90,7 @@ class HomeScreen extends Component {
           <Connections isTrainer={isTrainer}
                        refreshing={fetchingConnections}
                        refreshHandler={this._getConnections}
+                       deleteHandler={() => console.log('deleteHandler')}
                        connections={connections}/>
           {/*<Content padder>*/}
           {/*</Content>*/}

@@ -6,7 +6,7 @@ import TraineeItem from './TraineeItem'
 
 class Connections extends Component {
   render() {
-    const { isTrainer, connections, refreshing, refreshHandler } = this.props
+    const { isTrainer, connections, refreshing, refreshHandler, deleteHandler } = this.props
 
     return (
       <FlatList
@@ -15,7 +15,11 @@ class Connections extends Component {
         refreshing={refreshing}
         onRefresh={refreshHandler}
         renderItem={({ item }) =>
-          isTrainer ? <TraineeItem item={item} /> : <TrainerItem item={item} />
+          isTrainer ? (
+            <TraineeItem item={item} deleteHandler={deleteHandler} />
+          ) : (
+            <TrainerItem item={item} />
+          )
         }
       />
     )
