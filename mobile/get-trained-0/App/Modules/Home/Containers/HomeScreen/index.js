@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import connect from 'react-redux/es/connect/connect'
 import {setNavigationOptions} from 'App/Modules/Dashboard/NavigationOptions'
 import {Map} from 'immutable'
+import {Confirm} from 'App/Components/Alert'
 import Error from 'App/Components/Error'
 import Loading from 'App/Components/Loading'
 import ButtonWithLoader from 'App/Components/ButtonWithLoader'
@@ -90,7 +91,11 @@ class HomeScreen extends Component {
           <Connections isTrainer={isTrainer}
                        refreshing={fetchingConnections}
                        refreshHandler={this._getConnections}
-                       deleteHandler={() => console.log('deleteHandler')}
+                       deleteHandler={() => Confirm(
+                           'title',
+                           'is ok?',
+                           () => console.log('ok'),
+                           () => console.log('cancel'))}
                        connections={connections}/>
           {/*<Content padder>*/}
           {/*</Content>*/}
