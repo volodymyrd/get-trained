@@ -2,24 +2,15 @@ import React, {Component} from 'react'
 import connect from 'react-redux/es/connect/connect'
 import {setNavigationOptions} from 'App/Modules/Dashboard/NavigationOptions'
 import {Map} from 'immutable'
-import {Confirm} from 'App/Components/Alert'
+import {pageSize} from '../../Constants'
 import Error from 'App/Components/Error'
 import Loading from 'App/Components/Loading'
 import ButtonWithLoader from 'App/Components/ButtonWithLoader'
 import Connections from '../../Components/Connections'
 import {
-  Body,
-  Button,
   Container,
-  Content,
-  Header,
   Footer,
   FooterTab,
-  Icon,
-  Left,
-  Right,
-  Title,
-  Text,
 } from 'native-base'
 import HomeActions from '../../Stores/Actions'
 import {MODULE, titleHome, titleAddTrainee, addTraineeBtn} from '../../Metadata'
@@ -57,7 +48,7 @@ class HomeScreen extends Component {
   }
 
   _getConnections = () => {
-    this.props.fetchConnections(0, 10, [])
+    this.props.fetchConnections(0, pageSize, [])
   }
 
   render() {
@@ -70,6 +61,8 @@ class HomeScreen extends Component {
       fetchingConnections,
       connections,
       fetchingTraineeRequest,
+      fetchDeleteConnection,
+      fetchingDeleteConnection,
     } = this.props
 
     if (failedRetrievingMetadata) {
@@ -91,14 +84,11 @@ class HomeScreen extends Component {
           <Connections isTrainer={isTrainer}
                        refreshing={fetchingConnections}
                        refreshHandler={this._getConnections}
-                       deleteHandler={() => Confirm(
-                           'title',
-                           'is ok?',
-                           () => console.log('ok'),
-                           () => console.log('cancel'))}
-                       connections={connections}/>
-          {/*<Content padder>*/}
-          {/*</Content>*/}
+                       deleteHandler={fetchDeleteConnection}
+                       connections={connections}
+                       localizations={localizations}
+                       fetches={{fetchingDeleteConnection,}}/>
+
           {isTrainer &&
           <Footer>
             <FooterTab>
@@ -136,6 +126,8 @@ const mapStateToProps = (state) => ({
   connections: state.home.root.get('connections'),
 
   fetchingTraineeRequest: state.home.root.get('fetchingTraineeRequest'),
+
+  fetchingDeleteConnection: state.home.root.get('fetchingDeleteConnection'),
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -144,6 +136,8 @@ const mapDispatchToProps = (dispatch) => ({
   fetchIsTrainer: () => dispatch(HomeActions.fetchIsTrainer()),
   fetchConnections: (offset, pageSize, messages) => dispatch(
       HomeActions.fetchConnections(offset, pageSize, messages)),
+  fetchDeleteConnection: (connectionId) =>
+      dispatch(HomeActions.fetchDeleteConnection(connectionId)),
 })
 
 export default connect(

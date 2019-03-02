@@ -6,7 +6,15 @@ import TraineeItem from './TraineeItem'
 
 class Connections extends Component {
   render() {
-    const { isTrainer, connections, refreshing, refreshHandler, deleteHandler } = this.props
+    const {
+      isTrainer,
+      connections,
+      refreshing,
+      refreshHandler,
+      deleteHandler,
+      localizations,
+      fetches,
+    } = this.props
 
     return (
       <FlatList
@@ -16,7 +24,12 @@ class Connections extends Component {
         onRefresh={refreshHandler}
         renderItem={({ item }) =>
           isTrainer ? (
-            <TraineeItem item={item} deleteHandler={deleteHandler} />
+            <TraineeItem
+              item={item}
+              deleteHandler={deleteHandler}
+              localizations={localizations}
+              fetches={fetches}
+            />
           ) : (
             <TrainerItem item={item} />
           )
@@ -31,6 +44,9 @@ Connections.propTypes = {
   connections: PropTypes.object.isRequired,
   refreshing: PropTypes.bool.isRequired,
   refreshHandler: PropTypes.func.isRequired,
+  deleteHandler: PropTypes.func.isRequired,
+  localizations: PropTypes.object.isRequired,
+  fetches: PropTypes.object.isRequired,
 }
 
 export default Connections

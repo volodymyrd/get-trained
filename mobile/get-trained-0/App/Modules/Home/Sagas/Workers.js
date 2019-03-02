@@ -1,5 +1,6 @@
 import { put, call } from 'redux-saga/effects'
 import { error, success, info } from 'App/Components/Notification'
+import { pageSize } from '../Constants'
 import { MainService } from 'App/Services/MainService'
 import { HomeService } from '../HomeService'
 import HomeActions from '../Stores/Actions'
@@ -44,7 +45,7 @@ export function* fetchConnections({ offset, pageSize, messages }) {
   yield put(HomeActions.fetchConnectionsLoading())
 
   const response = yield call(HomeService.getConnections, offset, pageSize)
-  console.log(response)
+
   if (response && response.data) {
     yield put(HomeActions.fetchConnectionsSuccess(response.data))
   } else {
@@ -57,11 +58,12 @@ export function* fetchTraineeRequest({ email, messages }) {
   yield put(HomeActions.fetchTraineeRequestLoading())
 
   const response = yield call(HomeService.traineeRequest, email)
-  console.log(response)
+
   if (response && response.data) {
     if (response.ok) {
       yield put(HomeActions.fetchTraineeRequestSuccess())
       yield call(success, response.data.message)
+      yield put(HomeActions.fetchConnections(0, pageSize, []))
     } else {
       if (response.data.type !== 'E') {
         yield put(HomeActions.fetchTraineeRequestSuccess())
@@ -81,11 +83,12 @@ export function* fetchDeleteConnection({ connectionId, messages }) {
   yield put(HomeActions.fetchDeleteConnectionLoading())
 
   const response = yield call(HomeService.deleteConnection, connectionId)
-  console.log(response)
+
   if (response && response.data) {
     if (response.ok) {
       yield put(HomeActions.fetchDeleteConnectionSuccess())
       yield call(success, response.data.message)
+      yield put(HomeActions.fetchConnections(0, pageSize, []))
     } else {
       if (response.data.type !== 'E') {
         yield put(HomeActions.fetchDeleteConnectionSuccess())
