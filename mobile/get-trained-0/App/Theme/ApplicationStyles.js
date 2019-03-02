@@ -17,4 +17,10 @@ export default {
     height: 0,
     marginTop: -45,
   },
+  inline: {
+    flexDirection: 'row',
+  },
+  verticalAlign: {
+    justifyContent: 'center',
+  },
 }

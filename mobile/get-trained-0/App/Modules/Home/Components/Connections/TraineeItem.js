@@ -10,8 +10,8 @@ import styles from './styles'
 
 const Pending = ({ connectionId, deleteHandler, localizations, fetches }) => {
   return (
-    <View style={{ flexDirection: 'row' }}>
-      <View style={{ justifyContent: 'center' }}>
+    <View style={styles.inline}>
+      <View style={styles.verticalAlign}>
         <Text note>{'pending...'}</Text>
       </View>
       <ButtonWithLoader

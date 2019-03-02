@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native'
 import Dimensions from 'Dimensions'
+import ApplicationStyles from 'App/Theme/ApplicationStyles'
 
 export default StyleSheet.create({
   content: {
@@ -16,5 +17,11 @@ export default StyleSheet.create({
     borderStyle: 'solid',
     borderColor: 'black',
     borderWidth: 1,
+  },
+  inline: {
+    ...ApplicationStyles.inline,
+  },
+  verticalAlign: {
+    ...ApplicationStyles.verticalAlign,
   },
 })
