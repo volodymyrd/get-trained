@@ -105,6 +105,22 @@ export const fetchDeleteConnectionFailure = (state) =>
   state.merge({
     fetchingDeleteConnection: false,
   })
+
+export const fetchAcceptConnectionLoading = (state) =>
+  state.merge({
+    fetchingAcceptConnection: true,
+  })
+
+export const fetchAcceptConnectionSuccess = (state) =>
+  state.merge({
+    fetchingAcceptConnection: false,
+  })
+
+export const fetchAcceptConnectionFailure = (state) =>
+  state.merge({
+    fetchingAcceptConnection: false,
+  })
+
 /**
  * @see https://github.com/infinitered/reduxsauce#createreducer
  */
@@ -132,4 +148,8 @@ export const home = createReducer(INITIAL_STATE, {
   [HomeTypes.FETCH_DELETE_CONNECTION_LOADING]: fetchDeleteConnectionLoading,
   [HomeTypes.FETCH_DELETE_CONNECTION_SUCCESS]: fetchDeleteConnectionSuccess,
   [HomeTypes.FETCH_DELETE_CONNECTION_FAILURE]: fetchDeleteConnectionFailure,
+
+  [HomeTypes.FETCH_ACCEPT_CONNECTION_LOADING]: fetchAcceptConnectionLoading,
+  [HomeTypes.FETCH_ACCEPT_CONNECTION_SUCCESS]: fetchAcceptConnectionSuccess,
+  [HomeTypes.FETCH_ACCEPT_CONNECTION_FAILURE]: fetchAcceptConnectionFailure,
 })

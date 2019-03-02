@@ -63,6 +63,8 @@ class HomeScreen extends Component {
       fetchingTraineeRequest,
       fetchDeleteConnection,
       fetchingDeleteConnection,
+      fetchAcceptConnection,
+      fetchingAcceptConnection,
     } = this.props
 
     if (failedRetrievingMetadata) {
@@ -85,9 +87,13 @@ class HomeScreen extends Component {
                        refreshing={fetchingConnections}
                        refreshHandler={this._getConnections}
                        deleteHandler={fetchDeleteConnection}
+                       acceptHandler={fetchAcceptConnection}
                        connections={connections}
                        localizations={localizations}
-                       fetches={{fetchingDeleteConnection,}}/>
+                       fetches={{
+                         fetchingDeleteConnection,
+                         fetchingAcceptConnection
+                       }}/>
 
           {isTrainer &&
           <Footer>
@@ -128,6 +134,7 @@ const mapStateToProps = (state) => ({
   fetchingTraineeRequest: state.home.root.get('fetchingTraineeRequest'),
 
   fetchingDeleteConnection: state.home.root.get('fetchingDeleteConnection'),
+  fetchingAcceptConnection: state.home.root.get('fetchingAcceptConnection'),
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -138,6 +145,8 @@ const mapDispatchToProps = (dispatch) => ({
       HomeActions.fetchConnections(offset, pageSize, messages)),
   fetchDeleteConnection: (connectionId) =>
       dispatch(HomeActions.fetchDeleteConnection(connectionId)),
+  fetchAcceptConnection: (connectionId) =>
+      dispatch(HomeActions.fetchAcceptConnection(connectionId)),
 })
 
 export default connect(

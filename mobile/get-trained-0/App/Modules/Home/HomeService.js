@@ -16,8 +16,13 @@ const deleteConnection = (connectionId) => {
   return postPlainWithCredentials(`${BASE_URL}/connection/remove?connectionId=${connectionId}`)
 }
 
+const acceptConnection = (connectionId) => {
+  return postPlainWithCredentials(`${BASE_URL}/connection/accept?connectionId=${connectionId}`)
+}
+
 export const HomeService = {
   getConnections,
   traineeRequest,
   deleteConnection,
+  acceptConnection,
 }

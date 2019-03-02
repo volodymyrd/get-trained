@@ -12,6 +12,7 @@ class Connections extends Component {
       refreshing,
       refreshHandler,
       deleteHandler,
+      acceptHandler,
       localizations,
       fetches,
     } = this.props
@@ -31,7 +32,13 @@ class Connections extends Component {
               fetches={fetches}
             />
           ) : (
-            <TrainerItem item={item} />
+            <TrainerItem
+              item={item}
+              deleteHandler={deleteHandler}
+              acceptHandler={acceptHandler}
+              localizations={localizations}
+              fetches={fetches}
+            />
           )
         }
       />
@@ -45,6 +52,7 @@ Connections.propTypes = {
   refreshing: PropTypes.bool.isRequired,
   refreshHandler: PropTypes.func.isRequired,
   deleteHandler: PropTypes.func.isRequired,
+  acceptHandler: PropTypes.func.isRequired,
   localizations: PropTypes.object.isRequired,
   fetches: PropTypes.object.isRequired,
 }

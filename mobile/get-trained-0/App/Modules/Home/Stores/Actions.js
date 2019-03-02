@@ -36,6 +36,11 @@ const { Types, Creators } = createActions(
     fetchDeleteConnectionLoading: null,
     fetchDeleteConnectionSuccess: null,
     fetchDeleteConnectionFailure: null,
+
+    fetchAcceptConnection: ['connectionId'],
+    fetchAcceptConnectionLoading: null,
+    fetchAcceptConnectionSuccess: null,
+    fetchAcceptConnectionFailure: null,
   },
   { prefix: 'HOME_' }
 )

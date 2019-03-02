@@ -7,6 +7,7 @@ import {
   fetchConnections,
   fetchTraineeRequest,
   fetchDeleteConnection,
+  fetchAcceptConnection,
 } from './Workers'
 
 export default function*() {
@@ -17,5 +18,6 @@ export default function*() {
     takeLatest(HomeTypes.FETCH_CONNECTIONS, fetchConnections),
     takeLatest(HomeTypes.FETCH_TRAINEE_REQUEST, fetchTraineeRequest),
     takeLatest(HomeTypes.FETCH_DELETE_CONNECTION, fetchDeleteConnection),
+    takeLatest(HomeTypes.FETCH_ACCEPT_CONNECTION, fetchAcceptConnection),
   ]
 }

@@ -103,3 +103,28 @@ export function* fetchDeleteConnection({ connectionId, messages }) {
     yield call(error, messages[0])
   }
 }
+
+export function* fetchAcceptConnection({ connectionId, messages }) {
+  yield put(HomeActions.fetchAcceptConnectionLoading())
+
+  const response = yield call(HomeService.acceptConnection, connectionId)
+
+  if (response && response.data) {
+    if (response.ok) {
+      yield put(HomeActions.fetchAcceptConnectionSuccess())
+      yield call(success, response.data.message)
+      yield put(HomeActions.fetchConnections(0, pageSize, []))
+    } else {
+      if (response.data.type !== 'E') {
+        yield put(HomeActions.fetchAcceptConnectionSuccess())
+        yield call(info, response.data.message)
+      } else {
+        yield put(HomeActions.fetchAcceptConnectionFailure())
+        yield call(error, response.data.message)
+      }
+    }
+  } else {
+    yield put(HomeActions.fetchAcceptConnectionFailure())
+    yield call(error, messages[0])
+  }
+}

@@ -6,6 +6,9 @@ export default StyleSheet.create({
   content: {
     marginTop: Dimensions.get('window').height / 10,
   },
+  body: {
+    height: 70,
+  },
   avatar: {
     display: 'flex',
     justifyContent: 'center',

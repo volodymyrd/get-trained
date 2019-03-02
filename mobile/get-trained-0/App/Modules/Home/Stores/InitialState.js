@@ -14,4 +14,5 @@ export const INITIAL_STATE = Map({
   fetchingConnections: false,
   fetchingTraineeRequest: false,
   fetchingDeleteConnection: false,
+  fetchingAcceptConnection: false,
 })

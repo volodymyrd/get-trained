@@ -14,14 +14,52 @@ export const addTraineeBtn = (localizations) => {
   return text(localizations.get(keys.HOME_BTN_ADD_TRAINEE), 'Add trainee')
 }
 
-export const titleConnectionDeleteRequest = (localizations) => {
-  return text(localizations.get(keys.HOME_TITLE_CONNECTION_DELETE_REQUEST), 'Deleting request')
+export const connectionRequestDeleteBtn = (localizations) => {
+  return text(localizations.get(keys.HOME_BTN_CONNECTION_REQUEST_DELETE), 'Delete request')
 }
 
-export const confirmConnectionDeleteRequest = (localizations) => {
+export const connectionRequestRejectBtn = (localizations) => {
+  return text(localizations.get(keys.HOME_BTN_CONNECTION_REQUEST_REJECT), 'Reject')
+}
+
+export const connectionRequestAcceptBtn = (localizations) => {
+  return text(localizations.get(keys.HOME_BTN_CONNECTION_REQUEST_REJECT), 'Accept')
+}
+
+export const connectionDeleteBtn = (localizations) => {
+  return text(localizations.get(keys.HOME_BTN_CONNECTION_DELETE), 'Delete')
+}
+
+export const titleConnectionRequestDelete = (localizations) => {
+  return text(localizations.get(keys.HOME_TITLE_CONNECTION_REQUEST_DELETE), 'Deleting request')
+}
+
+export const titleConnectionRequestReject = (localizations) => {
+  return text(localizations.get(keys.HOME_TITLE_CONNECTION_REQUEST_REJECT), 'Rejecting request')
+}
+
+export const titleConnectionDelete = (localizations) => {
+  return text(localizations.get(keys.HOME_TITLE_CONNECTION_DELETE), 'Deleting connection')
+}
+
+export const confirmConnectionRequestDelete = (localizations) => {
   return text(
-    localizations.get(keys.HOME_CONFIRM_CONNECTION_DELETE_REQUEST),
+    localizations.get(keys.HOME_CONFIRM_CONNECTION_REQUEST_DELETE),
     'Are you sure to delete the request?'
+  )
+}
+
+export const confirmConnectionRequestReject = (localizations) => {
+  return text(
+    localizations.get(keys.HOME_CONFIRM_CONNECTION_REQUEST_REJECT),
+    'Are you sure to reject the request?'
+  )
+}
+
+export const confirmConnectionDelete = (localizations) => {
+  return text(
+    localizations.get(keys.HOME_CONFIRM_CONNECTION_DELETE),
+    'Are you sure to delete the connection?'
   )
 }
 
@@ -30,6 +68,14 @@ const keys = {
   HOME_TITLE_HOME: 'home.title.home',
   HOME_TITLE_ADD_TRAINEE: 'home.title.add_trainee',
   HOME_BTN_ADD_TRAINEE: 'home.btn.add_trainee',
-  HOME_TITLE_CONNECTION_DELETE_REQUEST: 'home.title.connection_delete_request',
-  HOME_CONFIRM_CONNECTION_DELETE_REQUEST: 'home.confirm.connection_delete_request',
+  HOME_BTN_CONNECTION_REQUEST_DELETE: 'home.btn.connection_request_delete',
+  HOME_BTN_CONNECTION_REQUEST_REJECT: 'home.btn.connection_request_reject',
+  HOME_BTN_CONNECTION_REQUEST_ACCEPT: 'home.btn.connection_request_accept',
+  HOME_BTN_CONNECTION_DELETE: 'home.btn.connection_delete',
+  HOME_TITLE_CONNECTION_REQUEST_DELETE: 'home.title.connection_request_delete',
+  HOME_TITLE_CONNECTION_REQUEST_REJECT: 'home.title.connection_request_reject',
+  HOME_TITLE_CONNECTION_DELETE: 'home.title.connection_delete',
+  HOME_CONFIRM_CONNECTION_REQUEST_DELETE: 'home.confirm.connection_request_delete',
+  HOME_CONFIRM_CONNECTION_REQUEST_REJECT: 'home.confirm.connection_request_reject',
+  HOME_CONFIRM_CONNECTION_DELETE: 'home.confirm.connection_delete',
 }

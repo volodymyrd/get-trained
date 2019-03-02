@@ -1,12 +1,56 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { View, Text, ListItem, Left, Thumbnail, Body } from 'native-base'
+import { View, Text, ListItem, Left, Right, Thumbnail, Body } from 'native-base'
 import { getUrl } from 'App/Utils/HttpUtils'
 import { Confirm } from 'App/Components/Alert'
 import ButtonWithLoader from 'App/Components/ButtonWithLoader'
-import { titleConnectionDeleteRequest, confirmConnectionDeleteRequest } from '../../Metadata'
+import {
+  connectionRequestDeleteBtn,
+  connectionDeleteBtn,
+  titleConnectionRequestDelete,
+  titleConnectionDelete,
+  confirmConnectionRequestDelete,
+  confirmConnectionDelete,
+} from '../../Metadata'
 
 import styles from './styles'
+
+const DeleteBtn = ({
+  connectionId,
+  title,
+  confirmTitle,
+  confirmMessage,
+  deleteHandler,
+  localizations,
+  fetches,
+}) => {
+  return (
+    <ButtonWithLoader
+      title={title}
+      loading={fetches.fetchingDeleteConnection}
+      onPressHandler={() =>
+        Confirm({
+          title: confirmTitle,
+          message: confirmMessage,
+          ok: () => deleteHandler(connectionId),
+          localizations: localizations,
+        })
+      }
+      small
+      transparent
+    />
+  )
+}
+
+DeleteBtn.propTypes = {
+  connectionId: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  confirmTitle: PropTypes.string.isRequired,
+  confirmMessage: PropTypes.string.isRequired,
+  deleteHandler: PropTypes.func.isRequired,
+  localizations: PropTypes.object.isRequired,
+  fetches: PropTypes.object.isRequired,
+}
 
 const Pending = ({ connectionId, deleteHandler, localizations, fetches }) => {
   return (
@@ -14,19 +58,14 @@ const Pending = ({ connectionId, deleteHandler, localizations, fetches }) => {
       <View style={styles.verticalAlign}>
         <Text note>{'pending...'}</Text>
       </View>
-      <ButtonWithLoader
-        title="Delete"
-        loading={fetches.fetchingDeleteConnection}
-        onPressHandler={() =>
-          Confirm({
-            title: titleConnectionDeleteRequest(localizations),
-            message: confirmConnectionDeleteRequest(localizations),
-            ok: () => deleteHandler(connectionId),
-            localizations: localizations,
-          })
-        }
-        small
-        transparent
+      <DeleteBtn
+        connectionId={connectionId}
+        title={connectionRequestDeleteBtn(localizations)}
+        confirmTitle={titleConnectionRequestDelete(localizations)}
+        confirmMessage={confirmConnectionRequestDelete(localizations)}
+        deleteHandler={deleteHandler}
+        localizations={localizations}
+        fetches={fetches}
       />
     </View>
   )
@@ -54,7 +93,7 @@ class TraineeItem extends Component {
             </View>
           )}
         </Left>
-        <Body>
+        <Body style={styles.body}>
           <Text>{item.traineeFullName}</Text>
           {item.status === 'PENDING_ON_TRAINEE' && (
             <Pending
@@ -65,6 +104,19 @@ class TraineeItem extends Component {
             />
           )}
         </Body>
+        {item.status === 'CONNECTED' && (
+          <Right style={styles.verticalAlign}>
+            <DeleteBtn
+              title={connectionDeleteBtn(localizations)}
+              connectionId={item.connectionId}
+              confirmTitle={titleConnectionDelete(localizations)}
+              confirmMessage={confirmConnectionDelete(localizations)}
+              deleteHandler={deleteHandler}
+              localizations={localizations}
+              fetches={fetches}
+            />
+          </Right>
+        )}
       </ListItem>
     )
   }
