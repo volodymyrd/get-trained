@@ -33,6 +33,8 @@ configurations {
 dependencies {
     compile project(":backend-batch")
 
+    compile libs.spring_boot_websocket
+
     compile libs.liquibase
 
     testCompile libs.test

@@ -28,7 +28,7 @@ subprojects {
                 poi                : '3.17',
                 logback            : '1.2.3',
                 slf4j              : '1.7.25',
-                guava              : '20.0',
+                guava              : '26.0-jre',
                 httpcomp           : '4.5.3',
                 hikari             : '3.2.0',
                 gcp                : '1.57.0',
@@ -41,6 +41,9 @@ subprojects {
         libs.javax = ["javax.servlet:jstl:${versions.jstl}"]
 
         libs.spring_boot_web = ["org.springframework.boot:spring-boot-starter-web:${versions.spring_boot}"]
+
+        libs.spring_boot_websocket =
+                ["org.springframework.boot:spring-boot-starter-websocket:${versions.spring_boot}"]
 
         libs.spring_boot_jpa = "org.springframework.boot:spring-boot-starter-data-jpa:${versions.spring_boot}"
         libs.hibernate_validator = "org.hibernate:hibernate-validator:${versions.hibernate_validator}"
@@ -182,7 +185,7 @@ task deploy {
                 execute('/home/volodymyrd/app/stop.sh')
 
                 println('remove app...')
-                execute ('rm /home/volodymyrd/app/' + app)
+                execute('rm /home/volodymyrd/app/' + app)
 
                 println('copy app-file...')
                 put from: app_path, into: '/home/volodymyrd/app/'

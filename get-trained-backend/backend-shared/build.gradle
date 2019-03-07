@@ -31,7 +31,7 @@ configurations {
 }
 
 dependencies {
-
+    compile libs.guava
     compile libs.spring_boot_web
     compile libs.spring_boot_security
     compile libs.spring_boot_jpa, { exclude group: "org.apache.tomcat", module: "tomcat-jdbc" }
