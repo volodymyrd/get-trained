@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import connect from 'react-redux/es/connect/connect'
+import {getWebSocket} from 'App/Utils/WebsocketUtils'
 import {setNavigationOptions} from 'App/Modules/Dashboard/NavigationOptions'
 import {Map} from 'immutable'
 import {pageSize} from '../../Constants'
@@ -11,12 +12,21 @@ import {
   Container,
   Footer,
   FooterTab,
+  Button,
+  Text,
 } from 'native-base'
 import HomeActions from '../../Stores/Actions'
 import {MODULE, titleHome, titleAddTrainee, addTraineeBtn} from '../../Metadata'
 
 class HomeScreen extends Component {
   static navigationOptions = ({navigation}) => setNavigationOptions(navigation)
+
+  constructor(props) {
+    super(props);
+
+    this.socket = getWebSocket()
+    this.socket.onmessage = ({data}) => console.log(data)
+  }
 
   componentDidMount() {
     const {langCode, metadata, fetchMetadata, navigation} = this.props
@@ -36,6 +46,8 @@ class HomeScreen extends Component {
 
     this.props.fetchIsTrainer()
     this._getConnections()
+
+    // this.socket.onopen = () => this.socket.send("");
   }
 
   componentDidUpdate(prevProps) {
@@ -83,6 +95,7 @@ class HomeScreen extends Component {
 
     return (
         <Container>
+          {/*<Button onPress={send}><Text>ws</Text></Button>*/}
           <Connections isTrainer={isTrainer}
                        refreshing={fetchingConnections}
                        refreshHandler={this._getConnections}

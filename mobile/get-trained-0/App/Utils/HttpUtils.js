@@ -1,9 +1,14 @@
 import { create } from 'apisauce'
-import { Config } from 'App/Config'
 import base64 from './Base64'
+import { Config } from 'App/Config'
+
+const getBaseUrl = () => {
+  if (Config.PORT === '80' || Config.PORT === '443') return `${Config.HTTP}${Config.HOST}/`
+  else return `${Config.HTTP}${Config.HOST}:${Config.PORT}/`
+}
 
 export const getUrl = (url) => {
-  return `${Config.API_URL}${url}`
+  return `${getBaseUrl()}${url}`
 }
 
 export const post = (url, json) => {
@@ -85,7 +90,7 @@ const _post = (url, header, jsonOrData) => {
 
 const _getApiClient = () => {
   return create({
-    baseURL: Config.API_URL,
+    baseURL: getBaseUrl(),
     headers: {},
     timeout: 5000,
   })
