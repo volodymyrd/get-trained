@@ -1,19 +1,35 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { View, Text, ListItem, Left, Right, Thumbnail, Body } from 'native-base'
+import {
+  View,
+  Text,
+  ListItem,
+  Left,
+  Right,
+  Thumbnail,
+  Body,
+  Button,
+  ActionSheet,
+} from 'native-base'
 import { getUrl } from 'App/Utils/HttpUtils'
 import { Confirm } from 'App/Components/Alert'
 import ButtonWithLoader from 'App/Components/ButtonWithLoader'
 import {
+  cancel,
   connectionRequestDeleteBtn,
   connectionDeleteBtn,
   titleConnectionRequestDelete,
   titleConnectionDelete,
   confirmConnectionRequestDelete,
   confirmConnectionDelete,
+  titleActions,
+  titleChat,
 } from '../../Metadata'
 
 import styles from './styles'
+
+const DESTRUCTIVE_INDEX = 1
+const CANCEL_INDEX = 2
 
 const DeleteBtn = ({
   connectionId,
@@ -80,7 +96,13 @@ Pending.propTypes = {
 
 class TraineeItem extends Component {
   render() {
-    const { item, deleteHandler, localizations, fetches } = this.props
+    const { navigation, item, deleteHandler, localizations, fetches } = this.props
+
+    const ACTIONS = [
+      titleChat(localizations),
+      connectionDeleteBtn(localizations),
+      cancel(localizations),
+    ]
 
     return (
       <ListItem avatar>
@@ -106,15 +128,36 @@ class TraineeItem extends Component {
         </Body>
         {item.status === 'CONNECTED' && (
           <Right style={styles.verticalAlign}>
-            <DeleteBtn
-              title={connectionDeleteBtn(localizations)}
-              connectionId={item.connectionId}
-              confirmTitle={titleConnectionDelete(localizations)}
-              confirmMessage={confirmConnectionDelete(localizations)}
-              deleteHandler={deleteHandler}
-              localizations={localizations}
-              fetches={fetches}
-            />
+            <Button
+              transparent
+              onPress={() =>
+                ActionSheet.show(
+                  {
+                    options: ACTIONS,
+                    cancelButtonIndex: CANCEL_INDEX,
+                    destructiveButtonIndex: DESTRUCTIVE_INDEX,
+                    title: titleActions(localizations),
+                  },
+                  (buttonIndex) => {
+                    switch (buttonIndex) {
+                      case 0:
+                        navigation.navigate('Chat', { title: titleChat(localizations) })
+                        break
+                      case 1:
+                        Confirm({
+                          title: titleConnectionDelete(localizations),
+                          message: confirmConnectionDelete(localizations),
+                          ok: () => deleteHandler(item.connectionId),
+                          localizations: localizations,
+                        })
+                        break
+                    }
+                  }
+                )
+              }
+            >
+              <Text>...</Text>
+            </Button>
           </Right>
         )}
       </ListItem>
@@ -124,6 +167,7 @@ class TraineeItem extends Component {
 
 TraineeItem.propTypes = {
   item: PropTypes.object.isRequired,
+  navigation: PropTypes.object.isRequired,
   deleteHandler: PropTypes.func.isRequired,
   localizations: PropTypes.object.isRequired,
   fetches: PropTypes.object.isRequired,

@@ -7,6 +7,7 @@ import TraineeItem from './TraineeItem'
 class Connections extends Component {
   render() {
     const {
+      navigation,
       isTrainer,
       connections,
       refreshing,
@@ -27,6 +28,7 @@ class Connections extends Component {
           isTrainer ? (
             <TraineeItem
               item={item}
+              navigation={navigation}
               deleteHandler={deleteHandler}
               localizations={localizations}
               fetches={fetches}
@@ -47,6 +49,7 @@ class Connections extends Component {
 }
 
 Connections.propTypes = {
+  navigation: PropTypes.object.isRequired,
   isTrainer: PropTypes.bool.isRequired,
   connections: PropTypes.object.isRequired,
   refreshing: PropTypes.bool.isRequired,

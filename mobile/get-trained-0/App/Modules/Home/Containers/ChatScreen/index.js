@@ -1,15 +1,13 @@
 import React, {Component} from 'react'
 import connect from 'react-redux/es/connect/connect'
-import {Container, Content} from "native-base";
-import {Map} from 'immutable'
+import {Container, Content, Text} from "native-base";
 import {setNavigationOptions} from 'App/Modules/Dashboard/NavigationOptions'
 import Error from 'App/Components/Error'
 import Loading from 'App/Components/Loading'
 import HomeActions from '../../Stores/Actions'
-import {MODULE, titleTraineeEmail, addTraineeBtn} from '../../Metadata'
-import AddConnectionByEmail from '../../Components/AddConnectionByEmail';
+import {MODULE} from '../../Metadata'
 
-class AddTraineeScreen extends Component {
+class ChatScreen extends Component {
   static navigationOptions = ({navigation}) =>
       setNavigationOptions(navigation, true)
 
@@ -17,9 +15,7 @@ class AddTraineeScreen extends Component {
     const {langCode, metadata, fetchMetadata} = this.props
 
     if (langCode
-        && !(metadata
-            && Map.isMap(metadata)
-            && metadata.get('module') === MODULE)) {
+        && !(metadata && metadata.size && metadata.get('module') === MODULE)) {
       fetchMetadata(langCode.toUpperCase())
     }
   }
@@ -32,15 +28,13 @@ class AddTraineeScreen extends Component {
       fetchingMetadata,
       metadata,
       failedRetrievingMetadata,
-      fetchingTraineeRequest,
-      fetchTraineeRequest,
     } = this.props
 
     if (failedRetrievingMetadata) {
       return <Error/>
     }
 
-    if (fetchingMetadata || !metadata || !Map.isMap(metadata)) {
+    if (fetchingMetadata || !metadata || !metadata.size) {
       return <Loading/>
     }
 
@@ -49,10 +43,7 @@ class AddTraineeScreen extends Component {
     return (
         <Container>
           <Content padder>
-            <AddConnectionByEmail txtEmail={titleTraineeEmail(localizations)}
-                                  txtBtn={addTraineeBtn(localizations)}
-                                  loading={fetchingTraineeRequest}
-                                  addHandler={fetchTraineeRequest}/>
+            <Text>Chat</Text>
           </Content>
         </Container>
     )
@@ -66,16 +57,13 @@ const mapStateToProps = (state) => ({
   failedRetrievingMetadata: state.home.root.get('failedRetrievingMetadata'),
   metadata: state.home.root.get('metadata'),
 
-  fetchingTraineeRequest: state.home.root.get('fetchingTraineeRequest'),
 })
 
 const mapDispatchToProps = (dispatch) => ({
   fetchMetadata: (langCode) => dispatch(HomeActions.fetchMetadata(langCode)),
-  fetchTraineeRequest: (email) =>
-      dispatch(HomeActions.fetchTraineeRequest(email)),
 })
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(AddTraineeScreen)
+)(ChatScreen)

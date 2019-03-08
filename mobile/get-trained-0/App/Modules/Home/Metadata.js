@@ -2,12 +2,20 @@ import { text } from 'App/Utils/MetadataUtils'
 
 export const MODULE = 'HOME'
 
+export const cancel = (localizations) => {
+  return text(localizations.get(keys.COMMON_CANCEL), 'Cancel')
+}
+
 export const titleHome = (localizations) => {
   return text(localizations.get(keys.HOME_TITLE_HOME), 'Home')
 }
 
 export const titleAddTrainee = (localizations) => {
   return text(localizations.get(keys.HOME_TITLE_ADD_TRAINEE), 'Add a Trainee')
+}
+
+export const titleTraineeEmail = (localizations) => {
+  return text(localizations.get(keys.HOME_TITLE_TRAINEE_EMAIL), 'Email of a Trainee')
 }
 
 export const addTraineeBtn = (localizations) => {
@@ -63,10 +71,20 @@ export const confirmConnectionDelete = (localizations) => {
   )
 }
 
+export const titleChat = (localizations) => {
+  return text(localizations.get(keys.HOME_TITLE_CHAT), 'Chat')
+}
+
+export const titleActions = (localizations) => {
+  return text(localizations.get(keys.HOME_TITLE_ACTIONS), 'Actions')
+}
+
 const keys = {
+  COMMON_CANCEL: 'common.cancel',
   HOME_TXT_: 'home.txt_',
   HOME_TITLE_HOME: 'home.title.home',
   HOME_TITLE_ADD_TRAINEE: 'home.title.add_trainee',
+  HOME_TITLE_TRAINEE_EMAIL: 'home.title.trainee_email',
   HOME_BTN_ADD_TRAINEE: 'home.btn.add_trainee',
   HOME_BTN_CONNECTION_REQUEST_DELETE: 'home.btn.connection_request_delete',
   HOME_BTN_CONNECTION_REQUEST_REJECT: 'home.btn.connection_request_reject',
@@ -78,4 +96,6 @@ const keys = {
   HOME_CONFIRM_CONNECTION_REQUEST_DELETE: 'home.confirm.connection_request_delete',
   HOME_CONFIRM_CONNECTION_REQUEST_REJECT: 'home.confirm.connection_request_reject',
   HOME_CONFIRM_CONNECTION_DELETE: 'home.confirm.connection_delete',
+  HOME_TITLE_ACTIONS: 'home.title.actions',
+  HOME_TITLE_CHAT: 'home.title.chat',
 }

@@ -96,7 +96,8 @@ class HomeScreen extends Component {
     return (
         <Container>
           {/*<Button onPress={send}><Text>ws</Text></Button>*/}
-          <Connections isTrainer={isTrainer}
+          <Connections navigation={navigation}
+                       isTrainer={isTrainer}
                        refreshing={fetchingConnections}
                        refreshHandler={this._getConnections}
                        deleteHandler={fetchDeleteConnection}
