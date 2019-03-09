@@ -1,6 +1,16 @@
 import React, {Component} from 'react'
 import connect from 'react-redux/es/connect/connect'
-import {Container, Content, Text} from "native-base";
+import {
+  View,
+  Container,
+  Content,
+  Item,
+  Input,
+  Button,
+  Text,
+} from "native-base";
+import Icon from 'react-native-vector-icons/Ionicons';
+import {Map} from 'immutable'
 import {setNavigationOptions} from 'App/Modules/Dashboard/NavigationOptions'
 import Error from 'App/Components/Error'
 import Loading from 'App/Components/Loading'
@@ -15,7 +25,9 @@ class ChatScreen extends Component {
     const {langCode, metadata, fetchMetadata} = this.props
 
     if (langCode
-        && !(metadata && metadata.size && metadata.get('module') === MODULE)) {
+        && !(metadata
+            && Map.isMap(metadata)
+            && metadata.get('module') === MODULE)) {
       fetchMetadata(langCode.toUpperCase())
     }
   }
@@ -34,7 +46,7 @@ class ChatScreen extends Component {
       return <Error/>
     }
 
-    if (fetchingMetadata || !metadata || !metadata.size) {
+    if (fetchingMetadata || !metadata || !Map.isMap(metadata)) {
       return <Loading/>
     }
 
@@ -42,9 +54,15 @@ class ChatScreen extends Component {
 
     return (
         <Container>
-          <Content padder>
+          <Content>
             <Text>Chat</Text>
           </Content>
+          <View style={{marginBottom: 30, alignItems: 'center',}}>
+            <Item rounded style={{width: '90%'}}>
+              <Input placeholder='Type a message...'/>
+              <Button transparent><Icon name='ios-more' size={30}/></Button>
+            </Item>
+          </View>
         </Container>
     )
   }
