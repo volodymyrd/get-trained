@@ -11,6 +11,7 @@ import {
   Button,
   ActionSheet,
 } from 'native-base'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 import { getUrl } from 'App/Utils/HttpUtils'
 import { Confirm } from 'App/Components/Alert'
 import ButtonWithLoader from 'App/Components/ButtonWithLoader'
@@ -27,6 +28,7 @@ import {
 } from '../../Metadata'
 
 import styles from './styles'
+import color from 'App/Theme/Colors'
 
 const DESTRUCTIVE_INDEX = 1
 const CANCEL_INDEX = 2
@@ -156,7 +158,7 @@ class TraineeItem extends Component {
                 )
               }
             >
-              <Text>...</Text>
+              <Ionicons name="ios-more" size={30} color={color.primary} />
             </Button>
           </Right>
         )}

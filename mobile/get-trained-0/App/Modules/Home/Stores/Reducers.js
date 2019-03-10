@@ -4,6 +4,7 @@
  * @see https://redux.js.org/basics/reducers
  */
 
+import { List } from 'immutable'
 import { INITIAL_STATE } from './InitialState'
 import { createReducer } from 'reduxsauce'
 import { HomeTypes } from './Actions'
@@ -121,6 +122,45 @@ export const fetchAcceptConnectionFailure = (state) =>
     fetchingAcceptConnection: false,
   })
 
+export const fetchChatMessagesLoading = (state) =>
+  state.merge({
+    fetchingChatMessages: true,
+  })
+
+export const fetchChatMessagesSuccess = (state, { chatMessages }) =>
+  state.merge({
+    fetchingChatMessages: false,
+    chatMessages,
+  })
+
+export const fetchChatMessagesFailure = (state) =>
+  state.merge({
+    fetchingChatMessages: false,
+  })
+
+export const sendChatMessageLoading = (state, { chatMessage }) => {
+  // console.log(state.toJS())
+  let chatMessages = state.get('chatMessages')
+  if (!chatMessages) {
+    chatMessages = List()
+  }
+  chatMessages = chatMessages.push(chatMessage)
+
+  return state.merge({
+    sendingChatMessage: true,
+    chatMessages,
+  })
+}
+export const sendChatMessageSuccess = (state) =>
+  state.merge({
+    sendingChatMessage: false,
+  })
+
+export const sendChatMessageFailure = (state) =>
+  state.merge({
+    sendingChatMessage: false,
+  })
+
 /**
  * @see https://github.com/infinitered/reduxsauce#createreducer
  */
@@ -152,4 +192,12 @@ export const home = createReducer(INITIAL_STATE, {
   [HomeTypes.FETCH_ACCEPT_CONNECTION_LOADING]: fetchAcceptConnectionLoading,
   [HomeTypes.FETCH_ACCEPT_CONNECTION_SUCCESS]: fetchAcceptConnectionSuccess,
   [HomeTypes.FETCH_ACCEPT_CONNECTION_FAILURE]: fetchAcceptConnectionFailure,
+
+  [HomeTypes.FETCH_CHAT_MESSAGES_LOADING]: fetchChatMessagesLoading,
+  [HomeTypes.FETCH_CHAT_MESSAGES_SUCCESS]: fetchChatMessagesSuccess,
+  [HomeTypes.FETCH_CHAT_MESSAGES_FAILURE]: fetchChatMessagesFailure,
+
+  [HomeTypes.SEND_CHAT_MESSAGE_LOADING]: sendChatMessageLoading,
+  [HomeTypes.SEND_CHAT_MESSAGE_SUCCESS]: sendChatMessageSuccess,
+  [HomeTypes.SEND_CHAT_MESSAGE_FAILURE]: sendChatMessageFailure,
 })

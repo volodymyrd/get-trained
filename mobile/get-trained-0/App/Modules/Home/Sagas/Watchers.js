@@ -8,6 +8,7 @@ import {
   fetchTraineeRequest,
   fetchDeleteConnection,
   fetchAcceptConnection,
+  sendChatMessage,
 } from './Workers'
 
 export default function*() {
@@ -19,5 +20,6 @@ export default function*() {
     takeLatest(HomeTypes.FETCH_TRAINEE_REQUEST, fetchTraineeRequest),
     takeLatest(HomeTypes.FETCH_DELETE_CONNECTION, fetchDeleteConnection),
     takeLatest(HomeTypes.FETCH_ACCEPT_CONNECTION, fetchAcceptConnection),
+    takeLatest(HomeTypes.SEND_CHAT_MESSAGE, sendChatMessage),
   ]
 }

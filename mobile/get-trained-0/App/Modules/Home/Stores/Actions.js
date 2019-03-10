@@ -41,6 +41,16 @@ const { Types, Creators } = createActions(
     fetchAcceptConnectionLoading: null,
     fetchAcceptConnectionSuccess: null,
     fetchAcceptConnectionFailure: null,
+
+    fetchChatMessages: ['offset', 'pageSize', 'chatId'],
+    fetchChatMessagesLoading: null,
+    fetchChatMessagesSuccess: ['connections'],
+    fetchChatMessagesFailure: null,
+
+    sendChatMessage: ['message'],
+    sendChatMessageLoading: ['chatMessage'],
+    sendChatMessageSuccess: null,
+    sendChatMessageFailure: null,
   },
   { prefix: 'HOME_' }
 )

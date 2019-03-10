@@ -1,4 +1,4 @@
-import { Map } from 'immutable'
+import { List, Map } from 'immutable'
 
 /**
  * The initial values for the Auth redux state.
@@ -15,4 +15,7 @@ export const INITIAL_STATE = Map({
   fetchingTraineeRequest: false,
   fetchingDeleteConnection: false,
   fetchingAcceptConnection: false,
+  fetchingChatMessages: false,
+  sendingChatMessage: false,
+  chatMessages: List(),
 })

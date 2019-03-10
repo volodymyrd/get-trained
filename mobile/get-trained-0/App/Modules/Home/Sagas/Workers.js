@@ -128,3 +128,12 @@ export function* fetchAcceptConnection({ connectionId, messages }) {
     yield call(error, messages[0])
   }
 }
+
+export function* sendChatMessage({ message }) {
+  const chatMessage = { message }
+  // console.log(chatMessage)
+  yield put(HomeActions.sendChatMessageLoading(chatMessage))
+
+  // const response = yield call(HomeService.acceptConnection, connectionId)
+  yield put(HomeActions.sendChatMessageSuccess())
+}
