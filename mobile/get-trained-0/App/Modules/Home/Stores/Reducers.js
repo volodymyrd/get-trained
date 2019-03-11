@@ -138,13 +138,13 @@ export const fetchChatMessagesFailure = (state) =>
     fetchingChatMessages: false,
   })
 
-export const sendChatMessageLoading = (state, { chatMessage }) => {
+export const sendChatMessageLoading = (state, { message }) => {
   // console.log(state.toJS())
   let chatMessages = state.get('chatMessages')
   if (!chatMessages) {
     chatMessages = List()
   }
-  chatMessages = chatMessages.push(chatMessage)
+  chatMessages = chatMessages.unshift(message)
 
   return state.merge({
     sendingChatMessage: true,

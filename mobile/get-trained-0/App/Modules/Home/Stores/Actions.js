@@ -48,7 +48,7 @@ const { Types, Creators } = createActions(
     fetchChatMessagesFailure: null,
 
     sendChatMessage: ['message'],
-    sendChatMessageLoading: ['chatMessage'],
+    sendChatMessageLoading: ['message'],
     sendChatMessageSuccess: null,
     sendChatMessageFailure: null,
   },

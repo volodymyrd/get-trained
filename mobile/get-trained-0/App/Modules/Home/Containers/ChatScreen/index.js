@@ -1,20 +1,13 @@
 // great example https://github.com/FaridSafi/react-native-gifted-chat
 import React, {Component} from 'react'
-import {ScrollView} from 'react-native'
 import connect from 'react-redux/es/connect/connect'
-import {
-  View,
-  Container,
-  Content,
-  Item,
-  Text,
-} from 'native-base';
+import {Container, Footer} from 'native-base';
 import {Map} from 'immutable'
 import {setNavigationOptions} from 'App/Modules/Dashboard/NavigationOptions'
 import Error from 'App/Components/Error'
 import Loading from 'App/Components/Loading'
 import HomeActions from '../../Stores/Actions'
-import ChatInput from '../../Components/Chat/ChatInput'
+import {GiftedChat} from 'react-native-gifted-chat'
 import {MODULE} from '../../Metadata'
 
 class ChatScreen extends Component {
@@ -40,6 +33,7 @@ class ChatScreen extends Component {
       fetchingMetadata,
       metadata,
       failedRetrievingMetadata,
+      userProfile,
       chatMessages,
       sendChatMessage,
     } = this.props
@@ -56,20 +50,14 @@ class ChatScreen extends Component {
 
     return (
         <Container>
-          <View style={{flex: 1, justifyContent: 'flex-end', marginBottom: 36}}>
-            {chatMessages && chatMessages.toJS().map(
-                (v, i) =>
-                    <View key={i} style={{marginBottom: 20, marginTop: 20}}>
-                      <Item rounded
-                            style={{width: '70%', height: 50, paddingLeft: 20}}>
-                        <Text>{v.message}</Text>
-                      </Item>
-                    </View>
-            )}
-          </View>
-          <ChatInput placeholder={'Type a message...'}
-                     sendDisabled={false}
-                     sendHandler={(message) => sendChatMessage(message)}/>
+          <GiftedChat
+              messages={chatMessages.toJS()}
+              user={{
+                _id: 1,
+              }}
+              onSend={messages => sendChatMessage(messages[0])}
+          />
+          <Footer/>
         </Container>
     )
   }
@@ -81,6 +69,8 @@ const mapStateToProps = (state) => ({
   fetchingMetadata: state.home.root.get('fetchingMetadata'),
   failedRetrievingMetadata: state.home.root.get('failedRetrievingMetadata'),
   metadata: state.home.root.get('metadata'),
+
+  userProfile: state.home.root.get('lightProfile'),
 
   fetchingChatMessages: state.home.root.get('fetchingChatMessages'),
   sendingChatMessage: state.home.root.get('sendingChatMessage'),
