@@ -1,4 +1,5 @@
 import { postPlainWithCredentials } from 'App/Utils/HttpUtils'
+import { getWebSocket } from 'App/Utils/WebsocketUtils'
 
 const BASE_URL = 'fe/activity'
 
@@ -20,9 +21,14 @@ const acceptConnection = (connectionId) => {
   return postPlainWithCredentials(`${BASE_URL}/connection/accept?connectionId=${connectionId}`)
 }
 
+const sendChatTextMessage = (messageText) => {
+  return getWebSocket().send(messageText)
+}
+
 export const HomeService = {
   getConnections,
   traineeRequest,
   deleteConnection,
   acceptConnection,
+  sendChatTextMessage,
 }

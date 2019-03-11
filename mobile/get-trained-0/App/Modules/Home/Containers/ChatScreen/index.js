@@ -2,17 +2,25 @@
 import React, {Component} from 'react'
 import connect from 'react-redux/es/connect/connect'
 import {Container, Footer} from 'native-base';
+import {GiftedChat} from 'react-native-gifted-chat'
 import {Map} from 'immutable'
 import {setNavigationOptions} from 'App/Modules/Dashboard/NavigationOptions'
 import Error from 'App/Components/Error'
 import Loading from 'App/Components/Loading'
 import HomeActions from '../../Stores/Actions'
-import {GiftedChat} from 'react-native-gifted-chat'
+import {getWebSocket} from "App/Utils/WebsocketUtils";
 import {MODULE} from '../../Metadata'
 
 class ChatScreen extends Component {
   static navigationOptions = ({navigation}) =>
       setNavigationOptions(navigation, true)
+
+  constructor(props) {
+    super(props);
+
+    this.socket = getWebSocket()
+    this.socket.onmessage = ({data}) => console.log(data)
+  }
 
   componentDidMount() {
     const {langCode, metadata, fetchMetadata} = this.props
@@ -56,8 +64,10 @@ class ChatScreen extends Component {
                 _id: 1,
               }}
               onSend={messages => sendChatMessage(messages[0])}
+              //minComposerHeight={100}
+              bottomOffset={0}
+              inverted={true}
           />
-          <Footer/>
         </Container>
     )
   }

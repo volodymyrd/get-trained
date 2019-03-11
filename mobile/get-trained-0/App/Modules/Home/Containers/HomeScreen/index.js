@@ -24,8 +24,8 @@ class HomeScreen extends Component {
   constructor(props) {
     super(props);
 
-    this.socket = getWebSocket()
-    this.socket.onmessage = ({data}) => console.log(data)
+    //this.socket = getWebSocket()
+    //this.socket.onmessage = ({data}) => console.log(data)
   }
 
   componentDidMount() {

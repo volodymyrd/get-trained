@@ -1,12 +1,20 @@
 import { Config } from 'App/Config'
 
 const getBaseUrl = () => {
-  if (Config.PORT === '80' || Config.PORT === '443') return `${Config.WS}${Config.HOST}/`
-  else return `${Config.WS}${Config.HOST}:${Config.PORT}/`
+  if (Config.PORT === '80' || Config.PORT === '443') {
+    return `${Config.WS}${Config.HOST}/`
+  } else {
+    return `${Config.WS}${Config.HOST}:${Config.PORT}/`
+  }
 }
 
+let webSocket
+
 export const getWebSocket = () => {
-  return new WebSocket(`${getBaseUrl()}fe-ws`)
+  if (!webSocket) {
+    webSocket = new WebSocket(`${getBaseUrl()}fe-ws`)
+  }
+  return webSocket
 }
 
 // export const send = () => {
