@@ -1,6 +1,17 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { View, Text, ListItem, Left, Right, Thumbnail, Body } from 'native-base'
+import {
+  View,
+  Text,
+  ListItem,
+  Left,
+  Right,
+  Thumbnail,
+  Body,
+  Button,
+  ActionSheet,
+} from 'native-base'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 import { getUrl } from 'App/Utils/HttpUtils'
 import { Confirm } from 'App/Components/Alert'
 import ButtonWithLoader from 'App/Components/ButtonWithLoader'
@@ -12,46 +23,16 @@ import {
   titleConnectionDelete,
   confirmConnectionRequestReject,
   confirmConnectionDelete,
+  titleActions,
+  titleChat,
+  cancel,
 } from '../../Metadata'
 
 import styles from './styles'
+import color from 'App/Theme/Colors'
 
-const DeleteBtn = ({
-  connectionId,
-  title,
-  confirmTitle,
-  confirmMessage,
-  deleteHandler,
-  localizations,
-  fetches,
-}) => {
-  return (
-    <ButtonWithLoader
-      title={title}
-      loading={fetches.fetchingDeleteConnection}
-      onPressHandler={() =>
-        Confirm({
-          title: confirmTitle,
-          message: confirmMessage,
-          ok: () => deleteHandler(connectionId),
-          localizations: localizations,
-        })
-      }
-      small
-      transparent
-    />
-  )
-}
-
-DeleteBtn.propTypes = {
-  connectionId: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
-  confirmTitle: PropTypes.string.isRequired,
-  confirmMessage: PropTypes.string.isRequired,
-  deleteHandler: PropTypes.func.isRequired,
-  localizations: PropTypes.object.isRequired,
-  fetches: PropTypes.object.isRequired,
-}
+const DESTRUCTIVE_INDEX = 1
+const CANCEL_INDEX = 2
 
 const TrainerAccept = ({ connectionId, acceptHandler, rejectHandler, localizations, fetches }) => {
   return (
@@ -91,7 +72,13 @@ TrainerAccept.propTypes = {
 
 class TrainerItem extends Component {
   render() {
-    const { item, deleteHandler, acceptHandler, localizations, fetches } = this.props
+    const { navigation, item, deleteHandler, acceptHandler, localizations, fetches } = this.props
+
+    const ACTIONS = [
+      titleChat(localizations),
+      connectionDeleteBtn(localizations),
+      cancel(localizations),
+    ]
 
     return (
       <ListItem avatar>
@@ -118,15 +105,36 @@ class TrainerItem extends Component {
         </Body>
         {item.status === 'CONNECTED' && (
           <Right style={styles.verticalAlign}>
-            <DeleteBtn
-              title={connectionDeleteBtn(localizations)}
-              connectionId={item.connectionId}
-              confirmTitle={titleConnectionDelete(localizations)}
-              confirmMessage={confirmConnectionDelete(localizations)}
-              deleteHandler={deleteHandler}
-              localizations={localizations}
-              fetches={fetches}
-            />
+            <Button
+              transparent
+              onPress={() =>
+                ActionSheet.show(
+                  {
+                    options: ACTIONS,
+                    cancelButtonIndex: CANCEL_INDEX,
+                    destructiveButtonIndex: DESTRUCTIVE_INDEX,
+                    title: titleActions(localizations),
+                  },
+                  (buttonIndex) => {
+                    switch (buttonIndex) {
+                      case 0:
+                        navigation.navigate('Chat', { title: titleChat(localizations) })
+                        break
+                      case 1:
+                        Confirm({
+                          title: titleConnectionDelete(localizations),
+                          message: confirmConnectionDelete(localizations),
+                          ok: () => deleteHandler(item.connectionId),
+                          localizations: localizations,
+                        })
+                        break
+                    }
+                  }
+                )
+              }
+            >
+              <Ionicons name="ios-more" size={30} color={color.primary} />
+            </Button>
           </Right>
         )}
       </ListItem>
@@ -136,6 +144,7 @@ class TrainerItem extends Component {
 
 TrainerItem.propTypes = {
   item: PropTypes.object.isRequired,
+  navigation: PropTypes.object.isRequired,
   deleteHandler: PropTypes.func.isRequired,
   acceptHandler: PropTypes.func.isRequired,
   localizations: PropTypes.object.isRequired,

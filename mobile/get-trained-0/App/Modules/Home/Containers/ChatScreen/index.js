@@ -19,6 +19,7 @@ class ChatScreen extends Component {
     super(props);
 
     this.socket = getWebSocket()
+    console.log('socket', this.socket);
     this.socket.onmessage = ({data}) => console.log(data)
   }
 

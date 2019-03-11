@@ -14,7 +14,7 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { getUrl } from 'App/Utils/HttpUtils'
 import { Confirm } from 'App/Components/Alert'
-import ButtonWithLoader from 'App/Components/ButtonWithLoader'
+import DeleteBtn from './DeleteBtn'
 import {
   cancel,
   connectionRequestDeleteBtn,
@@ -32,43 +32,6 @@ import color from 'App/Theme/Colors'
 
 const DESTRUCTIVE_INDEX = 1
 const CANCEL_INDEX = 2
-
-const DeleteBtn = ({
-  connectionId,
-  title,
-  confirmTitle,
-  confirmMessage,
-  deleteHandler,
-  localizations,
-  fetches,
-}) => {
-  return (
-    <ButtonWithLoader
-      title={title}
-      loading={fetches.fetchingDeleteConnection}
-      onPressHandler={() =>
-        Confirm({
-          title: confirmTitle,
-          message: confirmMessage,
-          ok: () => deleteHandler(connectionId),
-          localizations: localizations,
-        })
-      }
-      small
-      transparent
-    />
-  )
-}
-
-DeleteBtn.propTypes = {
-  connectionId: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
-  confirmTitle: PropTypes.string.isRequired,
-  confirmMessage: PropTypes.string.isRequired,
-  deleteHandler: PropTypes.func.isRequired,
-  localizations: PropTypes.object.isRequired,
-  fetches: PropTypes.object.isRequired,
-}
 
 const Pending = ({ connectionId, deleteHandler, localizations, fetches }) => {
   return (

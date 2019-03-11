@@ -36,6 +36,7 @@ class Connections extends Component {
           ) : (
             <TrainerItem
               item={item}
+              navigation={navigation}
               deleteHandler={deleteHandler}
               acceptHandler={acceptHandler}
               localizations={localizations}
