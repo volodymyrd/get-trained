@@ -62,7 +62,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
         chatMessage.setUser(new ChatMessageUser(
             String.valueOf(user.getId()),
             user.getProfile().getFullName(),
-            blobDataService.getFileUrl(user.getProfile().getAvatarId())));
+            user.getProfile().getAvatarId() != null ?
+                blobDataService.getFileUrl(user.getProfile().getAvatarId()) : ""));
 
         String email = user.getEmail();
         sessions.entrySet().stream()
