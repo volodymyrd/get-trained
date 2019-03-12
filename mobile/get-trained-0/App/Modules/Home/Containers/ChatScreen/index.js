@@ -8,7 +8,7 @@ import {setNavigationOptions} from 'App/Modules/Dashboard/NavigationOptions'
 import Error from 'App/Components/Error'
 import Loading from 'App/Components/Loading'
 import HomeActions from '../../Stores/Actions'
-import {getWebSocket} from "App/Utils/WebsocketUtils";
+import {openWebSocket} from "App/Utils/WebsocketUtils";
 import {MODULE} from '../../Metadata'
 
 class ChatScreen extends Component {
@@ -17,10 +17,6 @@ class ChatScreen extends Component {
 
   constructor(props) {
     super(props);
-
-    this.socket = getWebSocket()
-    console.log('socket', this.socket);
-    this.socket.onmessage = ({data}) => console.log(data)
   }
 
   componentDidMount() {
@@ -32,9 +28,17 @@ class ChatScreen extends Component {
             && metadata.get('module') === MODULE)) {
       fetchMetadata(langCode.toUpperCase())
     }
+
+    this.socket = openWebSocket()
+    console.log('socket', this.socket);
+    this.socket.onmessage = ({data}) => console.log(data)
   }
 
   componentDidUpdate(prevProps) {
+  }
+
+  componentWillUnmount(){
+    this.socket.close()
   }
 
   render() {
@@ -64,7 +68,7 @@ class ChatScreen extends Component {
               user={{
                 _id: 1,
               }}
-              onSend={messages => sendChatMessage(messages[0])}
+              onSend={messages => sendChatMessage(this.socket, messages[0])}
               //minComposerHeight={100}
               bottomOffset={0}
               inverted={true}
@@ -91,7 +95,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchMetadata: (langCode) => dispatch(HomeActions.fetchMetadata(langCode)),
-  sendChatMessage: (message) => dispatch(HomeActions.sendChatMessage(message)),
+  sendChatMessage: (socket, message) =>
+      dispatch(HomeActions.sendChatMessage(socket, message)),
 })
 
 export default connect(

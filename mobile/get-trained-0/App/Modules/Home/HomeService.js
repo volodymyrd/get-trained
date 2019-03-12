@@ -21,8 +21,8 @@ const acceptConnection = (connectionId) => {
   return postPlainWithCredentials(`${BASE_URL}/connection/accept?connectionId=${connectionId}`)
 }
 
-const sendChatTextMessage = (messageText) => {
-  return getWebSocket().send(messageText)
+const sendChatTextMessage = (socket, messageText) => {
+  return socket.send(messageText)
 }
 
 export const HomeService = {

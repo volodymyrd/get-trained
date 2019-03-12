@@ -11,10 +11,11 @@ const getBaseUrl = () => {
 let webSocket
 
 export const getWebSocket = () => {
-  if (!webSocket) {
-    webSocket = new WebSocket(`${getBaseUrl()}fe-ws`)
-  }
   return webSocket
+}
+
+export const openWebSocket = () => {
+  return new WebSocket(`${getBaseUrl()}fe-ws`)
 }
 
 // export const send = () => {
