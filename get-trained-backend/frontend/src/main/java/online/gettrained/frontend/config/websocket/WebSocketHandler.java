@@ -1,14 +1,18 @@
 package online.gettrained.frontend.config.websocket;
 
 import static com.google.common.collect.Multimaps.synchronizedMultimap;
+import static online.gettrained.backend.utils.CommonUtils.getObjectMapper;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import online.gettrained.backend.domain.chat.ChatMessage;
+import online.gettrained.backend.domain.chat.ChatMessage.ChatMessageUser;
 import online.gettrained.backend.domain.user.CurrentUser;
 import online.gettrained.backend.domain.user.User;
+import online.gettrained.backend.services.blob.BlobDataService;
 import online.gettrained.backend.services.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,9 +35,11 @@ public class WebSocketHandler extends TextWebSocketHandler {
       synchronizedMultimap(HashMultimap.create());
 
   private final UserService userService;
+  private final BlobDataService blobDataService;
 
-  public WebSocketHandler(UserService userService) {
+  public WebSocketHandler(UserService userService, BlobDataService blobDataService) {
     this.userService = userService;
+    this.blobDataService = blobDataService;
   }
 
   @Override
@@ -47,17 +53,33 @@ public class WebSocketHandler extends TextWebSocketHandler {
     if (optionalUser.isPresent()) {
       User user = optionalUser.get();
       LOG.info("Got message from a user: {}", user.getEmail());
-      sessions.entrySet().stream()
-          .filter(e -> !e.getValue().equals(user.getEmail()))
-          .forEach(e -> {
-            try {
-              e.getKey().sendMessage(new TextMessage(message.getPayload()));
-            } catch (IOException ex) {
-              ex.printStackTrace();
-            }
-          });
+      try {
+        ChatMessage chatMessage = getObjectMapper()
+            .readValue(message.getPayload(), ChatMessage.class);
+        LOG.info("Successfully parsed a chat message payload: {}", chatMessage);
+        user = userService.findByIdWithProfile(user.getId())
+            .orElseThrow(IllegalStateException::new);
+        chatMessage.setUser(new ChatMessageUser(
+            String.valueOf(user.getId()),
+            user.getProfile().getFullName(),
+            blobDataService.getFileUrl(user.getProfile().getAvatarId())));
+
+        String email = user.getEmail();
+        sessions.entrySet().stream()
+            .filter(e -> !e.getValue().equals(email))
+            .forEach(e -> {
+              try {
+                e.getKey().sendMessage(
+                    new TextMessage(getObjectMapper().writeValueAsString(chatMessage)));
+              } catch (IOException ex) {
+                ex.printStackTrace();
+              }
+            });
+      } catch (Exception ex) {
+        LOG.error("Error parsing a chat message payload to ChatMessage", ex);
+      }
     } else {
-      LOG.warn("Got a message from undefined user");
+      LOG.error("Got a message from undefined user, ignored it");
     }
   }
 
