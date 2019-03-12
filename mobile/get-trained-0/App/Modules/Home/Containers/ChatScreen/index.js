@@ -59,7 +59,7 @@ class ChatScreen extends Component {
 
     return (
         <Container>
-          <GiftedChat
+          {chatMessages && <GiftedChat
               messages={chatMessages.toJS()}
               user={{
                 _id: 1,
@@ -68,7 +68,8 @@ class ChatScreen extends Component {
               //minComposerHeight={100}
               bottomOffset={0}
               inverted={true}
-          />
+          />}
+          <Footer/>
         </Container>
     )
   }
