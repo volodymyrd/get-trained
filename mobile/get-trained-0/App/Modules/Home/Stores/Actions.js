@@ -47,6 +47,7 @@ const { Types, Creators } = createActions(
     fetchChatMessagesSuccess: ['connections'],
     fetchChatMessagesFailure: null,
 
+    receiveChatMessage: ['message'],
     sendChatMessage: ['socket', 'message'],
     sendChatMessageLoading: ['message'],
     sendChatMessageSuccess: null,

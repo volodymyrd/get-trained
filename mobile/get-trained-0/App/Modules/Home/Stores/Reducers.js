@@ -138,8 +138,19 @@ export const fetchChatMessagesFailure = (state) =>
     fetchingChatMessages: false,
   })
 
+export const receiveChatMessage = (state, { message }) => {
+  let chatMessages = state.get('chatMessages')
+  if (!chatMessages) {
+    chatMessages = List()
+  }
+  chatMessages = chatMessages.unshift(JSON.parse(message))
+
+  return state.merge({
+    chatMessages,
+  })
+}
+
 export const sendChatMessageLoading = (state, { message }) => {
-  // console.log(state.toJS())
   let chatMessages = state.get('chatMessages')
   if (!chatMessages) {
     chatMessages = List()
@@ -151,6 +162,7 @@ export const sendChatMessageLoading = (state, { message }) => {
     chatMessages,
   })
 }
+
 export const sendChatMessageSuccess = (state) =>
   state.merge({
     sendingChatMessage: false,
@@ -197,6 +209,7 @@ export const home = createReducer(INITIAL_STATE, {
   [HomeTypes.FETCH_CHAT_MESSAGES_SUCCESS]: fetchChatMessagesSuccess,
   [HomeTypes.FETCH_CHAT_MESSAGES_FAILURE]: fetchChatMessagesFailure,
 
+  [HomeTypes.RECEIVE_CHAT_MESSAGE]: receiveChatMessage,
   [HomeTypes.SEND_CHAT_MESSAGE_LOADING]: sendChatMessageLoading,
   [HomeTypes.SEND_CHAT_MESSAGE_SUCCESS]: sendChatMessageSuccess,
   [HomeTypes.SEND_CHAT_MESSAGE_FAILURE]: sendChatMessageFailure,

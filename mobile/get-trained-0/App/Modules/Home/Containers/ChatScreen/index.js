@@ -7,8 +7,10 @@ import {Map} from 'immutable'
 import {setNavigationOptions} from 'App/Modules/Dashboard/NavigationOptions'
 import Error from 'App/Components/Error'
 import Loading from 'App/Components/Loading'
+import MainActions from "App/Stores/Main/Actions";
 import HomeActions from '../../Stores/Actions'
 import {openWebSocket} from "App/Utils/WebsocketUtils";
+import {getUrl} from 'App/Utils/HttpUtils'
 import {MODULE} from '../../Metadata'
 
 class ChatScreen extends Component {
@@ -20,7 +22,9 @@ class ChatScreen extends Component {
   }
 
   componentDidMount() {
-    const {langCode, metadata, fetchMetadata} = this.props
+    const {fetchAccess, langCode, metadata, fetchMetadata} = this.props
+
+    fetchAccess()
 
     if (langCode
         && !(metadata
@@ -30,14 +34,13 @@ class ChatScreen extends Component {
     }
 
     this.socket = openWebSocket()
-    console.log('socket', this.socket);
-    this.socket.onmessage = ({data}) => console.log(data)
+    this.socket.onmessage = ({data}) => this.props.receiveChatMessage(data)
   }
 
   componentDidUpdate(prevProps) {
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.socket.close()
   }
 
@@ -51,6 +54,11 @@ class ChatScreen extends Component {
       sendChatMessage,
     } = this.props
 
+    if (chatMessages) {
+      chatMessages.map(e => {
+        return e.user.avatar = getUrl(e.user.avatar)
+      })
+    }
     if (failedRetrievingMetadata) {
       return <Error/>
     }
@@ -66,7 +74,7 @@ class ChatScreen extends Component {
           {chatMessages && <GiftedChat
               messages={chatMessages.toJS()}
               user={{
-                _id: 1,
+                _id: userProfile.userId,
               }}
               onSend={messages => sendChatMessage(this.socket, messages[0])}
               //minComposerHeight={100}
@@ -94,9 +102,12 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  fetchAccess: () => dispatch(MainActions.fetchAccess()),
   fetchMetadata: (langCode) => dispatch(HomeActions.fetchMetadata(langCode)),
   sendChatMessage: (socket, message) =>
       dispatch(HomeActions.sendChatMessage(socket, message)),
+  receiveChatMessage: (message) =>
+      dispatch(HomeActions.receiveChatMessage(message))
 })
 
 export default connect(
