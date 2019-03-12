@@ -83,9 +83,11 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
   @Override
   public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
-    LOG.info("Close a session for user: ", session.getPrincipal());
+    LOG.info("Close a session for user: {}", sessions.get(session));
     userSessions.remove(sessions.get(session), session);
     sessions.remove(session);
+    LOG.info("Remains {} sessions {} users", sessions.size(), userSessions.size());
+    LOG.info("Sessions of users: {}", sessions.values());
   }
 
   @Override
