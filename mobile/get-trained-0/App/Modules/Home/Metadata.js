@@ -71,6 +71,10 @@ export const confirmConnectionDelete = (localizations) => {
   )
 }
 
+export const traineeProfile = (localizations) => {
+  return text(localizations.get(keys.HOME_TITLE_TRAINEE_PROFILE), 'Profile')
+}
+
 export const titleChat = (localizations) => {
   return text(localizations.get(keys.HOME_TITLE_CHAT), 'Chat')
 }
@@ -97,5 +101,6 @@ const keys = {
   HOME_CONFIRM_CONNECTION_REQUEST_REJECT: 'home.confirm.connection_request_reject',
   HOME_CONFIRM_CONNECTION_DELETE: 'home.confirm.connection_delete',
   HOME_TITLE_ACTIONS: 'home.title.actions',
+  HOME_TITLE_TRAINEE_PROFILE: 'home.title.trainee_profile',
   HOME_TITLE_CHAT: 'home.title.chat',
 }

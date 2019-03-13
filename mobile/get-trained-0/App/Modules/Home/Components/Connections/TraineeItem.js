@@ -24,14 +24,18 @@ import {
   confirmConnectionRequestDelete,
   confirmConnectionDelete,
   titleActions,
+  traineeProfile,
   titleChat,
 } from '../../Metadata'
 
 import styles from './styles'
 import color from 'App/Theme/Colors'
 
-const DESTRUCTIVE_INDEX = 1
-const CANCEL_INDEX = 2
+const PROFILE_INDEX = 0
+const CHAT_INDEX = 1
+const DELETE_CONNECTION_INDEX = 2
+const DESTRUCTIVE_INDEX = 2
+const CANCEL_INDEX = 3
 
 const Pending = ({ connectionId, deleteHandler, localizations, fetches }) => {
   return (
@@ -64,6 +68,7 @@ class TraineeItem extends Component {
     const { navigation, item, deleteHandler, localizations, fetches } = this.props
 
     const ACTIONS = [
+      traineeProfile(localizations),
       titleChat(localizations),
       connectionDeleteBtn(localizations),
       cancel(localizations),
@@ -105,10 +110,13 @@ class TraineeItem extends Component {
                   },
                   (buttonIndex) => {
                     switch (buttonIndex) {
-                      case 0:
+                      case PROFILE_INDEX:
+                        navigation.navigate('_TraineeProfile')
+                        break
+                      case CHAT_INDEX:
                         navigation.navigate('Chat', { title: titleChat(localizations) })
                         break
-                      case 1:
+                      case DELETE_CONNECTION_INDEX:
                         Confirm({
                           title: titleConnectionDelete(localizations),
                           message: confirmConnectionDelete(localizations),

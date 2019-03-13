@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import connect from 'react-redux/es/connect/connect'
-import {Container, Content} from "native-base";
+import {Container, Content} from 'native-base';
 import {Map} from 'immutable'
 import {setNavigationOptions} from 'App/Modules/Dashboard/NavigationOptions'
 import Error from 'App/Components/Error'
