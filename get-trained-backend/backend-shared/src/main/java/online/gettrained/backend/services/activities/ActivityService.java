@@ -1,5 +1,6 @@
 package online.gettrained.backend.services.activities;
 
+import java.util.Optional;
 import online.gettrained.backend.constraints.frontend.activities.FrontendActivityConstraint;
 import online.gettrained.backend.domain.activities.Activity;
 import online.gettrained.backend.domain.activities.Trainer;
@@ -41,6 +42,13 @@ public interface ActivityService {
   Page<TrainerConnections> findMyConnections(User user, int offset, int pageSize);
 
   Page<TrainerConnections> findAllConnections(User user, FrontendActivityConstraint constraint);
+
+  Optional<TrainerConnections> findActiveConnectionByTrainerIdAndTraineeUserId(
+      long trainerId, long traineeUserId);
+
+  Optional<Trainer> findFitnessTrainer(User user) throws NotFoundException;
+
+  Optional<Trainer> findTrainer(User user, long activityId) throws NotFoundException;
 
   boolean isFitnessTrainer(User user) throws NotFoundException;
 

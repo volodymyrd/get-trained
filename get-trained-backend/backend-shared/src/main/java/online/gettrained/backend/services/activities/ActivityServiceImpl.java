@@ -365,6 +365,36 @@ public class ActivityServiceImpl implements ActivityService {
   }
 
   @Override
+  public Optional<TrainerConnections> findActiveConnectionByTrainerIdAndTraineeUserId(
+      long trainerId, long traineeUserId) {
+    return trainerConnectionsRepository.findByTrainer_IdAndTrainee_IdAndStatusAndDeleted(
+        trainerId, traineeUserId, CONNECTED, false);
+  }
+
+  @Override
+  public Optional<Trainer> findFitnessTrainer(User user) throws NotFoundException {
+    return findTrainer(user, FITNESS_ACTIVITY_ID);
+  }
+
+  @Override
+  public Optional<Trainer> findTrainer(User user, long activityId) throws NotFoundException {
+    activityRepository.findById(activityId)
+        .orElseThrow(() -> new NotFoundException("Not found an activity with id: " + activityId));
+
+    if (!userService.hasRoles(user.getId(), immutableListOf(TRAINER_ROLE))) {
+      LOG.warn("User with id {} doesn't have a role {}", user.getId(), TRAINER_ROLE);
+      throw new NotFoundException("Not found a trainer with id: " + user.getId());
+    }
+
+    return trainerRepository.findByActivity_IdAndUser_IdAndStatusInAndVisibilityInAndDeleted(
+        activityId,
+        user.getId(),
+        immutableSetOf(Status.VERIFIED),
+        immutableSetOf(Visibility.PUBLIC),
+        false);
+  }
+
+  @Override
   public void requestTrainer(User user, long trainerId) {
 
   }
