@@ -44,41 +44,32 @@ public class FitnessTraineeProfile extends AuditableBaseEntity {
   @Column(name = "DATE_MEASURE", nullable = false)
   private Date dateMeasure;
 
-  @JsonInclude(NON_NULL)
   @Column(name = "NECK", nullable = false)
-  private Double neck;
+  private double neck;
 
-  @JsonInclude(NON_NULL)
   @Column(name = "CHEST", nullable = false)
-  private Double chest;
+  private double chest;
 
-  @JsonInclude(NON_NULL)
   @Column(name = "WAIST", nullable = false)
-  private Double waist;
+  private double waist;
 
-  @JsonInclude(NON_NULL)
   @Column(name = "HIPS", nullable = false)
-  private Double hips;
+  private double hips;
 
-  @JsonInclude(NON_NULL)
   @Column(name = "WRIST", nullable = false)
-  private Double wrist;
+  private double wrist;
 
-  @JsonInclude(NON_NULL)
   @Column(name = "FOREARM", nullable = false)
-  private Double forearm;
+  private double forearm;
 
-  @JsonInclude(NON_NULL)
   @Column(name = "BICEPS", nullable = false)
-  private Double biceps;
+  private double biceps;
 
-  @JsonInclude(NON_NULL)
   @Column(name = "INNER_THIGH", nullable = false)
-  private Double innerThigh;
+  private double innerThigh;
 
-  @JsonInclude(NON_NULL)
   @Column(name = "CALF", nullable = false)
-  private Double calf;
+  private double calf;
 
   @Transient
   @JsonInclude(NON_NULL)
@@ -120,75 +111,75 @@ public class FitnessTraineeProfile extends AuditableBaseEntity {
     this.dateMeasure = dateMeasure;
   }
 
-  public Double getNeck() {
+  public double getNeck() {
     return neck;
   }
 
-  public void setNeck(Double neck) {
+  public void setNeck(double neck) {
     this.neck = neck;
   }
 
-  public Double getChest() {
+  public double getChest() {
     return chest;
   }
 
-  public void setChest(Double chest) {
+  public void setChest(double chest) {
     this.chest = chest;
   }
 
-  public Double getWaist() {
+  public double getWaist() {
     return waist;
   }
 
-  public void setWaist(Double waist) {
+  public void setWaist(double waist) {
     this.waist = waist;
   }
 
-  public Double getHips() {
+  public double getHips() {
     return hips;
   }
 
-  public void setHips(Double hips) {
+  public void setHips(double hips) {
     this.hips = hips;
   }
 
-  public Double getWrist() {
+  public double getWrist() {
     return wrist;
   }
 
-  public void setWrist(Double wrist) {
+  public void setWrist(double wrist) {
     this.wrist = wrist;
   }
 
-  public Double getForearm() {
+  public double getForearm() {
     return forearm;
   }
 
-  public void setForearm(Double forearm) {
+  public void setForearm(double forearm) {
     this.forearm = forearm;
   }
 
-  public Double getBiceps() {
+  public double getBiceps() {
     return biceps;
   }
 
-  public void setBiceps(Double biceps) {
+  public void setBiceps(double biceps) {
     this.biceps = biceps;
   }
 
-  public Double getInnerThigh() {
+  public double getInnerThigh() {
     return innerThigh;
   }
 
-  public void setInnerThigh(Double innerThigh) {
+  public void setInnerThigh(double innerThigh) {
     this.innerThigh = innerThigh;
   }
 
-  public Double getCalf() {
+  public double getCalf() {
     return calf;
   }
 
-  public void setCalf(Double calf) {
+  public void setCalf(double calf) {
     this.calf = calf;
   }
 

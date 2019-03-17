@@ -73,7 +73,11 @@ public class FitnessTraineeProfileServiceImpl implements FitnessTraineeProfileSe
         throw new IllegalArgumentException("Illegal date format:" + profile.getBirthdayStr());
       }
     }
-    return userService.saveProfile(traineeUser, oldProfile);
+    profile = userService.saveProfile(traineeUser, oldProfile);
+    if (profile.getBirthday() != null) {
+      profile.setBirthdayStr(getShortDateFormat().format(profile.getBirthday()));
+    }
+    return profile;
   }
 
   @Override
@@ -114,6 +118,7 @@ public class FitnessTraineeProfileServiceImpl implements FitnessTraineeProfileSe
       oldTraineeProfile.setNeck(traineeProfile.getNeck());
       oldTraineeProfile.setWaist(traineeProfile.getWaist());
       oldTraineeProfile.setWrist(traineeProfile.getWrist());
+      oldTraineeProfile.setMeasure(traineeProfile.getMeasure());
 
       traineeProfile = oldTraineeProfile;
       traineeProfile.setUserLastChanged(trainerUser);
@@ -145,6 +150,7 @@ public class FitnessTraineeProfileServiceImpl implements FitnessTraineeProfileSe
     profile.setTraineeProfileId(profile.getId());
     profile.setConnectionId(profile.getConnection().getId());
     profile.setTraineeUserId(profile.getTrainee().getId());
+    profile.setMeasure(getShortDateFormat().format(profile.getDateMeasure()));
     return profile;
   }
 

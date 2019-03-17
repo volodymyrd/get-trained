@@ -50,6 +50,9 @@ public enum TextCode implements MessageCode {
   ACTIVITY_SUCCESS_ACCEPT_CONNECTION("be_text.activity_success_accept_connection"),
   ACTIVITY_SUCCESS_REMOVE_CONNECTION("be_text.activity_success_accept_connection"),
 
+  ACTIVITY_PROFILE_SUCCESS_REMOVE_FITNESS_PROFILE(
+      "be_text.activity_profile_success_remove_fitness_profile"),
+
   NOTIF_MESSAGE_TEMPLATE_DELETED_SUCCESSFULLY(
       "be_text.notif_message_template_deleted_successfully");
 

@@ -2,7 +2,9 @@ package online.gettrained.backend.repositories.activities;
 
 import static java.util.Objects.requireNonNull;
 import static online.gettrained.backend.utils.CommonUtils.immutableSetOf;
+import static online.gettrained.backend.utils.DateUtils.getShortDateFormat;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +35,12 @@ public class FitnessTraineeProfileDAO extends BaseRepository {
     StringBuilder whereClause = new StringBuilder();
     Map<String, Object> parameters = new HashMap<>();
 
+    whereClause.append(buildSQLClause(whereClause, "p.REF_CONNECTION_ID=:connectionId"));
+    parameters.put("connectionId", constraint.getConnectionId());
+
+    whereClause.append(buildSQLClause(whereClause, "p.TRAINEE_ID=:traineeUserId"));
+    parameters.put("traineeUserId", constraint.getTraineeUserId());
+
     ParametrizedSQLConstraint tempSql = SelectOption
         .toParametrizedSQLConstraint(constraint.getSoDateMeasures(), "p.DATE_MEASURE");
     if (!tempSql.isEmpty()) {
@@ -41,13 +49,14 @@ public class FitnessTraineeProfileDAO extends BaseRepository {
     }
 
     Query dataQuery = getEntityManager().createNativeQuery(
-        "SELECT c.ID AS cId, trainers.ID AS tainerId, c.STATUS AS status "
+        "SELECT p.ID AS traineeProfileId, p.REF_CONNECTION_ID AS connectionId, "
+            + " p.TRAINEE_ID AS traineeUserId, p.DATE_MEASURE AS measure "
             + " FROM ACT_FITNESS_TRAINEE_PROFILES p "
             + (whereClause.length() == 0 ? "" : " WHERE " + whereClause)
             + buildOrderByClause(constraint.getPageable().getSort()));
 
     Query countQuery = getEntityManager()
-        .createNativeQuery("SELECT COUNT(c.*) FROM ACT_FITNESS_TRAINEE_PROFILES p "
+        .createNativeQuery("SELECT COUNT(*) FROM ACT_FITNESS_TRAINEE_PROFILES p "
             + (whereClause.length() == 0 ? "" : " WHERE " + whereClause));
 
     parameters.forEach(dataQuery::setParameter);
@@ -64,6 +73,7 @@ public class FitnessTraineeProfileDAO extends BaseRepository {
           profile.setTraineeProfileId(((Number) r[0]).longValue());
           profile.setConnectionId(((Number) r[1]).longValue());
           profile.setTraineeUserId(((Number) r[2]).longValue());
+          profile.setMeasure(getShortDateFormat().format((Date) r[3]));
           return profile;
         }).collect(Collectors.toList()));
     page.setSortedColumns(sortedColumns);

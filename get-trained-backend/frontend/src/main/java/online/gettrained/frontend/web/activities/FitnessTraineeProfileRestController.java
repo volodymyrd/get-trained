@@ -1,13 +1,16 @@
 package online.gettrained.frontend.web.activities;
 
 import static online.gettrained.backend.exceptions.ErrorCode.SOMETHING_WENT_WRONG;
+import static online.gettrained.backend.messages.TextCode.ACTIVITY_PROFILE_SUCCESS_REMOVE_FITNESS_PROFILE;
 import static online.gettrained.backend.messages.TextCode.ENUM_PROFILE_GENDER_PREFIX;
 import static online.gettrained.frontend.web.Utils.enumToMapWithLocalSortedByLocalText;
 import static online.gettrained.frontend.web.Utils.getLanguage;
 
+import online.gettrained.backend.constraints.frontend.activities.FrontendTraineeProfileConstraint;
 import online.gettrained.backend.domain.activities.FitnessTraineeProfile;
 import online.gettrained.backend.domain.profile.Profile;
 import online.gettrained.backend.domain.user.User;
+import online.gettrained.backend.dto.TextInfoDto;
 import online.gettrained.backend.exceptions.ErrorInfoDto;
 import online.gettrained.backend.exceptions.NotFoundException;
 import online.gettrained.backend.services.activities.FitnessTraineeProfileService;
@@ -132,6 +135,92 @@ public class FitnessTraineeProfileRestController {
               SOMETHING_WENT_WRONG.toString(), getLanguage(user), "Something went wrong!")));
     } catch (Exception e) {
       LOG.error("Error saving a trainee fitness profile", e);
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(
+          SOMETHING_WENT_WRONG,
+          localizationService.getLocalTextByKeyAndLangOrUseDefault(
+              SOMETHING_WENT_WRONG.toString(), getLanguage(user), "Something went wrong!")));
+    }
+  }
+
+  @PostMapping("/fitness/getAll")
+  public ResponseEntity<?> getAllTraineeProfiles(
+      @RequestBody FrontendTraineeProfileConstraint constraint) {
+    LOG.info("Calling method 'getAllTraineeProfiles' of FitnessTraineeProfileRestController");
+
+    LOG.debug("Calling method 'getAllTraineeProfiles' of FitnessTraineeProfileRestController "
+        + "with constraint:{}", constraint);
+
+    User user = authService.getCurrentUserOrException();
+
+    try {
+      return ResponseEntity
+          .ok(fitnessTraineeProfileService.findAllTraineeProfiles(user, constraint));
+    } catch (Exception e) {
+      LOG.error("Error getting all trainee profiles", e);
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(
+          SOMETHING_WENT_WRONG,
+          localizationService.getLocalTextByKeyAndLangOrUseDefault(
+              SOMETHING_WENT_WRONG.toString(), getLanguage(user), "Something went wrong!")));
+    }
+  }
+
+  @PostMapping("/fitness/get")
+  public ResponseEntity<?> getTraineeFitnessProfile(
+      @RequestParam("traineeProfileId") long traineeProfileId,
+      @RequestParam("traineeUserId") long traineeUserId) {
+    LOG.info("Calling method 'getTraineeFitnessProfile' of FitnessTraineeProfileRestController");
+
+    LOG.debug("Calling method 'getTraineeFitnessProfile' of FitnessTraineeProfileRestController "
+        + "with traineeProfileId:{}, traineeUserId:{}", traineeProfileId, traineeUserId);
+
+    User user = authService.getCurrentUserOrException();
+
+    try {
+      return ResponseEntity.ok(fitnessTraineeProfileService
+          .getTraineeProfile(user, traineeUserId, traineeProfileId));
+    } catch (NotFoundException e) {
+      LOG.error("Not found exception: {}", e.getMessage());
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(
+          SOMETHING_WENT_WRONG,
+          localizationService.getLocalTextByKeyAndLangOrUseDefault(
+              SOMETHING_WENT_WRONG.toString(), getLanguage(user), "Something went wrong!")));
+    } catch (Exception e) {
+      LOG.error("Error getting a trainee fitness profile", e);
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(
+          SOMETHING_WENT_WRONG,
+          localizationService.getLocalTextByKeyAndLangOrUseDefault(
+              SOMETHING_WENT_WRONG.toString(), getLanguage(user), "Something went wrong!")));
+    }
+  }
+
+  @PostMapping("/fitness/delete")
+  public ResponseEntity<?> deleteTraineeFitnessProfile(
+      @RequestParam("traineeProfileId") long traineeProfileId,
+      @RequestParam("traineeUserId") long traineeUserId) {
+    LOG.info("Calling method 'deleteTraineeFitnessProfile' of FitnessTraineeProfileRestController");
+
+    LOG.debug("Calling method 'deleteTraineeFitnessProfile' of FitnessTraineeProfileRestController "
+        + "with traineeProfileId:{}, traineeUserId:{}", traineeProfileId, traineeUserId);
+
+    User user = authService.getCurrentUserOrException();
+
+    try {
+      fitnessTraineeProfileService.deleteTraineeProfile(user, traineeUserId, traineeProfileId);
+      return ResponseEntity.ok(new TextInfoDto(
+          ACTIVITY_PROFILE_SUCCESS_REMOVE_FITNESS_PROFILE,
+          localizationService.getLocalTextByKeyAndLangOrUseDefault(
+              ACTIVITY_PROFILE_SUCCESS_REMOVE_FITNESS_PROFILE.toString(),
+              getLanguage(user),
+              "Profile successfully deleted!"
+          )));
+    } catch (NotFoundException e) {
+      LOG.error("Not found exception: {}", e.getMessage());
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(
+          SOMETHING_WENT_WRONG,
+          localizationService.getLocalTextByKeyAndLangOrUseDefault(
+              SOMETHING_WENT_WRONG.toString(), getLanguage(user), "Something went wrong!")));
+    } catch (Exception e) {
+      LOG.error("Error deleting a trainee fitness profile", e);
       return ResponseEntity.badRequest().body(new ErrorInfoDto(
           SOMETHING_WENT_WRONG,
           localizationService.getLocalTextByKeyAndLangOrUseDefault(
