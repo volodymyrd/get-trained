@@ -4,11 +4,11 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Set;
 import online.gettrained.backend.constraints.DateSelectOption;
 import online.gettrained.backend.constraints.frontend.FrontendBasicConstraint;
-import online.gettrained.backend.domain.activities.TraineeProfile;
+import online.gettrained.backend.domain.activities.FitnessTraineeProfile;
 import online.gettrained.backend.json_serializers.DateSelectOptionJsonDeserializer;
 
 /**
- * Constraints for {@link TraineeProfile}.
+ * Constraints for {@link FitnessTraineeProfile}.
  */
 public class FrontendTraineeProfileConstraint extends FrontendBasicConstraint {
 

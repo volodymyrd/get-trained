@@ -19,15 +19,15 @@ import online.gettrained.backend.domain.AuditableBaseEntity;
 import online.gettrained.backend.domain.user.User;
 
 /**
- * Trainee profile.
+ * Trainee profile in fitness activity.
  */
 @Entity
-@Table(name = "ACT_TRAINEE_PROFILES",
+@Table(name = "ACT_FITNESS_TRAINEE_PROFILES",
     indexes = {@Index(
-        name = "I_ACT_TRAINEE_PROFILES_CONNECTION_ID_TRAINEE_ID_MEASURE",
+        name = "I_ACT_FITNESS_TRAINEE_PROFILES_CONNECTION_ID_TRAINEE_ID_MEASURE",
         columnList = "REF_CONNECTION_ID, TRAINEE_ID, DATE_MEASURE",
         unique = true)})
-public class TraineeProfile extends AuditableBaseEntity {
+public class FitnessTraineeProfile extends AuditableBaseEntity {
 
   @JsonIgnore
   @ManyToOne(fetch = LAZY)

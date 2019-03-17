@@ -54,6 +54,7 @@ public enum TextCode implements MessageCode {
       "be_text.notif_message_template_deleted_successfully");
 
   public static final String ENUM_BLOB_DATA_TYPE_PREFIX = "be_text.enum_blob_data_type_";
+  public static final String ENUM_PROFILE_GENDER_PREFIX = "be_text.enum_profile_gender_prefix_";
 
   private final String text;
 
