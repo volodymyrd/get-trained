@@ -127,17 +127,9 @@ public class FitnessTraineeProfileRestControllerTest extends BaseIntegrationTest
     profile.setTraineeUserId(TRAINEE_USER_ID);
     profile.setMeasure(measureDate);
 
-    // Act
-    ResponseEntity<?> response = fitnessTraineeProfileRestController
-        .saveFitnessTraineeProfile(profile);
-
-    // Assert
-    profile = (FitnessTraineeProfile) response.getBody();
-    assertNotNull(profile);
-    assertNotNull(profile.getTraineeProfileId());
-    assertNotNull(profile.getTraineeUserId());
-    assertEquals(measureDate, profile.getMeasure());
-    assertEquals(0.0, profile.getBiceps(), 0.001);
+    // Act and Assert
+    validateFitnessProfile(
+        fitnessTraineeProfileRestController.saveFitnessTraineeProfile(profile), measureDate, 0.0);
   }
 
   @Test
@@ -178,17 +170,19 @@ public class FitnessTraineeProfileRestControllerTest extends BaseIntegrationTest
     profile.setMeasure(measureDate);
     profile.setBiceps(50);
 
-    // Act
-    ResponseEntity<?> response = fitnessTraineeProfileRestController
-        .saveFitnessTraineeProfile(profile);
+    // Act and Assert
+    validateFitnessProfile(
+        fitnessTraineeProfileRestController.saveFitnessTraineeProfile(profile), measureDate, 50.0);
+  }
 
-    // Assert
-    profile = (FitnessTraineeProfile) response.getBody();
+  private void validateFitnessProfile(
+      ResponseEntity<?> response, String measureDate, double biceps) {
+    FitnessTraineeProfile profile = (FitnessTraineeProfile) response.getBody();
     assertNotNull(profile);
     assertNotNull(profile.getTraineeProfileId());
     assertNotNull(profile.getTraineeUserId());
     assertEquals(measureDate, profile.getMeasure());
-    assertEquals(50.0, profile.getBiceps(), 0.001);
+    assertEquals(biceps, profile.getBiceps(), 0.001);
   }
 
   @Test
