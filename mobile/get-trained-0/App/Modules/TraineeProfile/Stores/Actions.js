@@ -16,6 +16,16 @@ const { Types, Creators } = createActions(
     fetchLightProfileLoading: null,
     fetchLightProfileSuccess: ['lightProfile'],
     fetchLightProfileFailure: null,
+
+    fetchTraineeProfile: ['traineeUserId'],
+    fetchTraineeProfileLoading: null,
+    fetchTraineeProfileSuccess: ['traineeProfile'],
+    fetchTraineeProfileFailure: null,
+
+    fetchUpdateTraineeProfile: ['traineeProfile'],
+    fetchUpdateTraineeProfileLoading: null,
+    fetchUpdateTraineeProfileSuccess: ['traineeProfile'],
+    fetchUpdateTraineeProfileFailure: null,
   },
   { prefix: 'TRAINEE_PROFILE_' }
 )

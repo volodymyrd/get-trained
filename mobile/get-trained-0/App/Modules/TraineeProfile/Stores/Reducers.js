@@ -43,6 +43,39 @@ export const fetchLightProfileFailure = (state) =>
     lightProfile: undefined,
   })
 
+export const fetchTraineeProfileLoading = (state) =>
+  state.merge({
+    fetchingTraineeProfile: true,
+  })
+
+export const fetchTraineeProfileSuccess = (state, { traineeProfile }) =>
+  state.merge({
+    fetchingTraineeProfile: false,
+    traineeProfile,
+  })
+
+export const fetchTraineeProfileFailure = (state) =>
+  state.merge({
+    fetchingTraineeProfile: false,
+    traineeProfile: undefined,
+  })
+
+export const fetchUpdateTraineeProfileLoading = (state) =>
+  state.merge({
+    fetchingUpdateTraineeProfile: true,
+  })
+
+export const fetchUpdateTraineeProfileSuccess = (state, { traineeProfile }) =>
+  state.merge({
+    fetchingUpdateTraineeProfile: false,
+    traineeProfile,
+  })
+
+export const fetchUpdateTraineeProfileFailure = (state) =>
+  state.merge({
+    fetchingUpdateTraineeProfile: false,
+  })
+
 /**
  * @see https://github.com/infinitered/reduxsauce#createreducer
  */
@@ -54,4 +87,12 @@ export const profile = createReducer(INITIAL_STATE, {
   [TraineeProfileTypes.FETCH_LIGHT_PROFILE_LOADING]: fetchLightProfileLoading,
   [TraineeProfileTypes.FETCH_LIGHT_PROFILE_SUCCESS]: fetchLightProfileSuccess,
   [TraineeProfileTypes.FETCH_LIGHT_PROFILE_FAILURE]: fetchLightProfileFailure,
+
+  [TraineeProfileTypes.FETCH_TRAINEE_PROFILE_LOADING]: fetchTraineeProfileLoading,
+  [TraineeProfileTypes.FETCH_TRAINEE_PROFILE_SUCCESS]: fetchTraineeProfileSuccess,
+  [TraineeProfileTypes.FETCH_TRAINEE_PROFILE_FAILURE]: fetchTraineeProfileFailure,
+
+  [TraineeProfileTypes.FETCH_UPDATE_TRAINEE_PROFILE_LOADING]: fetchUpdateTraineeProfileLoading,
+  [TraineeProfileTypes.FETCH_UPDATE_TRAINEE_PROFILE_SUCCESS]: fetchUpdateTraineeProfileSuccess,
+  [TraineeProfileTypes.FETCH_UPDATE_TRAINEE_PROFILE_FAILURE]: fetchUpdateTraineeProfileFailure,
 })
