@@ -16,6 +16,7 @@ class Connections extends Component {
       acceptHandler,
       localizations,
       fetches,
+      onSelectItem,
     } = this.props
 
     return (
@@ -32,6 +33,7 @@ class Connections extends Component {
               deleteHandler={deleteHandler}
               localizations={localizations}
               fetches={fetches}
+              onSelectItem={onSelectItem}
             />
           ) : (
             <TrainerItem
@@ -41,6 +43,7 @@ class Connections extends Component {
               acceptHandler={acceptHandler}
               localizations={localizations}
               fetches={fetches}
+              onSelectItem={onSelectItem}
             />
           )
         }
@@ -57,6 +60,7 @@ Connections.propTypes = {
   refreshHandler: PropTypes.func.isRequired,
   deleteHandler: PropTypes.func.isRequired,
   acceptHandler: PropTypes.func.isRequired,
+  onSelectItem: PropTypes.func.isRequired,
   localizations: PropTypes.object.isRequired,
   fetches: PropTypes.object.isRequired,
 }

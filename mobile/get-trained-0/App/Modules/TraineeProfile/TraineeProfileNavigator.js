@@ -30,4 +30,12 @@ const TraineeProfileNavigator = createBottomTabNavigator(
   }
 )
 
+TraineeProfileNavigator.navigationOptions = ({ navigation }) => {
+  const headerTitle = navigation.getParam('item').traineeFullName
+
+  return {
+    headerTitle,
+  }
+}
+
 export default TraineeProfileNavigator

@@ -63,6 +63,14 @@ class HomeScreen extends Component {
     this.props.fetchConnections(0, pageSize, [])
   }
 
+  _selectItemHandler = (item, navigateTo) => {
+    if (navigateTo) {
+      this.props.navigation.navigate(navigateTo, { item })
+    } else {
+      this.props.selectConnectionItem(item)
+    }
+  }
+
   render() {
     const {
       navigation,
@@ -102,6 +110,7 @@ class HomeScreen extends Component {
                        refreshHandler={this._getConnections}
                        deleteHandler={fetchDeleteConnection}
                        acceptHandler={fetchAcceptConnection}
+                       onSelectItem={this._selectItemHandler}
                        connections={connections}
                        localizations={localizations}
                        fetches={{
@@ -161,6 +170,8 @@ const mapDispatchToProps = (dispatch) => ({
       dispatch(HomeActions.fetchDeleteConnection(connectionId)),
   fetchAcceptConnection: (connectionId) =>
       dispatch(HomeActions.fetchAcceptConnection(connectionId)),
+  selectConnectionItem: (item) =>
+      dispatch(HomeActions.selectConnectionItem(item)),
 })
 
 export default connect(

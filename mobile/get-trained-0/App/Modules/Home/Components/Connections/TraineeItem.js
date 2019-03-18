@@ -65,7 +65,7 @@ Pending.propTypes = {
 
 class TraineeItem extends Component {
   render() {
-    const { navigation, item, deleteHandler, localizations, fetches } = this.props
+    const { navigation, item, deleteHandler, localizations, fetches, onSelectItem } = this.props
 
     const ACTIONS = [
       traineeProfile(localizations),
@@ -111,7 +111,7 @@ class TraineeItem extends Component {
                   (buttonIndex) => {
                     switch (buttonIndex) {
                       case PROFILE_INDEX:
-                        navigation.navigate('_TraineeProfile')
+                        onSelectItem(item, '_TraineeProfile')
                         break
                       case CHAT_INDEX:
                         navigation.navigate('Chat', { title: titleChat(localizations) })
@@ -142,6 +142,7 @@ TraineeItem.propTypes = {
   item: PropTypes.object.isRequired,
   navigation: PropTypes.object.isRequired,
   deleteHandler: PropTypes.func.isRequired,
+  onSelectItem: PropTypes.func.isRequired,
   localizations: PropTypes.object.isRequired,
   fetches: PropTypes.object.isRequired,
 }

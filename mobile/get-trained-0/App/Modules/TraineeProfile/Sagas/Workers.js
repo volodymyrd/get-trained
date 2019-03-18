@@ -28,3 +28,27 @@ export function* fetchLightProfile() {
     yield put(TraineeProfileActions.fetchLightProfileFailure())
   }
 }
+
+export function* fetchTraineeProfile({ traineeUserId }) {
+  yield put(TraineeProfileActions.fetchTraineeProfileLoading())
+
+  const profile = yield call(TraineeProfileService.getTraineeProfile, traineeUserId)
+
+  if (profile && profile.data) {
+    yield put(TraineeProfileActions.fetchTraineeProfileSuccess(profile.data))
+  } else {
+    yield put(TraineeProfileActions.fetchTraineeProfileFailure())
+  }
+}
+
+export function* fetchUpdateTraineeProfile({ traineeProfile }) {
+  yield put(TraineeProfileActions.fetchUpdateTraineeProfileLoading())
+
+  const profile = yield call(TraineeProfileService.getTraineeProfile, traineeProfile)
+
+  if (profile && profile.data) {
+    yield put(TraineeProfileActions.fetchUpdateTraineeProfileSuccess(profile.data))
+  } else {
+    yield put(TraineeProfileActions.fetchUpdateTraineeProfileFailure())
+  }
+}

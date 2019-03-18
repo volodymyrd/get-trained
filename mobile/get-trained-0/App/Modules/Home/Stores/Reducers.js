@@ -173,6 +173,11 @@ export const sendChatMessageFailure = (state) =>
     sendingChatMessage: false,
   })
 
+export const selectConnectionItem = (state, { item }) =>
+  state.merge({
+    selectedConnectionItem: item,
+  })
+
 /**
  * @see https://github.com/infinitered/reduxsauce#createreducer
  */
@@ -213,4 +218,6 @@ export const home = createReducer(INITIAL_STATE, {
   [HomeTypes.SEND_CHAT_MESSAGE_LOADING]: sendChatMessageLoading,
   [HomeTypes.SEND_CHAT_MESSAGE_SUCCESS]: sendChatMessageSuccess,
   [HomeTypes.SEND_CHAT_MESSAGE_FAILURE]: sendChatMessageFailure,
+
+  [HomeTypes.SELECT_CONNECTION_ITEM]: selectConnectionItem,
 })

@@ -1,25 +1,16 @@
-import { wrapFileForUploading, dataUpload, postPlainWithCredentials } from 'App/Utils/HttpUtils'
+import { postPlainWithCredentials } from 'App/Utils/HttpUtils'
 
-const BASE_URL = 'fe/trainee/profile'
+const BASE_URL = 'fe/activity/trainee/profile'
 
-const uploadAvatar = (image) => {
-  return dataUpload(
-    `${BASE_URL}/avatar/load`,
-    wrapFileForUploading([
-      {
-        uri: image.path,
-        type: image.mime,
-        name: `file_${new Date().toISOString()}`,
-      },
-    ])
-  )
+const getTraineeProfile = (traineeUserId) => {
+  return postPlainWithCredentials(`${BASE_URL}/get?traineeUserId=${traineeUserId}`)
 }
 
-const deleteAvatar = () => {
-  return postPlainWithCredentials(`${BASE_URL}/avatar/del`)
+const updateTraineeProfile = (traineeProfile) => {
+  return postPlainWithCredentials(`${BASE_URL}/update`, traineeProfile)
 }
 
 export const TraineeProfileService = {
-  uploadAvatar,
-  deleteAvatar,
+  getTraineeProfile,
+  updateTraineeProfile,
 }

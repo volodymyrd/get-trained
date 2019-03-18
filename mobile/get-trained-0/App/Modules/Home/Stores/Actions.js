@@ -52,6 +52,8 @@ const { Types, Creators } = createActions(
     sendChatMessageLoading: ['message'],
     sendChatMessageSuccess: null,
     sendChatMessageFailure: null,
+
+    selectConnectionItem: ['item'],
   },
   { prefix: 'HOME_' }
 )
