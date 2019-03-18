@@ -9,6 +9,7 @@ public enum ELocalModule {
   DASHBOARD,
   MENU,
   HOME,
+  TRAINEE_PROFILE,
   PROFILE,
   SETTINGS,
   BACKEND
