@@ -11,4 +11,6 @@ export default {
   primary: '#007aff',
   success: '#28a745',
   error: '#dc3545',
+  black: '#212529',
+  white: '#fff',
 }
