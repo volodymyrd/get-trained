@@ -11,9 +11,9 @@ import {
   Item,
   Label,
   Text,
+  Picker,
   Title,
   Button,
-  Picker,
   Icon, View,
 } from 'native-base'
 import ButtonWithLoader from "App/Components/ButtonWithLoader";
@@ -32,7 +32,14 @@ class CommonProfileScreen extends Component {
   }
 
   componentDidMount() {
-    const {langCode, metadata, fetchMetadata, selectedTrainee, fetchTraineeProfile} = this.props
+    const {
+      langCode,
+      metadata,
+      fetchMetadata,
+      selectedTrainee,
+      fetchGenders,
+      fetchTraineeProfile
+    } = this.props
 
     if (langCode
         && !(metadata
@@ -41,6 +48,7 @@ class CommonProfileScreen extends Component {
       fetchMetadata(langCode.toUpperCase())
     }
 
+    fetchGenders()
     fetchTraineeProfile(this.props.navigation.getParam('item').traineeUserId)
   }
 
@@ -48,8 +56,12 @@ class CommonProfileScreen extends Component {
   }
 
   render() {
-    const {langCode, metadata} = this.props
+    const {langCode, metadata, genders} = this.props
 
+    if (!Map.isMap(genders)) {
+      return
+    }
+    genders.entrySeq().toArray().map((e) => console.log(e))
     return (
         <Container>
           <Content>
@@ -58,42 +70,41 @@ class CommonProfileScreen extends Component {
               <Item picker>
                 <Label>Gender:</Label>
                 <View style={style.pickerView}>
-                  <Picker renderHeader={backAction =>
-                      <Header>
-                        <Left>
-                          <Button transparent onPress={backAction}>
-                            <Icon name="arrow-back"/>
-                          </Button>
-                        </Left>
-                        <Body>
-                        <Title>Gender</Title>
-                        </Body>
-                        <Right/>
-                      </Header>}
-                          mode="dropdown"
-                          iosIcon={<Icon name="arrow-down"/>}
-                          style={{width: undefined}}
-                          placeholder="Select your SIM"
+                  <Picker
+                      renderHeader={backAction =>
+                          <Header>
+                            <Left>
+                              <Button transparent onPress={backAction}>
+                                <Icon name="arrow-back"/>
+                              </Button>
+                            </Left>
+                            <Body>
+                            <Title>Gender</Title>
+                            </Body>
+                            <Right/>
+                          </Header>}
+                      mode="dropdown"
+                      iosIcon={<Icon name="arrow-down"/>}
+                      style={{width: undefined}}
+                      placeholder="Select your SIM"
                       //placeholderStyle={{color: "#bfc6ea"}}
                       //placeholderIconColor="#007aff"
                       //selectedValue={this.state.selected2}
                       //onValueChange={this.onValueChange2.bind(this)}
                   >
-                    <Picker.Item label="Wallet" value="key0"/>
-                    <Picker.Item label="ATM Card" value="key1"/>
-                    <Picker.Item label="Debit Card" value="key2"/>
-                    <Picker.Item label="Credit Card" value="key3"/>
-                    <Picker.Item label="Net Banking" value="key4"/>
+                    {genders.entrySeq().toArray().map(([k, v]) =>
+                        (<Picker.Item label={v} value={k} key={k}/>)
+                    )}
                   </Picker>
                 </View>
               </Item>
-              <ButtonWithLoader
-                  title={'save'}
-                  style={{marginTop: 40}}
-                  //disabled={buttonDisabled || loading}
-                  //loading={loading}
-                  //onPressHandler={() => authenticationHandler(email, password)}
-              />
+              {/*<ButtonWithLoader*/}
+              {/*title={'save'}*/}
+              {/*style={{marginTop: 40}}*/}
+              {/*//disabled={buttonDisabled || loading}*/}
+              {/*//loading={loading}*/}
+              {/*//onPressHandler={() => authenticationHandler(email, password)}*/}
+              {/*/>*/}
             </Form>
           </Content>
         </Container>
@@ -111,12 +122,14 @@ const mapStateToProps = (state) => ({
       'failedRetrievingMetadata'),
   metadata: state.traineeProfile.root.get('metadata'),
 
+  genders: state.traineeProfile.root.get('genders'),
 })
 
 const mapDispatchToProps = (dispatch) => ({
   fetchMetadata: (langCode) => dispatch(TraineeProfile.fetchMetadata(langCode)),
   fetchTraineeProfile: (traineeUserId) =>
       dispatch(TraineeProfile.fetchTraineeProfile(traineeUserId)),
+  fetchGenders: () => dispatch(TraineeProfile.fetchGenders()),
 })
 
 export default connect(

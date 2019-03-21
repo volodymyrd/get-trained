@@ -29,6 +29,18 @@ export function* fetchLightProfile() {
   }
 }
 
+export function* fetchGenders() {
+  yield put(TraineeProfileActions.fetchGendersLoading())
+
+  const genders = yield call(TraineeProfileService.getGenders)
+
+  if (genders && genders.data) {
+    yield put(TraineeProfileActions.fetchGendersSuccess(genders.data))
+  } else {
+    yield put(TraineeProfileActions.fetchGendersFailure())
+  }
+}
+
 export function* fetchTraineeProfile({ traineeUserId }) {
   yield put(TraineeProfileActions.fetchTraineeProfileLoading())
 

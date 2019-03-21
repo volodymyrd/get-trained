@@ -17,6 +17,11 @@ const { Types, Creators } = createActions(
     fetchLightProfileSuccess: ['lightProfile'],
     fetchLightProfileFailure: null,
 
+    fetchGenders: null,
+    fetchGendersLoading: null,
+    fetchGendersSuccess: ['genders'],
+    fetchGendersFailure: null,
+
     fetchTraineeProfile: ['traineeUserId'],
     fetchTraineeProfileLoading: null,
     fetchTraineeProfileSuccess: ['traineeProfile'],

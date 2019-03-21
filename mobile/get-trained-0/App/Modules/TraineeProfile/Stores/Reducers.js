@@ -43,6 +43,23 @@ export const fetchLightProfileFailure = (state) =>
     lightProfile: undefined,
   })
 
+export const fetchGendersLoading = (state) =>
+  state.merge({
+    fetchingGenders: true,
+  })
+
+export const fetchGendersSuccess = (state, { genders }) =>
+  state.merge({
+    fetchingGenders: false,
+    genders,
+  })
+
+export const fetchGendersFailure = (state) =>
+  state.merge({
+    fetchingGenders: false,
+    traineeProfile: undefined,
+  })
+
 export const fetchTraineeProfileLoading = (state) =>
   state.merge({
     fetchingTraineeProfile: true,
@@ -87,6 +104,10 @@ export const profile = createReducer(INITIAL_STATE, {
   [TraineeProfileTypes.FETCH_LIGHT_PROFILE_LOADING]: fetchLightProfileLoading,
   [TraineeProfileTypes.FETCH_LIGHT_PROFILE_SUCCESS]: fetchLightProfileSuccess,
   [TraineeProfileTypes.FETCH_LIGHT_PROFILE_FAILURE]: fetchLightProfileFailure,
+
+  [TraineeProfileTypes.FETCH_GENDERS_LOADING]: fetchGendersLoading,
+  [TraineeProfileTypes.FETCH_GENDERS_SUCCESS]: fetchGendersSuccess,
+  [TraineeProfileTypes.FETCH_GENDERS_FAILURE]: fetchGendersFailure,
 
   [TraineeProfileTypes.FETCH_TRAINEE_PROFILE_LOADING]: fetchTraineeProfileLoading,
   [TraineeProfileTypes.FETCH_TRAINEE_PROFILE_SUCCESS]: fetchTraineeProfileSuccess,
