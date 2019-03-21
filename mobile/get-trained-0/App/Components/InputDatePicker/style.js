@@ -10,9 +10,14 @@ export default StyleSheet.create({
     backgroundColor: Colors.white,
     marginTop: 10,
   },
-  inputDatePickerView: {
+  inputDatePickerViewIOS: {
     flex: 1,
     justifyContent: 'flex-end',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  inputDatePickerViewAndroid: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -28,10 +33,11 @@ export default StyleSheet.create({
     marginRight: 0,
     paddingLeft: 16,
     paddingRight: 16,
+    color: Colors.text,
   },
   placeholder: {
     backgroundColor: 'transparent',
-    color: '#a7a7a7',
+    color: Colors.placeholder,
     fontFamily: 'System',
     fontSize: 16,
     lineHeight: null,
@@ -40,8 +46,14 @@ export default StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 16,
   },
-  downArrow: {
+  selectButtonView: {
+    flex: 0.18,
+    justifyContent: 'flex-end',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  selectButton: {
     color: Colors.black,
-    fontSize: 22,
+    fontSize: 18,
   },
 })

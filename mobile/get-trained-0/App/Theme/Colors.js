@@ -13,4 +13,5 @@ export default {
   error: '#dc3545',
   black: '#212529',
   white: '#fff',
+  placeholder: '#a7a7a7',
 }

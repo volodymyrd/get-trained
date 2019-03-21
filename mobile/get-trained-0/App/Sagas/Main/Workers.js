@@ -1,11 +1,12 @@
-import { Platform, NativeModules } from 'react-native'
+import { NativeModules } from 'react-native'
 import { put, call } from 'redux-saga/effects'
 import MainActions from 'App/Stores/Main/Actions'
 import { MainService } from 'App/Services/MainService'
+import { isAndroid } from 'App/Utils/Utils'
 
 export function* getLocale() {
   let locale
-  if (Platform.OS === 'android') {
+  if (isAndroid()) {
     locale = NativeModules.I18nManager.localeIdentifier
   } else {
     locale = NativeModules.SettingsManager.settings.AppleLocale

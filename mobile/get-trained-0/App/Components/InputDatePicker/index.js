@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types';
 import {
-  Platform,
   Modal,
   DatePickerIOS,
   DatePickerAndroid,
@@ -20,8 +19,8 @@ import {
   Icon,
   Button,
 } from 'native-base'
+import {isIOS, isAndroid} from 'App/Utils/Utils'
 import {formatToDDMMYYY, formatDDMMYYYToDate} from 'App/Utils/DateUtils'
-import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import style from './style';
 
@@ -61,7 +60,6 @@ class DatePickerIOSWrapper extends Component {
       selectedDate,
       callback
     } = this.state
-
     return (
         <View style={style.iosModalView}>
           <Modal animationType="slide"
@@ -129,12 +127,15 @@ export default class InputDatePicker extends Component {
   }
 
   async open() {
-    if (Platform.OS === 'android') {
-      const {date} = this.props.date
+    if (isAndroid()) {
+      const {selectedDate} = this.state
       try {
         const {action, year, month, day} = await DatePickerAndroid.open({
-          date: date ?
-              new Date(date.getFullYear(), date.getMonth(), date.getDate())
+          date: selectedDate ?
+              new Date(
+                  selectedDate.getFullYear(),
+                  selectedDate.getMonth(),
+                  selectedDate.getDate())
               : new Date(),
           mode: 'default'//(enum('calendar', 'spinner', 'default'))
         });
@@ -145,7 +146,7 @@ export default class InputDatePicker extends Component {
       } catch ({code, message}) {
         console.warn('Cannot open date picker', message);
       }
-    } else if (Platform.OS === 'ios') {
+    } else if (isIOS()) {
       this.ios.setModalVisible(true)
       this.setSelectedDate(await this.ios.getPromise())
     }
@@ -167,14 +168,16 @@ export default class InputDatePicker extends Component {
                                 date={this.getSelectedDate()}/>
           <Item picker onPress={() => this.open()}>
             <Label>{labelName}</Label>
-            <View style={style.inputDatePickerView}>
+            <View style={isIOS() ? style.inputDatePickerViewIOS
+                : style.inputDatePickerViewAndroid}>
               <Label style={selectedFormattedDate ?
                   style.value : style.placeholder}>
                 {selectedFormattedDate ? selectedFormattedDate : placeholder}
               </Label>
+            </View>
+            <View style={style.selectButtonView}>
               <Button transparent onPress={() => this.open()}>
-                <Icon name="arrow-down" style={style.downArrow}/>
-                {/*<Ionicons name="md-arrow-dropdown" style={style.downArrow}/>*/}
+                <Icon name="calendar" style={style.selectButton}/>
               </Button>
             </View>
           </Item>

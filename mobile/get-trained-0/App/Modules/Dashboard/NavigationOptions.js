@@ -10,7 +10,7 @@ export const setNavigationOptions = (navigation, backNav) => {
             transparent
             onPress={() => (backNav ? navigation.goBack() : navigation.openDrawer())}
           >
-            <Icon name={backNav ? 'arrow-back' : 'menu'} />
+            <Icon name={backNav ? 'arrow-back' : 'menu'} style={{ fontSize: 35 }} />
           </Button>
         </Left>
         <Body>
