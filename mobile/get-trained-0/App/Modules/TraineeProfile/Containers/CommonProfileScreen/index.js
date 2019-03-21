@@ -57,8 +57,10 @@ class CommonProfileScreen extends Component {
   render() {
     const {
       langCode,
+      locale,
       metadata,
       fetchingGenders,
+      fetchingTraineeProfile,
       fetchTraineeProfile,
       fetchingUpdateTraineeProfile,
       genders,
@@ -66,9 +68,9 @@ class CommonProfileScreen extends Component {
     } = this.props
 
     if (fetchingGenders
-        && fetchTraineeProfile
-        && !Map.isMap(genders)
-        && !Map.isMap(traineeProfile)) {
+        || fetchingTraineeProfile
+        || !Map.isMap(genders)
+        || !Map.isMap(traineeProfile)) {
       return <Loading/>
     }
 
@@ -84,6 +86,7 @@ class CommonProfileScreen extends Component {
               />
 
               <InputDatePicker ref={c => this.datePicker = c}
+                               locale={locale}
                                labelName={'Birthday:'}
                                placeholder={'Select date of birthday'}
                                date={traineeProfile.get('birthdayStr')}/>
@@ -104,6 +107,7 @@ class CommonProfileScreen extends Component {
 
 const mapStateToProps = (state) => ({
   langCode: state.main.get('langCode'),
+  locale: state.main.get('locale'),
 
   selectedTrainee: state.home.root.get('selectConnectionItem'),
 

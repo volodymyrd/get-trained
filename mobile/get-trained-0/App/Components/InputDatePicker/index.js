@@ -21,6 +21,7 @@ import {
   Button,
 } from 'native-base'
 import {formatToDDMMYYY, formatDDMMYYYToDate} from 'App/Utils/DateUtils'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import style from './style';
 
@@ -54,7 +55,12 @@ class DatePickerIOSWrapper extends Component {
   }
 
   render() {
-    const {modalVisible, selectedDate, callback} = this.state
+    const {locale} = this.props
+    const {
+      modalVisible,
+      selectedDate,
+      callback
+    } = this.state
 
     return (
         <View style={style.iosModalView}>
@@ -80,7 +86,7 @@ class DatePickerIOSWrapper extends Component {
               <View>
                 <DatePickerIOS date={selectedDate}
                                mode={'date'}
-                               locale={'uk'}
+                               locale={locale}
                                onDateChange={(d) => this.setSelectedDate(d)}
                 />
               </View>
@@ -150,13 +156,14 @@ export default class InputDatePicker extends Component {
   }
 
   render() {
-    const {labelName, placeholder} = this.props
+    const {labelName, placeholder, locale} = this.props
 
     const selectedFormattedDate = this.getSelectedFormattedDate()
 
     return (
         <View>
           <DatePickerIOSWrapper ref={(c) => this.ios = c}
+                                locale={locale}
                                 date={this.getSelectedDate()}/>
           <Item picker onPress={() => this.open()}>
             <Label>{labelName}</Label>
@@ -167,6 +174,7 @@ export default class InputDatePicker extends Component {
               </Label>
               <Button transparent onPress={() => this.open()}>
                 <Icon name="arrow-down" style={style.downArrow}/>
+                {/*<Ionicons name="md-arrow-dropdown" style={style.downArrow}/>*/}
               </Button>
             </View>
           </Item>
@@ -179,6 +187,5 @@ InputDatePicker.propTypes = {
   labelName: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   date: PropTypes.string,
-  //onPressHandler: PropTypes.func.isRequired,
-  //notFull: PropTypes.bool,
+  locale: PropTypes.string,
 }
