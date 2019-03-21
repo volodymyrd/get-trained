@@ -8,10 +8,4 @@ export default StyleSheet.create({
     flexDirection: 'column',
     height: Dimensions.get('window').height / 3,
   },
-  pickerView: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
 })

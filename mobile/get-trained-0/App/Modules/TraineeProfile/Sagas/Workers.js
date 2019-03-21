@@ -54,11 +54,12 @@ export function* fetchTraineeProfile({ traineeUserId }) {
 }
 
 export function* fetchUpdateTraineeProfile({ traineeProfile }) {
+  console.log(traineeProfile)
   yield put(TraineeProfileActions.fetchUpdateTraineeProfileLoading())
 
-  const profile = yield call(TraineeProfileService.getTraineeProfile, traineeProfile)
+  const profile = yield call(TraineeProfileService.updateTraineeProfile, traineeProfile)
 
-  if (profile && profile.data) {
+  if (profile && profile.ok && profile.data) {
     yield put(TraineeProfileActions.fetchUpdateTraineeProfileSuccess(profile.data))
   } else {
     yield put(TraineeProfileActions.fetchUpdateTraineeProfileFailure())

@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types';
 import {
   Platform,
   Modal,
@@ -19,16 +20,19 @@ import {
   Icon,
   Button,
 } from 'native-base'
-import {formatToDDMMYYY} from 'App/Utils/DateUtils'
-import PropTypes from "prop-types";
+import {formatToDDMMYYY, formatDDMMYYYToDate} from 'App/Utils/DateUtils'
 
-import style from "./style";
+import style from './style';
 
 class DatePickerIOSWrapper extends Component {
-  state = {
-    modalVisible: false,
-    selectedDate: new Date(),
-    callback: undefined
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      modalVisible: false,
+      selectedDate: this.props.date ? this.props.date : new Date(),
+      callback: undefined
+    }
   }
 
   setModalVisible(visible) {
@@ -50,12 +54,7 @@ class DatePickerIOSWrapper extends Component {
   }
 
   render() {
-    const {date} = this.props
     const {modalVisible, selectedDate, callback} = this.state
-
-    if (date) {
-      this.setSelectedDate(date)
-    }
 
     return (
         <View style={style.iosModalView}>
@@ -63,7 +62,7 @@ class DatePickerIOSWrapper extends Component {
                  transparent={false}
                  visible={modalVisible}
                  onRequestClose={() => {
-                   console.log('close modal');
+                   //console.log('close modal');
                  }}>
             <View>
               <Header>
@@ -101,12 +100,26 @@ class DatePickerIOSWrapper extends Component {
 }
 
 export default class InputDatePicker extends Component {
-  state = {
-    selectedDate: 'Select date',
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      selectedDate: this.props.date ?
+          formatDDMMYYYToDate(this.props.date, '.') : null,
+    }
   }
 
-  getSelectedDate() {
-    return this.state.selectedDate
+  getSelectedFormattedDate = () => {
+    date = this.getSelectedDate()
+    if (date) {
+      return formatToDDMMYYY(date, '.')
+    }
+    return date
+  }
+
+  getSelectedDate = () => {
+    const {selectedDate} = this.state
+    return selectedDate instanceof Date ? selectedDate : null
   }
 
   async open() {
@@ -133,31 +146,24 @@ export default class InputDatePicker extends Component {
   }
 
   setSelectedDate(date) {
-    const isDate = date instanceof Date
-
-    this.setState({
-      selectedDate: isDate ? formatToDDMMYYY(date, '.') : date
-    });
+    this.setState({selectedDate: date});
   }
 
   render() {
-    const {date, labelName} = this.props
-    const {selectedDate} = this.state
+    const {labelName, placeholder} = this.props
 
-    if (date) {
-      this.setSelectedDate(date)
-    }
-
-    const isDate = selectedDate instanceof Date
+    const selectedFormattedDate = this.getSelectedFormattedDate()
 
     return (
         <View>
-          <DatePickerIOSWrapper ref={(c) => this.ios = c} date={date}/>
+          <DatePickerIOSWrapper ref={(c) => this.ios = c}
+                                date={this.getSelectedDate()}/>
           <Item picker onPress={() => this.open()}>
             <Label>{labelName}</Label>
             <View style={style.inputDatePickerView}>
-              <Label style={isDate ? style.value : style.placeholder}>
-                {selectedDate}
+              <Label style={selectedFormattedDate ?
+                  style.value : style.placeholder}>
+                {selectedFormattedDate ? selectedFormattedDate : placeholder}
               </Label>
               <Button transparent onPress={() => this.open()}>
                 <Icon name="arrow-down" style={style.downArrow}/>
@@ -171,7 +177,8 @@ export default class InputDatePicker extends Component {
 
 InputDatePicker.propTypes = {
   labelName: PropTypes.string.isRequired,
-  date: PropTypes.object,
+  placeholder: PropTypes.string.isRequired,
+  date: PropTypes.string,
   //onPressHandler: PropTypes.func.isRequired,
   //notFull: PropTypes.bool,
 }

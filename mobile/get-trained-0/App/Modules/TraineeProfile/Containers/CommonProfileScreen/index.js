@@ -4,26 +4,16 @@ import {
   Container,
   Content,
   Form,
-  Header,
-  Body,
-  Left,
-  Right,
-  Item,
-  Label,
-  Text,
-  Picker,
-  Title,
-  Button,
-  Icon, View,
 } from 'native-base'
-import Loading from "App/Components/Loading";
-import ButtonWithLoader from "App/Components/ButtonWithLoader";
+import Loading from 'App/Components/Loading';
+import ButtonWithLoader from 'App/Components/ButtonWithLoader';
+import CommonPicker from 'App/Components/CommonPicker'
 import InputDatePicker from 'App/Components/InputDatePicker'
-import {Map} from "immutable";
+import {Map} from 'immutable';
 import TraineeProfile from '../../Stores/Actions'
 import {MODULE} from '../../Metadata'
 
-import style from "./style";
+import style from './style';
 
 class CommonProfileScreen extends Component {
   static navigationOptions = ({navigation, navigationOptions}) => {
@@ -57,58 +47,52 @@ class CommonProfileScreen extends Component {
   }
 
   updateProfile = () => {
-    console.log(this.datePicker.getSelectedDate())
+    this.props.fetchUpdateTraineeProfile({
+      userId: this.props.traineeProfile.get('userId'),
+      gender: this.genderPicker.getSelectedValue(),
+      birthdayStr: this.datePicker.getSelectedFormattedDate()
+    })
   }
 
   render() {
-    const {langCode, metadata, genders} = this.props
+    const {
+      langCode,
+      metadata,
+      fetchingGenders,
+      fetchTraineeProfile,
+      fetchingUpdateTraineeProfile,
+      genders,
+      traineeProfile
+    } = this.props
 
-    if (!Map.isMap(genders)) {
-      return <Loading />
+    if (fetchingGenders
+        && fetchTraineeProfile
+        && !Map.isMap(genders)
+        && !Map.isMap(traineeProfile)) {
+      return <Loading/>
     }
 
     return (
         <Container>
           <Content>
             <Form style={style.form}>
+              <CommonPicker ref={c => this.genderPicker = c}
+                            labelName={'Gender:'}
+                            placeholder={'Select gender'}
+                            value={traineeProfile.get('gender')}
+                            values={genders}
+              />
+
               <InputDatePicker ref={c => this.datePicker = c}
-                               labelName={'Birthday:'}/>
-              <Item picker>
-                <Label>Gender:</Label>
-                <View style={style.pickerView}>
-                  <Picker
-                      renderHeader={backAction =>
-                          <Header>
-                            <Left>
-                              <Button transparent onPress={backAction}>
-                                <Icon name="arrow-back"/>
-                              </Button>
-                            </Left>
-                            <Body>
-                            <Title>Gender</Title>
-                            </Body>
-                            <Right/>
-                          </Header>}
-                      mode="dropdown"
-                      iosIcon={<Icon name="arrow-down"/>}
-                      style={{width: undefined}}
-                      placeholder="Select your SIM"
-                      //placeholderStyle={{color: "#bfc6ea"}}
-                      //placeholderIconColor="#007aff"
-                      //selectedValue={this.state.selected2}
-                      //onValueChange={this.onValueChange2.bind(this)}
-                  >
-                    {genders.entrySeq().toArray().map(([k, v]) =>
-                        (<Picker.Item label={v} value={k} key={k}/>)
-                    )}
-                  </Picker>
-                </View>
-              </Item>
+                               labelName={'Birthday:'}
+                               placeholder={'Select date of birthday'}
+                               date={traineeProfile.get('birthdayStr')}/>
+
               <ButtonWithLoader
                   title={'save'}
                   style={{marginTop: 40}}
-                  //disabled={buttonDisabled || loading}
-                  //loading={loading}
+                  disabled={fetchingUpdateTraineeProfile}
+                  loading={fetchingUpdateTraineeProfile}
                   onPressHandler={this.updateProfile}
               />
             </Form>
@@ -128,14 +112,23 @@ const mapStateToProps = (state) => ({
       'failedRetrievingMetadata'),
   metadata: state.traineeProfile.root.get('metadata'),
 
+  fetchingGenders: state.traineeProfile.root.get('fetchingGenders'),
+  fetchingTraineeProfile: state.traineeProfile.root.get(
+      'fetchingTraineeProfile'),
+  fetchingUpdateTraineeProfile: state.traineeProfile.root.get(
+      'fetchingUpdateTraineeProfile'),
+
   genders: state.traineeProfile.root.get('genders'),
+  traineeProfile: state.traineeProfile.root.get('traineeProfile'),
 })
 
 const mapDispatchToProps = (dispatch) => ({
   fetchMetadata: (langCode) => dispatch(TraineeProfile.fetchMetadata(langCode)),
+  fetchGenders: () => dispatch(TraineeProfile.fetchGenders()),
   fetchTraineeProfile: (traineeUserId) =>
       dispatch(TraineeProfile.fetchTraineeProfile(traineeUserId)),
-  fetchGenders: () => dispatch(TraineeProfile.fetchGenders()),
+  fetchUpdateTraineeProfile: (traineeProfile) =>
+      dispatch(TraineeProfile.fetchUpdateTraineeProfile(traineeProfile)),
 })
 
 export default connect(
