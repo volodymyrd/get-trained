@@ -105,6 +105,10 @@ export default class InputDatePicker extends Component {
     selectedDate: 'Select date',
   }
 
+  getSelectedDate() {
+    return this.state.selectedDate
+  }
+
   async open() {
     if (Platform.OS === 'android') {
       const {date} = this.props.date
@@ -117,7 +121,6 @@ export default class InputDatePicker extends Component {
         });
         if (action !== DatePickerAndroid.dismissedAction) {
           // Selected year, month (0-11), day
-          console.log(year, month, day)
           this.setSelectedDate(new Date(year, month, day))
         }
       } catch ({code, message}) {
@@ -130,7 +133,11 @@ export default class InputDatePicker extends Component {
   }
 
   setSelectedDate(date) {
-    this.setState({selectedDate: date});
+    const isDate = date instanceof Date
+
+    this.setState({
+      selectedDate: isDate ? formatToDDMMYYY(date, '.') : date
+    });
   }
 
   render() {
@@ -150,7 +157,7 @@ export default class InputDatePicker extends Component {
             <Label>{labelName}</Label>
             <View style={style.inputDatePickerView}>
               <Label style={isDate ? style.value : style.placeholder}>
-                {isDate ? formatToDDMMYYY(selectedDate, '.') : selectedDate}
+                {selectedDate}
               </Label>
               <Button transparent onPress={() => this.open()}>
                 <Icon name="arrow-down" style={style.downArrow}/>

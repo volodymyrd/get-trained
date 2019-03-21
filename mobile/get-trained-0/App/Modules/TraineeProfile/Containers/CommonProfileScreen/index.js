@@ -16,6 +16,7 @@ import {
   Button,
   Icon, View,
 } from 'native-base'
+import Loading from "App/Components/Loading";
 import ButtonWithLoader from "App/Components/ButtonWithLoader";
 import InputDatePicker from 'App/Components/InputDatePicker'
 import {Map} from "immutable";
@@ -55,18 +56,23 @@ class CommonProfileScreen extends Component {
   componentDidUpdate(prevProps) {
   }
 
+  updateProfile = () => {
+    console.log(this.datePicker.getSelectedDate())
+  }
+
   render() {
     const {langCode, metadata, genders} = this.props
 
     if (!Map.isMap(genders)) {
-      return
+      return <Loading />
     }
-    genders.entrySeq().toArray().map((e) => console.log(e))
+
     return (
         <Container>
           <Content>
             <Form style={style.form}>
-              <InputDatePicker labelName={'Birthday:'}/>
+              <InputDatePicker ref={c => this.datePicker = c}
+                               labelName={'Birthday:'}/>
               <Item picker>
                 <Label>Gender:</Label>
                 <View style={style.pickerView}>
@@ -98,13 +104,13 @@ class CommonProfileScreen extends Component {
                   </Picker>
                 </View>
               </Item>
-              {/*<ButtonWithLoader*/}
-              {/*title={'save'}*/}
-              {/*style={{marginTop: 40}}*/}
-              {/*//disabled={buttonDisabled || loading}*/}
-              {/*//loading={loading}*/}
-              {/*//onPressHandler={() => authenticationHandler(email, password)}*/}
-              {/*/>*/}
+              <ButtonWithLoader
+                  title={'save'}
+                  style={{marginTop: 40}}
+                  //disabled={buttonDisabled || loading}
+                  //loading={loading}
+                  onPressHandler={this.updateProfile}
+              />
             </Form>
           </Content>
         </Container>
