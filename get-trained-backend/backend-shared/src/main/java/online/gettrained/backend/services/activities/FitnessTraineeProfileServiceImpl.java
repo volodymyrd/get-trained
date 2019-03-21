@@ -52,6 +52,7 @@ public class FitnessTraineeProfileServiceImpl implements FitnessTraineeProfileSe
     if (profile.getBirthday() != null) {
       profile.setBirthdayStr(getShortDateFormat().format(profile.getBirthday()));
     }
+    profile.setUserId(profile.getId());
     return profile;
   }
 
