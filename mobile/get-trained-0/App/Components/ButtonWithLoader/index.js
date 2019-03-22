@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Text, Spinner, Icon } from 'native-base'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 import PropTypes from 'prop-types'
 
 class ButtonWithLoader extends Component {
@@ -15,6 +16,8 @@ class ButtonWithLoader extends Component {
       loading,
       disabled,
       icon,
+      ionicons,
+      iconSize,
       iconLeft,
       iconRight,
     } = this.props
@@ -32,6 +35,7 @@ class ButtonWithLoader extends Component {
         iconRight={iconRight}
       >
         {icon && <Icon name={icon} />}
+        {ionicons && <Ionicons name={ionicons} size={iconSize} />}
         {loading ? <Spinner color="blue" /> : <Text>{title}</Text>}
       </Button>
     )
@@ -49,6 +53,8 @@ ButtonWithLoader.propTypes = {
   loading: PropTypes.bool,
   disabled: PropTypes.bool,
   icon: PropTypes.string,
+  ionicons: PropTypes.string,
+  iconSize: PropTypes.number,
   iconLeft: PropTypes.bool,
   iconRight: PropTypes.bool,
 }

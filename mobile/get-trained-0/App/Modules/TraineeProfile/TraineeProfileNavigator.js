@@ -3,12 +3,12 @@ import { createBottomTabNavigator } from 'react-navigation'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import CommonProfileScreen from './Containers/CommonProfileScreen'
-import BodyProfileScreen from './Containers/BodyProfileScreen'
+import TraineeProfilesScreen from './Containers/TraineeProfilesScreen'
 
 const TraineeProfileNavigator = createBottomTabNavigator(
   {
     Common: { screen: CommonProfileScreen },
-    Body: { screen: BodyProfileScreen },
+    Profiles: { screen: TraineeProfilesScreen },
   },
   {
     navigationOptions: ({ navigation }) => ({
@@ -17,7 +17,7 @@ const TraineeProfileNavigator = createBottomTabNavigator(
         let iconName
         if (routeName === 'Common') {
           iconName = `ios-information-circle${focused ? '' : '-outline'}`
-        } else if (routeName === 'Body') {
+        } else if (routeName === 'Profiles') {
           iconName = `ios-options${focused ? '' : ''}`
         }
         return <Ionicons name={iconName} size={horizontal ? 20 : 25} color={tintColor} />
