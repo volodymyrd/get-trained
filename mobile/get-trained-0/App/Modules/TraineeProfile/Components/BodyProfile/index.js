@@ -3,11 +3,13 @@ import PropTypes from 'prop-types'
 import Dimensions from 'Dimensions'
 import { View, Text } from 'react-native'
 // import {View} from 'native-base'
+import RNNumberPickerLibrary from 'react-native-number-picker-library'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import InputDatePicker from 'App/Components/InputDatePicker'
 import color from 'App/Theme/Colors'
 
 import style from './style'
+import { Button } from 'native-base'
 
 export default class BodyProfile extends Component {
   render() {
@@ -33,7 +35,38 @@ export default class BodyProfile extends Component {
           // date={traineeProfile.get('birthdayStr')}
         />
         <View style={style.body}>
-          <Text style={[style.pos, neckPosition]}>10</Text>
+          <Text
+            style={[style.pos, neckPosition]}
+            onPress={() =>
+              RNNumberPickerLibrary.createDialog(
+                {
+                  minValue: 0,
+                  maxValue: 100,
+                  selectedValue: 10,
+                  doneText: 'OK', // only for Android
+                  doneTextColor: '#000000', // only for Android
+                  cancelText: 'Cancel', // only for Android
+                  cancelTextColor: '#000000', // only for Android
+                },
+                (error, data) => {
+                  if (error) {
+                    console.error(error)
+                  } else {
+                    console.log(data)
+                  }
+                },
+                (error, data) => {
+                  if (error) {
+                    console.error(error)
+                  } else {
+                    console.log(data)
+                  }
+                }
+              )
+            }
+          >
+            10
+          </Text>
           <Ionicons name="ios-man" size={size} color={color.primary} />
         </View>
       </View>

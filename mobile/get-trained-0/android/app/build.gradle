@@ -99,7 +99,7 @@ android {
 
     defaultConfig {
         applicationId "com.gettrained"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -149,6 +149,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-number-picker-library')
     compile project(':react-native-vector-icons')
     compile project(':react-native-image-crop-picker')
     compile fileTree(dir: "libs", include: ["*.jar"])
