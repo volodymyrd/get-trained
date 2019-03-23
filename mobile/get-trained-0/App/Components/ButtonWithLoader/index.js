@@ -13,6 +13,7 @@ class ButtonWithLoader extends Component {
       small,
       transparent,
       style,
+      styles,
       loading,
       disabled,
       icon,
@@ -28,7 +29,7 @@ class ButtonWithLoader extends Component {
         rounded={!notRounded}
         small={small}
         transparent={transparent}
-        style={style}
+        style={style || styles}
         onPress={onPressHandler}
         disabled={disabled}
         iconLeft={iconLeft}
@@ -49,7 +50,8 @@ ButtonWithLoader.propTypes = {
   notRounded: PropTypes.bool,
   small: PropTypes.bool,
   transparent: PropTypes.bool,
-  style: PropTypes.object,
+  style: PropTypes.object || PropTypes.array,
+  styles: PropTypes.array,
   loading: PropTypes.bool,
   disabled: PropTypes.bool,
   icon: PropTypes.string,

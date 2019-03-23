@@ -1,6 +1,6 @@
-import {StyleSheet} from 'react-native'
-import ApplicationStyles from 'App/Theme/ApplicationStyles'
+import { StyleSheet } from 'react-native'
 import Dimensions from 'Dimensions'
+import Colors from 'App/Theme/Colors'
 
 export default StyleSheet.create({
   container: {
@@ -13,14 +13,19 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  pos: {
+  saveButton: {
+    position: 'absolute',
+    zIndex: 2,
+  },
+  metric: {
     position: 'absolute',
     zIndex: 1,
+    backgroundColor: Colors.primary,
   },
   image: {
     flex: 1,
     width: undefined,
     height: undefined,
     resizeMode: 'contain',
-  }
+  },
 })

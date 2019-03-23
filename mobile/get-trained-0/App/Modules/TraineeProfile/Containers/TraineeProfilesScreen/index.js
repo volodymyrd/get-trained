@@ -6,6 +6,7 @@ import {
   Footer,
   FooterTab,
 } from 'native-base'
+import {formatToDDMMYYY} from 'App/Utils/DateUtils'
 import ModalDialog from 'App/Components/ModalDialog'
 import ButtonWithLoader from 'App/Components/ButtonWithLoader';
 import TraineeProfiles from '../../Components/TraineeProfiles'
@@ -45,7 +46,7 @@ class TraineeProfilesScreen extends Component {
     return (
         <Container>
           <ModalDialog ref={c => this.modal = c} title={'Measures'}>
-            <BodyProfile locale={locale}/>
+            <BodyProfile locale={locale} measureDate={formatToDDMMYYY(new Date(), '.')}/>
           </ModalDialog>
           <TraineeProfiles/>
           <Footer>
