@@ -40,10 +40,12 @@ class TraineeProfilesScreen extends Component {
   }
 
   render() {
+    const {locale} = this.props
+
     return (
         <Container>
           <ModalDialog ref={c => this.modal = c} title={'Measures'}>
-            <BodyProfile/>
+            <BodyProfile locale={locale}/>
           </ModalDialog>
           <TraineeProfiles/>
           <Footer>
@@ -66,6 +68,7 @@ class TraineeProfilesScreen extends Component {
 
 const mapStateToProps = (state) => ({
   langCode: state.main.get('langCode'),
+  locale: state.main.get('locale'),
 
   fetchingMetadata: state.home.root.get('fetchingMetadata'),
   failedRetrievingMetadata: state.home.root.get('failedRetrievingMetadata'),

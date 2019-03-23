@@ -14,4 +14,5 @@ export default {
   black: '#212529',
   white: '#fff',
   placeholder: '#a7a7a7',
+  value: '#000',
 }
