@@ -110,3 +110,19 @@ export function* fetchTraineeFitnessProfile({ traineeUserId, traineeProfileId })
     yield put(TraineeProfileActions.fetchTraineeFitnessProfileFailure())
   }
 }
+
+export function* fetchDeleteTraineeFitnessProfile({ traineeUserId, traineeProfileId }) {
+  yield put(TraineeProfileActions.fetchDeleteTraineeFitnessProfileLoading(traineeProfileId))
+
+  const response = yield call(
+    TraineeProfileService.deleteTraineeFitnessProfile,
+    traineeUserId,
+    traineeProfileId
+  )
+
+  if (response) {
+    yield put(TraineeProfileActions.fetchDeleteTraineeFitnessProfileSuccess())
+  } else {
+    yield put(TraineeProfileActions.fetchDeleteTraineeFitnessProfileFailure())
+  }
+}

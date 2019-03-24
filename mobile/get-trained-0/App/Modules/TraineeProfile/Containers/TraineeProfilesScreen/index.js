@@ -40,11 +40,16 @@ class TraineeProfilesScreen extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.fetchingTraineeFitnessProfile === -1
-        && this.props.fetchingTraineeFitnessProfile > 0) {
+    if (prevProps.fetchingTraineeFitnessProfile > 0
+        && this.props.fetchingTraineeFitnessProfile === -1) {
       this.modal.setModalVisible(
           true,
           {traineeFitnessProfile: this.props.traineeFitnessProfile.toJS()})
+    }
+
+    if (prevProps.fetchingDeleteTraineeFitnessProfile > 0
+        && this.props.fetchingDeleteTraineeFitnessProfile === -1) {
+      this._getTraineeProfiles()
     }
   }
 
@@ -67,6 +72,11 @@ class TraineeProfilesScreen extends Component {
         item.traineeUserId, item.traineeProfileId)
   }
 
+  _onDeleteItemHandler = (item) => {
+    this.props.fetchDeleteTraineeFitnessProfile(
+        item.traineeUserId, item.traineeProfileId)
+  }
+
   render() {
     const {
       locale,
@@ -80,6 +90,7 @@ class TraineeProfilesScreen extends Component {
       fetchingUpdateTraineeFitnessProfile,
       fetchUpdateTraineeFitnessProfile,
       fetchingTraineeFitnessProfile,
+      fetchingDeleteTraineeFitnessProfile,
     } = this.props
 
     if (fetchingMetadata
@@ -112,6 +123,8 @@ class TraineeProfilesScreen extends Component {
               refreshHandler={this._getTraineeProfiles}
               onSelectItem={this._onSelectItemHandler}
               fetchingItem={fetchingTraineeFitnessProfile}
+              deleteHandler={this._onDeleteItemHandler}
+              deletingItem={fetchingDeleteTraineeFitnessProfile}
           />
           <Footer>
             <FooterTab>
@@ -158,6 +171,9 @@ const mapStateToProps = (state) => ({
 
   fetchingUpdateTraineeFitnessProfile: state.traineeProfile.root.get(
       'fetchingUpdateTraineeFitnessProfile'),
+
+  fetchingDeleteTraineeFitnessProfile: state.traineeProfile.root.get(
+      'fetchingDeleteTraineeFitnessProfile'),
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -174,6 +190,9 @@ const mapDispatchToProps = (dispatch) => ({
   fetchTraineeFitnessProfile: (traineeUserId, traineeProfileId) =>
       dispatch(TraineeProfileActions
       .fetchTraineeFitnessProfile(traineeUserId, traineeProfileId)),
+  fetchDeleteTraineeFitnessProfile: (traineeUserId, traineeProfileId) =>
+      dispatch(TraineeProfileActions
+      .fetchDeleteTraineeFitnessProfile(traineeUserId, traineeProfileId)),
 })
 
 export default connect(

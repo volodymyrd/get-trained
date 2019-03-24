@@ -47,6 +47,11 @@ const { Types, Creators } = createActions(
     fetchTraineeFitnessProfileLoading: ['traineeProfileId'],
     fetchTraineeFitnessProfileSuccess: ['traineeFitnessProfile'],
     fetchTraineeFitnessProfileFailure: null,
+
+    fetchDeleteTraineeFitnessProfile: ['traineeUserId', 'traineeProfileId'],
+    fetchDeleteTraineeFitnessProfileLoading: ['traineeProfileId'],
+    fetchDeleteTraineeFitnessProfileSuccess: null,
+    fetchDeleteTraineeFitnessProfileFailure: null,
   },
   { prefix: 'TRAINEE_PROFILE_' }
 )

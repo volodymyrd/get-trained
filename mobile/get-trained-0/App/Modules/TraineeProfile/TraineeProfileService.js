@@ -28,6 +28,12 @@ const getTraineeFitnessProfile = (traineeUserId, traineeProfileId) => {
   )
 }
 
+const deleteTraineeFitnessProfile = (traineeUserId, traineeProfileId) => {
+  return postPlainWithCredentials(
+    `${BASE_URL}/fitness/delete?traineeUserId=${traineeUserId}&traineeProfileId=${traineeProfileId}`
+  )
+}
+
 export const TraineeProfileService = {
   getGenders,
   getTraineeProfile,
@@ -35,4 +41,5 @@ export const TraineeProfileService = {
   getAllTraineeFitnessProfiles,
   updateTraineeFitnessProfile,
   getTraineeFitnessProfile,
+  deleteTraineeFitnessProfile,
 }

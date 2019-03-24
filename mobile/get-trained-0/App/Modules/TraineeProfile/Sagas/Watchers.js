@@ -9,6 +9,7 @@ import {
   fetchTraineeFitnessProfiles,
   fetchUpdateTraineeFitnessProfile,
   fetchTraineeFitnessProfile,
+  fetchDeleteTraineeFitnessProfile,
 } from './Workers'
 
 export default function*() {
@@ -24,5 +25,9 @@ export default function*() {
       fetchUpdateTraineeFitnessProfile
     ),
     takeLatest(TraineeProfileTypes.FETCH_TRAINEE_FITNESS_PROFILE, fetchTraineeFitnessProfile),
+    takeLatest(
+      TraineeProfileTypes.FETCH_DELETE_TRAINEE_FITNESS_PROFILE,
+      fetchDeleteTraineeFitnessProfile
+    ),
   ]
 }

@@ -15,4 +15,5 @@ export const INITIAL_STATE = Map({
   fetchingTraineeFitnessProfiles: false,
   fetchingTraineeFitnessProfile: -1,
   fetchingUpdateTraineeFitnessProfile: false,
+  fetchingDeleteTraineeFitnessProfile: -1,
 })
