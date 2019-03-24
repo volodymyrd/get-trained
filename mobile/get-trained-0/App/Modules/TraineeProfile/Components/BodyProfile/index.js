@@ -13,10 +13,6 @@ import style from './style'
 export default class BodyProfile extends Component {
 
   saveProfile = () => {
-    console.log('saveProfile:',
-        this.datePicker.getSelectedFormattedDate(),
-        this.neck.getSelectedValue(),
-        this.chest.getSelectedValue())
     const {traineeFitnessProfile} = this.props
     let traineeProfileId = null
     if (traineeFitnessProfile.traineeProfileId) {
@@ -35,8 +31,6 @@ export default class BodyProfile extends Component {
   }
 
   render() {
-    console.log(this.props.traineeProfileId)
-
     const {
       locale,
       traineeFitnessProfile,
@@ -80,7 +74,7 @@ export default class BodyProfile extends Component {
                 ref={(c) => (this.neck = c)}
                 position={neckMetricPosition}
                 fontSize={fontSize}
-                value={50}
+                value={traineeFitnessProfile.neck || 0}
                 min={0}
                 max={100}
             />
@@ -88,7 +82,7 @@ export default class BodyProfile extends Component {
                 ref={(c) => (this.chest = c)}
                 position={chestMetricPosition}
                 fontSize={fontSize}
-                value={50}
+                value={traineeFitnessProfile.chest || 0}
                 min={0}
                 max={100}
             />

@@ -40,6 +40,12 @@ class TraineeProfilesScreen extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    if (prevProps.fetchingTraineeFitnessProfile === -1
+        && this.props.fetchingTraineeFitnessProfile > 0) {
+      this.modal.setModalVisible(
+          true,
+          {traineeFitnessProfile: this.props.traineeFitnessProfile.toJS()})
+    }
   }
 
   _getTraineeProfiles = () => {
@@ -56,6 +62,11 @@ class TraineeProfilesScreen extends Component {
     })
   }
 
+  _onSelectItemHandler = (item) => {
+    this.props.fetchTraineeFitnessProfile(
+        item.traineeUserId, item.traineeProfileId)
+  }
+
   render() {
     const {
       locale,
@@ -67,7 +78,8 @@ class TraineeProfilesScreen extends Component {
       newTraineeFitnessProfile,
       traineeFitnessProfile,
       fetchingUpdateTraineeFitnessProfile,
-      fetchUpdateTraineeFitnessProfile
+      fetchUpdateTraineeFitnessProfile,
+      fetchingTraineeFitnessProfile,
     } = this.props
 
     if (fetchingMetadata
@@ -98,6 +110,8 @@ class TraineeProfilesScreen extends Component {
               profiles={traineeFitnessProfiles}
               refreshing={fetchingTraineeFitnessProfiles}
               refreshHandler={this._getTraineeProfiles}
+              onSelectItem={this._onSelectItemHandler}
+              fetchingItem={fetchingTraineeFitnessProfile}
           />
           <Footer>
             <FooterTab>
@@ -138,7 +152,10 @@ const mapStateToProps = (state) => ({
   traineeFitnessProfiles: state.traineeProfile.root.get(
       'traineeFitnessProfiles'),
 
+  fetchingTraineeFitnessProfile: state.traineeProfile.root.get(
+      'fetchingTraineeFitnessProfile'),
   traineeFitnessProfile: state.traineeProfile.root.get('traineeFitnessProfile'),
+
   fetchingUpdateTraineeFitnessProfile: state.traineeProfile.root.get(
       'fetchingUpdateTraineeFitnessProfile'),
 })
@@ -154,6 +171,9 @@ const mapDispatchToProps = (dispatch) => ({
   fetchTraineeFitnessProfiles: (traineeFitnessProfilesConstraint) =>
       dispatch(TraineeProfileActions
       .fetchTraineeFitnessProfiles(traineeFitnessProfilesConstraint)),
+  fetchTraineeFitnessProfile: (traineeUserId, traineeProfileId) =>
+      dispatch(TraineeProfileActions
+      .fetchTraineeFitnessProfile(traineeUserId, traineeProfileId)),
 })
 
 export default connect(

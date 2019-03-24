@@ -1,15 +1,30 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { FlatList } from 'react-native'
-import { ListItem, Body, Text } from 'native-base'
+import { FlatList, TouchableOpacity } from 'react-native'
+import { SwipeRow, View, Text, Icon, Button, Spinner } from 'native-base'
 
-const Profile = ({ item }) => {
+const Profile = ({ item, onSelectItem, fetchingItem }) => {
   return (
-    <ListItem>
-      <Body>
-        <Text>{item.measure}</Text>
-      </Body>
-    </ListItem>
+    <SwipeRow
+      disableRightSwipe={true}
+      rightOpenValue={-75}
+      body={
+        <TouchableOpacity onPress={() => onSelectItem(item)}>
+          <View style={{ paddingLeft: 20 }}>
+            {fetchingItem === item.traineeProfileId ? (
+              <Spinner color="blue" />
+            ) : (
+              <Text>{item.measure}</Text>
+            )}
+          </View>
+        </TouchableOpacity>
+      }
+      right={
+        <Button danger onPress={() => alert('Trash')}>
+          <Icon active name="trash" />
+        </Button>
+      }
+    />
   )
 }
 
@@ -20,13 +35,11 @@ export default class TraineeProfiles extends Component {
       refreshing,
       refreshHandler,
       // deleteHandler,
-      // acceptHandler,
       // localizations,
       // fetches,
-      // onSelectItem,
+      onSelectItem,
+      fetchingItem,
     } = this.props
-
-    console.log(profiles.get('data').toJSON())
 
     return (
       <FlatList
@@ -38,9 +51,9 @@ export default class TraineeProfiles extends Component {
           <Profile
             item={item}
             // deleteHandler={deleteHandler}
-            // acceptHandler={acceptHandler}
             // localizations={localizations}
-            // onSelectItem={onSelectItem}
+            onSelectItem={onSelectItem}
+            fetchingItem={fetchingItem}
           />
         )}
       />
@@ -53,7 +66,7 @@ TraineeProfiles.propTypes = {
   refreshing: PropTypes.bool.isRequired,
   refreshHandler: PropTypes.func.isRequired,
   // deleteHandler: PropTypes.func.isRequired,
-  // acceptHandler: PropTypes.func.isRequired,
-  // onSelectItem: PropTypes.func.isRequired,
+  onSelectItem: PropTypes.func.isRequired,
+  fetchingItem: PropTypes.number.isRequired,
   // localizations: PropTypes.object.isRequired,
 }

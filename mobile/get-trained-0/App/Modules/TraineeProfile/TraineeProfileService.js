@@ -22,10 +22,17 @@ const updateTraineeFitnessProfile = (traineeFitnessProfile) => {
   return postPlainWithCredentials(`${BASE_URL}/fitness/save`, traineeFitnessProfile)
 }
 
+const getTraineeFitnessProfile = (traineeUserId, traineeProfileId) => {
+  return postPlainWithCredentials(
+    `${BASE_URL}/fitness/get?traineeUserId=${traineeUserId}&traineeProfileId=${traineeProfileId}`
+  )
+}
+
 export const TraineeProfileService = {
   getGenders,
   getTraineeProfile,
   updateTraineeProfile,
   getAllTraineeFitnessProfiles,
   updateTraineeFitnessProfile,
+  getTraineeFitnessProfile,
 }

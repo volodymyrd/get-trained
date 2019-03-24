@@ -129,6 +129,23 @@ export const fetchUpdateTraineeFitnessProfileFailure = (state) =>
   state.merge({
     fetchingUpdateTraineeFitnessProfile: false,
   })
+
+export const fetchTraineeFitnessProfileLoading = (state, { traineeProfileId }) =>
+  state.merge({
+    fetchingTraineeFitnessProfile: traineeProfileId,
+  })
+
+export const fetchTraineeFitnessProfileSuccess = (state, { traineeFitnessProfile }) =>
+  state.merge({
+    fetchingTraineeFitnessProfile: -1,
+    traineeFitnessProfile,
+  })
+
+export const fetchTraineeFitnessProfileFailure = (state) =>
+  state.merge({
+    fetchingTraineeFitnessProfile: -1,
+  })
+
 /**
  * @see https://github.com/infinitered/reduxsauce#createreducer
  */
@@ -161,4 +178,8 @@ export const profile = createReducer(INITIAL_STATE, {
   [TraineeProfileTypes.FETCH_UPDATE_TRAINEE_FITNESS_PROFILE_LOADING]: fetchUpdateTraineeFitnessProfileLoading,
   [TraineeProfileTypes.FETCH_UPDATE_TRAINEE_FITNESS_PROFILE_SUCCESS]: fetchUpdateTraineeFitnessProfileSuccess,
   [TraineeProfileTypes.FETCH_UPDATE_TRAINEE_FITNESS_PROFILE_FAILURE]: fetchUpdateTraineeFitnessProfileFailure,
+
+  [TraineeProfileTypes.FETCH_TRAINEE_FITNESS_PROFILE_LOADING]: fetchTraineeFitnessProfileLoading,
+  [TraineeProfileTypes.FETCH_TRAINEE_FITNESS_PROFILE_SUCCESS]: fetchTraineeFitnessProfileSuccess,
+  [TraineeProfileTypes.FETCH_TRAINEE_FITNESS_PROFILE_FAILURE]: fetchTraineeFitnessProfileFailure,
 })
