@@ -93,6 +93,42 @@ export const fetchUpdateTraineeProfileFailure = (state) =>
     fetchingUpdateTraineeProfile: false,
   })
 
+export const fetchTraineeFitnessProfilesLoading = (state) =>
+  state.merge({
+    fetchingTraineeFitnessProfiles: true,
+  })
+
+export const fetchTraineeFitnessProfilesSuccess = (state, { traineeFitnessProfiles }) =>
+  state.merge({
+    fetchingTraineeFitnessProfiles: false,
+    traineeFitnessProfiles,
+  })
+
+export const fetchTraineeFitnessProfilesFailure = (state) =>
+  state.merge({
+    fetchingTraineeFitnessProfiles: false,
+  })
+
+export const newTraineeFitnessProfile = (state) =>
+  state.merge({
+    traineeFitnessProfile: {},
+  })
+
+export const fetchUpdateTraineeFitnessProfileLoading = (state) =>
+  state.merge({
+    fetchingUpdateTraineeFitnessProfile: true,
+  })
+
+export const fetchUpdateTraineeFitnessProfileSuccess = (state, { traineeFitnessProfile }) =>
+  state.merge({
+    fetchingUpdateTraineeFitnessProfile: false,
+    traineeFitnessProfile,
+  })
+
+export const fetchUpdateTraineeFitnessProfileFailure = (state) =>
+  state.merge({
+    fetchingUpdateTraineeFitnessProfile: false,
+  })
 /**
  * @see https://github.com/infinitered/reduxsauce#createreducer
  */
@@ -116,4 +152,13 @@ export const profile = createReducer(INITIAL_STATE, {
   [TraineeProfileTypes.FETCH_UPDATE_TRAINEE_PROFILE_LOADING]: fetchUpdateTraineeProfileLoading,
   [TraineeProfileTypes.FETCH_UPDATE_TRAINEE_PROFILE_SUCCESS]: fetchUpdateTraineeProfileSuccess,
   [TraineeProfileTypes.FETCH_UPDATE_TRAINEE_PROFILE_FAILURE]: fetchUpdateTraineeProfileFailure,
+
+  [TraineeProfileTypes.FETCH_TRAINEE_FITNESS_PROFILES_LOADING]: fetchTraineeFitnessProfilesLoading,
+  [TraineeProfileTypes.FETCH_TRAINEE_FITNESS_PROFILES_SUCCESS]: fetchTraineeFitnessProfilesSuccess,
+  [TraineeProfileTypes.FETCH_TRAINEE_FITNESS_PROFILES_FAILURE]: fetchTraineeFitnessProfilesFailure,
+
+  [TraineeProfileTypes.NEW_TRAINEE_FITNESS_PROFILE]: newTraineeFitnessProfile,
+  [TraineeProfileTypes.FETCH_UPDATE_TRAINEE_FITNESS_PROFILE_LOADING]: fetchUpdateTraineeFitnessProfileLoading,
+  [TraineeProfileTypes.FETCH_UPDATE_TRAINEE_FITNESS_PROFILE_SUCCESS]: fetchUpdateTraineeFitnessProfileSuccess,
+  [TraineeProfileTypes.FETCH_UPDATE_TRAINEE_FITNESS_PROFILE_FAILURE]: fetchUpdateTraineeFitnessProfileFailure,
 })

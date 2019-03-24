@@ -2,18 +2,18 @@ import React, {Component} from 'react'
 import connect from 'react-redux/es/connect/connect'
 import {
   Container,
-  Text,
   Footer,
   FooterTab,
 } from 'native-base'
+import {Map} from 'immutable';
 import {formatToDDMMYYY} from 'App/Utils/DateUtils'
+import Loading from 'App/Components/Loading'
 import ModalDialog from 'App/Components/ModalDialog'
 import ButtonWithLoader from 'App/Components/ButtonWithLoader';
 import TraineeProfiles from '../../Components/TraineeProfiles'
 import BodyProfile from '../../Components/BodyProfile'
-import {Map} from 'immutable';
-import {MODULE} from '../../Metadata';
 import TraineeProfileActions from '../../Stores/Actions';
+import {MODULE} from '../../Metadata';
 
 class TraineeProfilesScreen extends Component {
   static navigationOptions = ({navigation, navigationOptions}) => {
@@ -35,30 +35,88 @@ class TraineeProfilesScreen extends Component {
             && metadata.get('module') === MODULE)) {
       fetchMetadata(langCode.toUpperCase())
     }
+
+    this._getTraineeProfiles()
   }
 
   componentDidUpdate(prevProps) {
   }
 
+  _getTraineeProfiles = () => {
+    const {navigation, fetchTraineeFitnessProfiles} = this.props
+
+    const {traineeUserId, connectionId} = navigation.getParam('item')
+    fetchTraineeFitnessProfiles({
+      traineeUserId,
+      connectionId,
+      pageable: {
+        page: 0,
+        size: 10
+      }
+    })
+  }
+
   render() {
-    const {locale} = this.props
+    const {
+      locale,
+      metadata,
+      navigation,
+      fetchingMetadata,
+      fetchingTraineeFitnessProfiles,
+      traineeFitnessProfiles,
+      newTraineeFitnessProfile,
+      traineeFitnessProfile,
+      fetchingUpdateTraineeFitnessProfile,
+      fetchUpdateTraineeFitnessProfile
+    } = this.props
+
+    if (fetchingMetadata
+        || !metadata
+        || !Map.isMap(metadata)
+        || !traineeFitnessProfiles
+        || !Map.isMap(traineeFitnessProfiles)) {
+      return <Loading/>
+    }
+
+    const localizations = metadata.get('localizations')
+
+    const traineeUserId = navigation.getParam('item').traineeUserId
+    const traineeProfileId =
+        traineeFitnessProfile && Map.isMap(traineeFitnessProfile) ?
+            traineeFitnessProfile.get('traineeProfileId') : undefined
 
     return (
         <Container>
           <ModalDialog ref={c => this.modal = c} title={'Measures'}>
-            <BodyProfile locale={locale} measureDate={formatToDDMMYYY(new Date(), '.')}/>
+            <BodyProfile
+                locale={locale}
+                traineeProfileId={traineeProfileId}
+                fetchingUpdateTraineeFitnessProfile={fetchingUpdateTraineeFitnessProfile}
+                fetchUpdateTraineeFitnessProfile={fetchUpdateTraineeFitnessProfile}/>
           </ModalDialog>
-          <TraineeProfiles/>
+          <TraineeProfiles
+              profiles={traineeFitnessProfiles}
+              refreshing={fetchingTraineeFitnessProfiles}
+              refreshHandler={this._getTraineeProfiles}
+          />
           <Footer>
             <FooterTab>
               <ButtonWithLoader
                   title={'add measure'}
-                  //style={styles.btn}
-                  //disabled={fetchingTraineeRequest}
-                  //loading={fetchingTraineeRequest}
                   ionicons='ios-man'
                   iconSize={30}
-                  onPressHandler={() => this.modal.setModalVisible(true)}
+                  onPressHandler={() => {
+                    newTraineeFitnessProfile()
+                    this.modal.setModalVisible(
+                        true,
+                        {
+                          traineeFitnessProfile: {
+                            traineeUserId,
+                            measure: formatToDDMMYYY(new Date(), '.')
+                          }
+                        })
+                  }
+                  }
               />
             </FooterTab>
           </Footer>
@@ -75,11 +133,27 @@ const mapStateToProps = (state) => ({
   failedRetrievingMetadata: state.home.root.get('failedRetrievingMetadata'),
   metadata: state.home.root.get('metadata'),
 
+  fetchingTraineeFitnessProfiles: state.traineeProfile.root.get(
+      'fetchingTraineeFitnessProfiles'),
+  traineeFitnessProfiles: state.traineeProfile.root.get(
+      'traineeFitnessProfiles'),
+
+  traineeFitnessProfile: state.traineeProfile.root.get('traineeFitnessProfile'),
+  fetchingUpdateTraineeFitnessProfile: state.traineeProfile.root.get(
+      'fetchingUpdateTraineeFitnessProfile'),
 })
 
 const mapDispatchToProps = (dispatch) => ({
   fetchMetadata: (langCode) => dispatch(
       TraineeProfileActions.fetchMetadata(langCode)),
+  newTraineeFitnessProfile: () =>
+      dispatch(TraineeProfileActions.newTraineeFitnessProfile()),
+  fetchUpdateTraineeFitnessProfile: (traineeFitnessProfile) =>
+      dispatch(TraineeProfileActions
+      .fetchUpdateTraineeFitnessProfile(traineeFitnessProfile)),
+  fetchTraineeFitnessProfiles: (traineeFitnessProfilesConstraint) =>
+      dispatch(TraineeProfileActions
+      .fetchTraineeFitnessProfiles(traineeFitnessProfilesConstraint)),
 })
 
 export default connect(

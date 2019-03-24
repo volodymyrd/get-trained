@@ -5,12 +5,12 @@ import {
   Content,
   Form,
 } from 'native-base'
-import Loading from 'App/Components/Loading';
+import Loading from 'App/Components/Loading'
 import ButtonWithLoader from 'App/Components/ButtonWithLoader';
 import CommonPicker from 'App/Components/CommonPicker'
 import InputDatePicker from 'App/Components/InputDatePicker'
-import {Map} from 'immutable';
-import TraineeProfile from '../../Stores/Actions'
+import {Map} from 'immutable'
+import TraineeProfileActions from '../../Stores/Actions'
 import {MODULE} from '../../Metadata'
 
 import style from './style';
@@ -127,12 +127,13 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchMetadata: (langCode) => dispatch(TraineeProfile.fetchMetadata(langCode)),
-  fetchGenders: () => dispatch(TraineeProfile.fetchGenders()),
+  fetchMetadata: (langCode) => dispatch(
+      TraineeProfileActions.fetchMetadata(langCode)),
+  fetchGenders: () => dispatch(TraineeProfileActions.fetchGenders()),
   fetchTraineeProfile: (traineeUserId) =>
-      dispatch(TraineeProfile.fetchTraineeProfile(traineeUserId)),
+      dispatch(TraineeProfileActions.fetchTraineeProfile(traineeUserId)),
   fetchUpdateTraineeProfile: (traineeProfile) =>
-      dispatch(TraineeProfile.fetchUpdateTraineeProfile(traineeProfile)),
+      dispatch(TraineeProfileActions.fetchUpdateTraineeProfile(traineeProfile)),
 })
 
 export default connect(

@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import Dimensions from 'Dimensions'
-import { View } from 'react-native'
+import {View} from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import InputDatePicker from 'App/Components/InputDatePicker'
 import ButtonWithLoader from 'App/Components/ButtonWithLoader'
@@ -17,10 +17,31 @@ export default class BodyProfile extends Component {
         this.datePicker.getSelectedFormattedDate(),
         this.neck.getSelectedValue(),
         this.chest.getSelectedValue())
+    const {traineeFitnessProfile} = this.props
+    let traineeProfileId = null
+    if (traineeFitnessProfile.traineeProfileId) {
+      traineeProfileId = traineeFitnessProfile.traineeProfileId
+    } else if (this.props.traineeProfileId) {
+      traineeProfileId = this.props.traineeProfileId
+    }
+
+    this.props.fetchUpdateTraineeFitnessProfile({
+      traineeProfileId,
+      traineeUserId: traineeFitnessProfile.traineeUserId,
+      measure: this.datePicker.getSelectedFormattedDate(),
+      neck: this.neck.getSelectedValue(),
+      chest: this.chest.getSelectedValue(),
+    })
   }
 
   render() {
-    const { locale, measureDate } = this.props
+    console.log(this.props.traineeProfileId)
+
+    const {
+      locale,
+      traineeFitnessProfile,
+      fetchingUpdateTraineeFitnessProfile
+    } = this.props
 
     const height = Dimensions.get('window').height
     const width = Dimensions.get('window').width
@@ -46,47 +67,48 @@ export default class BodyProfile extends Component {
     }
 
     return (
-      <View>
-        <InputDatePicker
-          ref={(c) => (this.datePicker = c)}
-          locale={locale}
-          labelName={'Measure date:'}
-          placeholder={'Select date'}
-          date={measureDate}
-        />
-        <View style={style.body}>
-          <Metric
-            ref={(c) => (this.neck = c)}
-            position={neckMetricPosition}
-            fontSize={fontSize}
-            value={50}
-            min={0}
-            max={100}
+        <View>
+          <InputDatePicker
+              ref={(c) => (this.datePicker = c)}
+              locale={locale}
+              labelName={'Measure date:'}
+              placeholder={'Select date'}
+              date={traineeFitnessProfile.measure}
           />
-          <Metric
-            ref={(c) => (this.chest = c)}
-            position={chestMetricPosition}
-            fontSize={fontSize}
-            value={50}
-            min={0}
-            max={100}
+          <View style={style.body}>
+            <Metric
+                ref={(c) => (this.neck = c)}
+                position={neckMetricPosition}
+                fontSize={fontSize}
+                value={50}
+                min={0}
+                max={100}
+            />
+            <Metric
+                ref={(c) => (this.chest = c)}
+                position={chestMetricPosition}
+                fontSize={fontSize}
+                value={50}
+                min={0}
+                max={100}
+            />
+            <Ionicons name="ios-man" size={size} color={color.primary}/>
+          </View>
+          <ButtonWithLoader
+              title={'save'}
+              styles={[style.saveButton, buttonPosition]}
+              disabled={fetchingUpdateTraineeFitnessProfile}
+              loading={fetchingUpdateTraineeFitnessProfile}
+              onPressHandler={this.saveProfile}
           />
-          <Ionicons name="ios-man" size={size} color={color.primary} />
         </View>
-        <ButtonWithLoader
-          title={'save'}
-          styles={[style.saveButton, buttonPosition]}
-          // disabled={fetchingUpdateTraineeProfile}
-          // loading={fetchingUpdateTraineeProfile}
-          onPressHandler={this.saveProfile}
-        />
-      </View>
     )
   }
 }
 
 BodyProfile.propTypes = {
   locale: PropTypes.string.isRequired,
-  measureDate: PropTypes.string.isRequired,
-  // title: PropTypes.string.isRequired,
+  fetchingUpdateTraineeFitnessProfile: PropTypes.bool.isRequired,
+  fetchUpdateTraineeFitnessProfile: PropTypes.func.isRequired,
+  traineeProfileId: PropTypes.number,
 }

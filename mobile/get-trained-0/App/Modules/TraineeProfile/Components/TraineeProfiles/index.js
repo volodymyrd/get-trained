@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import { FlatList } from 'react-native'
 import { ListItem, Body, Text } from 'native-base'
 
-const Profile = (item) => {
+const Profile = ({ item }) => {
   return (
     <ListItem>
       <Body>
-        <Text>v</Text>
+        <Text>{item.measure}</Text>
       </Body>
     </ListItem>
   )
@@ -16,11 +16,9 @@ const Profile = (item) => {
 export default class TraineeProfiles extends Component {
   render() {
     const {
-      // navigation,
-      // isTrainer,
-      // connections,
-      // refreshing,
-      // refreshHandler,
+      profiles,
+      refreshing,
+      refreshHandler,
       // deleteHandler,
       // acceptHandler,
       // localizations,
@@ -28,19 +26,20 @@ export default class TraineeProfiles extends Component {
       // onSelectItem,
     } = this.props
 
+    console.log(profiles.get('data').toJSON())
+
     return (
       <FlatList
-        // data={connections.get('data').toJSON()}
-        // keyExtractor={(item) => item.connectionId.toString()}
-        // refreshing={refreshing}
-        // onRefresh={refreshHandler}
+        data={profiles.get('data').toJSON()}
+        keyExtractor={(item) => item.traineeProfileId.toString()}
+        refreshing={refreshing}
+        onRefresh={refreshHandler}
         renderItem={({ item }) => (
-          <Profile item={item}
-            // navigation={navigation}
+          <Profile
+            item={item}
             // deleteHandler={deleteHandler}
             // acceptHandler={acceptHandler}
             // localizations={localizations}
-            // fetches={fetches}
             // onSelectItem={onSelectItem}
           />
         )}
@@ -50,14 +49,11 @@ export default class TraineeProfiles extends Component {
 }
 
 TraineeProfiles.propTypes = {
-  // navigation: PropTypes.object.isRequired,
-  // isTrainer: PropTypes.bool.isRequired,
-  // connections: PropTypes.object.isRequired,
-  // refreshing: PropTypes.bool.isRequired,
-  // refreshHandler: PropTypes.func.isRequired,
+  profiles: PropTypes.object.isRequired,
+  refreshing: PropTypes.bool.isRequired,
+  refreshHandler: PropTypes.func.isRequired,
   // deleteHandler: PropTypes.func.isRequired,
   // acceptHandler: PropTypes.func.isRequired,
   // onSelectItem: PropTypes.func.isRequired,
   // localizations: PropTypes.object.isRequired,
-  // fetches: PropTypes.object.isRequired,
 }

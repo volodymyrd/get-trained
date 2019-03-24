@@ -54,7 +54,6 @@ export function* fetchTraineeProfile({ traineeUserId }) {
 }
 
 export function* fetchUpdateTraineeProfile({ traineeProfile }) {
-  console.log(traineeProfile)
   yield put(TraineeProfileActions.fetchUpdateTraineeProfileLoading())
 
   const profile = yield call(TraineeProfileService.updateTraineeProfile, traineeProfile)
@@ -63,5 +62,36 @@ export function* fetchUpdateTraineeProfile({ traineeProfile }) {
     yield put(TraineeProfileActions.fetchUpdateTraineeProfileSuccess(profile.data))
   } else {
     yield put(TraineeProfileActions.fetchUpdateTraineeProfileFailure())
+  }
+}
+
+export function* fetchTraineeFitnessProfiles({ traineeFitnessProfilesConstraint }) {
+  console.log(traineeFitnessProfilesConstraint)
+  yield put(TraineeProfileActions.fetchTraineeFitnessProfilesLoading())
+
+  const profiles = yield call(
+    TraineeProfileService.getAllTraineeFitnessProfiles,
+    traineeFitnessProfilesConstraint
+  )
+
+  if (profiles && profiles.ok && profiles.data) {
+    yield put(TraineeProfileActions.fetchTraineeFitnessProfilesSuccess(profiles.data))
+  } else {
+    yield put(TraineeProfileActions.fetchTraineeFitnessProfilesFailure())
+  }
+}
+
+export function* fetchUpdateTraineeFitnessProfile({ traineeFitnessProfile }) {
+  yield put(TraineeProfileActions.fetchUpdateTraineeFitnessProfileLoading())
+
+  const profile = yield call(
+    TraineeProfileService.updateTraineeFitnessProfile,
+    traineeFitnessProfile
+  )
+
+  if (profile && profile.ok && profile.data) {
+    yield put(TraineeProfileActions.fetchUpdateTraineeFitnessProfileSuccess(profile.data))
+  } else {
+    yield put(TraineeProfileActions.fetchUpdateTraineeFitnessProfileFailure())
   }
 }

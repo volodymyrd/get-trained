@@ -5,7 +5,6 @@ import {
   View,
   Header,
   Body,
-  Footer,
   Left,
   Right,
   Title,
@@ -14,15 +13,15 @@ import {
 } from 'native-base'
 
 import style from './style'
-import TraineeItem from "../../Modules/Home/Components/Connections/TraineeItem";
 
 export default class ModalDialog extends Component {
   state = {
     modalVisible: false,
+    params: {}
   };
 
-  setModalVisible(visible) {
-    this.setState({modalVisible: visible});
+  setModalVisible(visible, params) {
+    this.setState({modalVisible: visible, params});
   }
 
   render() {
@@ -52,7 +51,9 @@ export default class ModalDialog extends Component {
                 <Right/>
               </Header>
               <View>
-                {this.props.children}
+                {React.cloneElement(
+                    this.props.children,
+                    {...this.state.params})}
               </View>
             </View>
           </Modal>
