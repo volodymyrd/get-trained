@@ -51,6 +51,8 @@ public class FitnessTraineeProfileDAO extends BaseRepository {
     Query dataQuery = getEntityManager().createNativeQuery(
         "SELECT p.ID AS traineeProfileId, p.REF_CONNECTION_ID AS connectionId, "
             + " p.TRAINEE_ID AS traineeUserId, p.DATE_MEASURE AS measure "
+            //+ ", p.CALF AS calf, p.CHEST AS chest, p.FOREARM AS forearm, p.HIPS AS hips, "
+            //+ " p.INNER_THIGH AS inner_thigh, p.NECK AS neck, p.WAIST AS waist, p.WRIST AS wrist "
             + " FROM ACT_FITNESS_TRAINEE_PROFILES p "
             + (whereClause.length() == 0 ? "" : " WHERE " + whereClause)
             + buildOrderByClause(constraint.getPageable().getSort()));
@@ -74,6 +76,14 @@ public class FitnessTraineeProfileDAO extends BaseRepository {
           profile.setConnectionId(((Number) r[1]).longValue());
           profile.setTraineeUserId(((Number) r[2]).longValue());
           profile.setMeasure(getShortDateFormat().format((Date) r[3]));
+//          profile.setCalf(((Number) r[4]).longValue());
+//          profile.setChest(((Number) r[5]).longValue());
+//          profile.setForearm(((Number) r[6]).longValue());
+//          profile.setHips(((Number) r[7]).longValue());
+//          profile.setInnerThigh(((Number) r[8]).longValue());
+//          profile.setNeck(((Number) r[9]).longValue());
+//          profile.setWaist(((Number) r[10]).longValue());
+//          profile.setWrist(((Number) r[11]).longValue());
           return profile;
         }).collect(Collectors.toList()));
     page.setSortedColumns(sortedColumns);
