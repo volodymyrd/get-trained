@@ -20,12 +20,10 @@ public interface FitnessTraineeProfileService {
       User trainerUser, FrontendTraineeProfileConstraint constraint);
 
   FitnessTraineeProfile saveTraineeProfile(
-      User trainerUser, FitnessTraineeProfile traineeProfile)
-      throws NotFoundException;
+      User trainerUser, FitnessTraineeProfile traineeProfile) throws NotFoundException;
 
   FitnessTraineeProfile getTraineeProfile(
-      User trainerUser, long traineeUserId, long traineeProfileId)
-      throws NotFoundException;
+      User trainerUser, long traineeUserId, long traineeProfileId) throws NotFoundException;
 
   void deleteTraineeProfile(User trainerUser, long traineeUserId, long traineeProfileId)
       throws NotFoundException;

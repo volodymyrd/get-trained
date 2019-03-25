@@ -26,7 +26,9 @@ public enum ErrorCode implements MessageCode {
   USER_PROFILE_AVATAR_EXCEED_MAX_SIZE("be_error.user_profile_avatar_exceed_max_size"),
 
   ACTIVITY_NOT_FOUND_TRAINEE_WITH_EMAIL("be_error.activity_not_found_trainee_with_email"),
-  ACTIVITY_CANNOT_BE_TRAINER_FOR_YOURSELF("be_error.activity_cannot_be_trainer_for_yourself");
+  ACTIVITY_CANNOT_BE_TRAINER_FOR_YOURSELF("be_error.activity_cannot_be_trainer_for_yourself"),
+
+  TRAINEE_PROFILE_MEASURE_EXISTS("be_error.trainee_profile_measure_exists");
 
 
   private final String text;

@@ -90,8 +90,7 @@ public class FitnessTraineeProfileServiceImpl implements FitnessTraineeProfileSe
   @Override
   @Transactional
   public FitnessTraineeProfile saveTraineeProfile(
-      User trainerUser, FitnessTraineeProfile traineeProfile)
-      throws NotFoundException {
+      User trainerUser, FitnessTraineeProfile traineeProfile) throws NotFoundException {
     requireNonNull(trainerUser, "Parameter 'trainerUser' must be filled");
     requireNonNull(traineeProfile, "Parameter 'traineeProfile' must be filled");
     requireNonNull(traineeProfile.getTraineeUserId(),

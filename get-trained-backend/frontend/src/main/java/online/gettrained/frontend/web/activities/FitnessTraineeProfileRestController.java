@@ -1,6 +1,7 @@
 package online.gettrained.frontend.web.activities;
 
 import static online.gettrained.backend.exceptions.ErrorCode.SOMETHING_WENT_WRONG;
+import static online.gettrained.backend.exceptions.ErrorCode.TRAINEE_PROFILE_MEASURE_EXISTS;
 import static online.gettrained.backend.messages.TextCode.ACTIVITY_PROFILE_SUCCESS_REMOVE_FITNESS_PROFILE;
 import static online.gettrained.backend.messages.TextCode.ENUM_PROFILE_GENDER_PREFIX;
 import static online.gettrained.frontend.web.Utils.enumToMapWithLocalSortedByLocalText;
@@ -18,6 +19,7 @@ import online.gettrained.backend.services.auth.AuthService;
 import online.gettrained.backend.services.localization.LocalizationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -133,6 +135,14 @@ public class FitnessTraineeProfileRestController {
           SOMETHING_WENT_WRONG,
           localizationService.getLocalTextByKeyAndLangOrUseDefault(
               SOMETHING_WENT_WRONG.toString(), getLanguage(user), "Something went wrong!")));
+    } catch (DataIntegrityViolationException ex) {
+      LOG.error("Error saving a trainee fitness profile: {}", ex.getMessage());
+      return ResponseEntity.badRequest().body(new ErrorInfoDto(
+          TRAINEE_PROFILE_MEASURE_EXISTS,
+          localizationService.getLocalTextByKeyAndLangOrUseDefault(
+              TRAINEE_PROFILE_MEASURE_EXISTS.toString(),
+              user.getLoginLang(),
+              "The measure already exists on this day.")));
     } catch (Exception e) {
       LOG.error("Error saving a trainee fitness profile", e);
       return ResponseEntity.badRequest().body(new ErrorInfoDto(
