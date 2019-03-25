@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {Modal} from 'react-native'
 import {
+  Root,
   View,
   Header,
   Body,
@@ -37,7 +38,7 @@ export default class ModalDialog extends Component {
                 // console.log('close modal');
               }}
           >
-            <View>
+            <Root>
               <Header>
                 <Left>
                   <Button transparent
@@ -55,7 +56,7 @@ export default class ModalDialog extends Component {
                     this.props.children,
                     {...this.state.params})}
               </View>
-            </View>
+            </Root>
           </Modal>
         </View>
     )

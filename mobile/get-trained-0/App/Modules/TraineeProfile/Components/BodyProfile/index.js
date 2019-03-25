@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import Dimensions from 'Dimensions'
-import {View} from 'react-native'
+import {View} from 'native-base'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import InputDatePicker from 'App/Components/InputDatePicker'
 import ButtonWithLoader from 'App/Components/ButtonWithLoader'

@@ -88,8 +88,14 @@ export function* fetchUpdateTraineeFitnessProfile({ traineeFitnessProfile }) {
     traineeFitnessProfile
   )
 
-  if (profile && profile.ok && profile.data) {
-    yield put(TraineeProfileActions.fetchUpdateTraineeFitnessProfileSuccess(profile.data))
+  if (profile && profile.data) {
+    if (profile.ok) {
+      yield call(success, 'Saved successfully')
+      yield put(TraineeProfileActions.fetchUpdateTraineeFitnessProfileSuccess(profile.data))
+    } else {
+      yield call(error, profile.data.message)
+      yield put(TraineeProfileActions.fetchUpdateTraineeFitnessProfileFailure())
+    }
   } else {
     yield put(TraineeProfileActions.fetchUpdateTraineeFitnessProfileFailure())
   }
