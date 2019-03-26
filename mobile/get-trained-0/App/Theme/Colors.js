@@ -15,4 +15,5 @@ export default {
   white: '#fff',
   placeholder: '#a7a7a7',
   value: '#000',
+  underline: '#c9c9c9',
 }

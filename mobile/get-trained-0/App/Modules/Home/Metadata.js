@@ -80,7 +80,7 @@ export const titleChat = (localizations) => {
 }
 
 export const titleActions = (localizations) => {
-  return text(localizations.get(keys.HOME_TITLE_ACTIONS), 'Actions')
+  return text(localizations.get(keys.HOME_TITLE_ACTIONS), 'Actions for:')
 }
 
 const keys = {
