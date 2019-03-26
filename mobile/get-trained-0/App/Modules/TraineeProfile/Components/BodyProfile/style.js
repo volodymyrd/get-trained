@@ -20,7 +20,12 @@ export default StyleSheet.create({
   metric: {
     position: 'absolute',
     zIndex: 1,
+  },
+  metricUnSelected: {
     backgroundColor: Colors.primary,
+  },
+  metricSelected: {
+    backgroundColor: Colors.error,
   },
   image: {
     flex: 1,

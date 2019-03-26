@@ -11,6 +11,7 @@ export default class Metric extends Component {
 
     this.state = {
       selectedValue: this.props.value ? this.props.value : 0,
+      selectedStyle: style.metricUnSelected,
     }
   }
 
@@ -20,12 +21,12 @@ export default class Metric extends Component {
 
   render() {
     const { position, fontSize, min, max } = this.props
-    const { selectedValue } = this.state
+    const { selectedValue, selectedStyle } = this.state
 
     return (
       <Text
-        style={[style.metric, position, { fontSize: fontSize }]}
-        onPress={() =>
+        style={[style.metric, selectedStyle, position, { fontSize: fontSize }]}
+        onPress={() => {
           RNNumberPickerLibrary.createDialog(
             {
               minValue: min,
@@ -37,6 +38,7 @@ export default class Metric extends Component {
               cancelTextColor: '#000000', // only for Android
             },
             (error, data) => {
+              this.setState({ selectedStyle: style.metricUnSelected })
               if (error) {
                 console.error(error)
               } else {
@@ -44,13 +46,15 @@ export default class Metric extends Component {
               }
             },
             (error, data) => {
+              this.setState({ selectedStyle: style.metricUnSelected })
               if (error) {
                 console.error(error)
               } else {
               }
             }
           )
-        }
+          this.setState({ selectedStyle: style.metricSelected })
+        }}
       >
         {selectedValue}
       </Text>
