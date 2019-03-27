@@ -21,6 +21,8 @@ export default class BodyProfile extends Component {
       traineeProfileId = this.props.traineeProfileId
     }
 
+    this.props.modalCloseHandler()
+
     this.props.fetchUpdateTraineeFitnessProfile({
       traineeProfileId,
       traineeUserId: traineeFitnessProfile.traineeUserId,
@@ -208,6 +210,9 @@ export default class BodyProfile extends Component {
 }
 
 BodyProfile.propTypes = {
+  // TODO: we should close modal because it overlap the toast messages.
+  // TODO to avoid this should replace modal with general view using navigator.
+  modalCloseHandler: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   fetchingUpdateTraineeFitnessProfile: PropTypes.bool.isRequired,
   fetchUpdateTraineeFitnessProfile: PropTypes.func.isRequired,

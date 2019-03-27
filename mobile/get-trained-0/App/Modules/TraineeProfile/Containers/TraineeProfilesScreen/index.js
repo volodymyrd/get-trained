@@ -51,6 +51,11 @@ class TraineeProfilesScreen extends Component {
         && this.props.fetchingDeleteTraineeFitnessProfile === -1) {
       this._getTraineeProfiles()
     }
+
+    if (prevProps.fetchingUpdateTraineeFitnessProfile
+        && !this.props.fetchingUpdateTraineeFitnessProfile) {
+      this._getTraineeProfiles()
+    }
   }
 
   _getTraineeProfiles = () => {
@@ -112,6 +117,7 @@ class TraineeProfilesScreen extends Component {
         <Container>
           <ModalDialog ref={c => this.modal = c} title={'Measures'}>
             <BodyProfile
+                modalCloseHandler={() => this.modal.close()}
                 locale={locale}
                 traineeProfileId={traineeProfileId}
                 fetchingUpdateTraineeFitnessProfile={fetchingUpdateTraineeFitnessProfile}

@@ -21,6 +21,10 @@ export default class ModalDialog extends Component {
     params: {}
   };
 
+  close = () => {
+    this.setModalVisible(false)
+  }
+
   setModalVisible(visible, params) {
     this.setState({modalVisible: visible, params});
   }
