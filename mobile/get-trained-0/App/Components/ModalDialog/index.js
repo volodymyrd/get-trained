@@ -38,7 +38,7 @@ export default class ModalDialog extends Component {
                 // console.log('close modal');
               }}
           >
-            <Root>
+            <View>
               <Header>
                 <Left>
                   <Button transparent
@@ -56,7 +56,7 @@ export default class ModalDialog extends Component {
                     this.props.children,
                     {...this.state.params})}
               </View>
-            </Root>
+            </View>
           </Modal>
         </View>
     )
