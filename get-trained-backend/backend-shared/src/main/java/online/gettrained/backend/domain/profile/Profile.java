@@ -59,6 +59,9 @@ public class Profile extends BaseEntity {
   @Enumerated(EnumType.STRING)
   private Gender gender;
 
+  @Column(name = "HEIGHT")
+  private Double height;
+
   @JsonIgnore
   @Column(name = "BIRTHDAY")
   @Temporal(TemporalType.DATE)
@@ -183,6 +186,14 @@ public class Profile extends BaseEntity {
 
   public void setGender(Gender gender) {
     this.gender = gender;
+  }
+
+  public Double getHeight() {
+    return height;
+  }
+
+  public void setHeight(Double height) {
+    this.height = height;
   }
 
   public Date getBirthday() {

@@ -44,6 +44,9 @@ public class FitnessTraineeProfile extends AuditableBaseEntity {
   @Column(name = "DATE_MEASURE", nullable = false)
   private Date dateMeasure;
 
+  @Column(name = "WEIGHT", nullable = false)
+  private double weight;
+
   @Column(name = "NECK", nullable = false)
   private double neck;
 
@@ -109,6 +112,14 @@ public class FitnessTraineeProfile extends AuditableBaseEntity {
 
   public void setDateMeasure(Date dateMeasure) {
     this.dateMeasure = dateMeasure;
+  }
+
+  public double getWeight() {
+    return weight;
+  }
+
+  public void setWeight(double weight) {
+    this.weight = weight;
   }
 
   public double getNeck() {

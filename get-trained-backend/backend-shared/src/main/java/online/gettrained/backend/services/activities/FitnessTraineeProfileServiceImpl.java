@@ -66,6 +66,7 @@ public class FitnessTraineeProfileServiceImpl implements FitnessTraineeProfileSe
 
     User traineeUser = getTrainee(profile.getUserId());
     Profile oldProfile = traineeUser.getProfile();
+    oldProfile.setHeight(profile.getHeight());
     oldProfile.setGender(profile.getGender());
     if (!isNullOrEmpty(profile.getBirthdayStr())) {
       try {
@@ -78,6 +79,7 @@ public class FitnessTraineeProfileServiceImpl implements FitnessTraineeProfileSe
     if (profile.getBirthday() != null) {
       profile.setBirthdayStr(getShortDateFormat().format(profile.getBirthday()));
     }
+    profile.setUserId(traineeUser.getId());
     return profile;
   }
 
@@ -109,6 +111,7 @@ public class FitnessTraineeProfileServiceImpl implements FitnessTraineeProfileSe
               traineeProfile.getTraineeProfileId(), connection.getId())
               .orElseThrow(() ->
                   new NotFoundException("Not found trainee profile with id:" + traineeProfileId));
+      oldTraineeProfile.setWeight(traineeProfile.getWeight());
       oldTraineeProfile.setBiceps(traineeProfile.getBiceps());
       oldTraineeProfile.setCalf(traineeProfile.getCalf());
       oldTraineeProfile.setChest(traineeProfile.getChest());
