@@ -9,6 +9,7 @@ import Loading from 'App/Components/Loading'
 import ButtonWithLoader from 'App/Components/ButtonWithLoader';
 import CommonPicker from 'App/Components/CommonPicker'
 import InputDatePicker from 'App/Components/InputDatePicker'
+import NumberPicker from 'App/Components/NumberPicker'
 import {Map} from 'immutable'
 import TraineeProfileActions from '../../Stores/Actions'
 import {MODULE} from '../../Metadata'
@@ -18,7 +19,7 @@ import style from './style';
 class CommonProfileScreen extends Component {
   static navigationOptions = ({navigation, navigationOptions}) => {
     return {
-      title: 'common1',
+      title: 'Common',
     }
   }
 
@@ -50,7 +51,8 @@ class CommonProfileScreen extends Component {
     this.props.fetchUpdateTraineeProfile({
       userId: this.props.traineeProfile.get('userId'),
       gender: this.genderPicker.getSelectedValue(),
-      birthdayStr: this.datePicker.getSelectedFormattedDate()
+      birthdayStr: this.datePicker.getSelectedFormattedDate(),
+      height: this.height.getSelectedValue(),
     })
   }
 
@@ -90,7 +92,12 @@ class CommonProfileScreen extends Component {
                                labelName={'Birthday:'}
                                placeholder={'Select date of birthday'}
                                date={traineeProfile.get('birthdayStr')}/>
-
+              <NumberPicker ref={c => this.height = c}
+                            labelName={'Height:'}
+                            min={0}
+                            max={300}
+                            value={traineeProfile.get('height')}
+              />
               <ButtonWithLoader
                   title={'save'}
                   style={{marginTop: 40}}

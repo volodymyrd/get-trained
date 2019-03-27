@@ -3,7 +3,7 @@ import Colors from 'App/Theme/Colors'
 
 export default StyleSheet.create({
   iosModalView: {
-    marginTop: 22,
+    //marginTop: 22,
   },
   datePickerFooter: {
     height: 20,
