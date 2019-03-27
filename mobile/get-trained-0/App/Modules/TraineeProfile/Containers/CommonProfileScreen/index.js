@@ -52,7 +52,7 @@ class CommonProfileScreen extends Component {
       userId: this.props.traineeProfile.get('userId'),
       gender: this.genderPicker.getSelectedValue(),
       birthdayStr: this.datePicker.getSelectedFormattedDate(),
-      height: this.height.getSelectedValue(),
+      height: this.heightPicker.getSelectedValue(),
     })
   }
 
@@ -92,7 +92,7 @@ class CommonProfileScreen extends Component {
                                labelName={'Birthday:'}
                                placeholder={'Select date of birthday'}
                                date={traineeProfile.get('birthdayStr')}/>
-              <NumberPicker ref={c => this.height = c}
+              <NumberPicker ref={c => this.heightPicker = c}
                             labelName={'Height:'}
                             min={0}
                             max={300}

@@ -4,6 +4,7 @@ import Dimensions from 'Dimensions'
 import {View} from 'native-base'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import InputDatePicker from 'App/Components/InputDatePicker'
+import NumberPicker from 'App/Components/NumberPicker';
 import ButtonWithLoader from 'App/Components/ButtonWithLoader'
 import color from 'App/Theme/Colors'
 import Metric from './Metric'
@@ -27,6 +28,7 @@ export default class BodyProfile extends Component {
       traineeProfileId,
       traineeUserId: traineeFitnessProfile.traineeUserId,
       measure: this.datePicker.getSelectedFormattedDate(),
+      weight: this.weightPicker.getSelectedValue(),
       neck: this.neck.getSelectedValue(),
       chest: this.chest.getSelectedValue(),
       waist: this.waist.getSelectedValue(),
@@ -87,21 +89,21 @@ export default class BodyProfile extends Component {
 
     const calfMetricPosition = {
       left: 5 * middle / 6.5 - metricWidth2,
-      top: height / 1.4,
+      top: height / 1.5,
     }
 
     const bicepsMetricPosition = {
-      left: 3 * middle / 7.8 - metricWidth2,
+      left: 3 * middle / 7.6 - metricWidth2,
       top: height / 3.3,
     }
 
     const forearmMetricPosition = {
-      left: 5 * middle / 3.1 - metricWidth2,
+      left: 5 * middle / 3.2 - metricWidth2,
       top: height / 2.8,
     }
 
     const wristMetricPosition = {
-      left: 3 * middle / 7.8 - metricWidth2,
+      left: 3 * middle / 7.6 - metricWidth2,
       top: height / 2.4,
     }
 
@@ -113,6 +115,12 @@ export default class BodyProfile extends Component {
               labelName={'Measure date:'}
               placeholder={'Select date'}
               date={traineeFitnessProfile.measure}
+          />
+          <NumberPicker ref={c => this.weightPicker = c}
+                        labelName={'Weight:'}
+                        min={0}
+                        max={200}
+                        value={traineeFitnessProfile.weight}
           />
           <View style={style.body}>
             <Metric
