@@ -93,17 +93,17 @@ export default class BodyProfile extends Component {
     }
 
     const bicepsMetricPosition = {
-      left: 3 * middle / 7.6 - metricWidth2,
+      left: 3 * middle / 7.5 - metricWidth2,
       top: height / 3.3,
     }
 
     const forearmMetricPosition = {
-      left: 5 * middle / 3.2 - metricWidth2,
+      left: 5 * middle / 3.3 - metricWidth2,
       top: height / 2.8,
     }
 
     const wristMetricPosition = {
-      left: 3 * middle / 7.6 - metricWidth2,
+      left: 3 * middle / 7.5 - metricWidth2,
       top: height / 2.4,
     }
 
