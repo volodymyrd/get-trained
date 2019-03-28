@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {
+  TouchableOpacity,
   Modal,
   DatePickerIOS,
   DatePickerAndroid,
@@ -166,20 +167,25 @@ export default class InputDatePicker extends Component {
           <DatePickerIOSWrapper ref={(c) => this.ios = c}
                                 locale={locale}
                                 date={this.getSelectedDate()}/>
-          <Item picker onPress={() => this.open()}>
-            <Label>{labelName}</Label>
-            <View style={isIOS() ? style.inputDatePickerViewIOS
-                : style.inputDatePickerViewAndroid}>
-              <Label style={selectedFormattedDate ?
-                  style.value : style.placeholder}>
-                {selectedFormattedDate ? selectedFormattedDate : placeholder}
-              </Label>
-            </View>
-            <View style={style.selectButtonView}>
-              <Button transparent onPress={() => this.open()}>
-                <Icon name="calendar" style={style.selectButton}/>
-              </Button>
-            </View>
+          <Item picker>
+            <TouchableOpacity
+                style={isIOS() ? style.inputDatePickerViewIOS
+                    : style.inputDatePickerViewAndroid}
+                onPress={() => this.open()}>
+              <Label>{labelName}</Label>
+              <View style={isIOS() ? style.inputDatePickerViewIOS
+                  : style.inputDatePickerViewAndroid}>
+                <Label style={selectedFormattedDate ?
+                    style.value : style.placeholder}>
+                  {selectedFormattedDate ? selectedFormattedDate : placeholder}
+                </Label>
+              </View>
+              <View style={style.selectButtonView}>
+                <Button transparent onPress={() => this.open()}>
+                  <Icon name="calendar" style={style.selectButton}/>
+                </Button>
+              </View>
+            </TouchableOpacity>
           </Item>
         </View>
     )

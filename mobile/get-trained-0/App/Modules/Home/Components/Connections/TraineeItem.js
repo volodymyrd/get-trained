@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
+import {TouchableOpacity} from 'react-native';
 import {
   View,
   Text,
@@ -27,9 +28,9 @@ import {
   traineeProfile,
   titleChat,
 } from '../../Metadata'
+import color from 'App/Theme/Colors'
 
 import styles from './styles'
-import color from 'App/Theme/Colors'
 
 const Pending = ({connectionId, deleteHandler, localizations, fetches}) => {
   return (
@@ -69,29 +70,36 @@ class TraineeItem extends Component {
     return (
         <ListItem avatar>
           <Left>
-            {item.traineeLogoUrl ? (
-                <Thumbnail source={{uri: getUrl(item.traineeLogoUrl)}}/>
-            ) : (
-                <View style={styles.avatar}>
-                  <Text>{item.traineeFullName.charAt(0)}</Text>
-                </View>
-            )}
+            <TouchableOpacity onPress={() => this._openProfile(item)}>
+              {item.traineeLogoUrl ? (
+                  <Thumbnail source={{uri: getUrl(item.traineeLogoUrl)}}/>
+              ) : (
+                  <View style={styles.avatar}>
+                    <Text>{item.traineeFullName.charAt(0)}</Text>
+                  </View>
+              )}
+            </TouchableOpacity>
           </Left>
-          <Body style={styles.body}>
-          <Text>{item.traineeFullName}</Text>
-          {item.status === 'PENDING_ON_TRAINEE' && (
-              <Pending
-                  connectionId={item.connectionId}
-                  deleteHandler={deleteHandler}
-                  localizations={localizations}
-                  fetches={fetches}
-              />
-          )}
+          <Body style={styles.body} onPress={() => this._openProfile(item)}>
+          <TouchableOpacity onPress={() => this._openProfile(item)}>
+            <View style={{height: 55}}>
+              <Text>{item.traineeFullName}</Text>
+              {item.status === 'PENDING_ON_TRAINEE' && (
+                  <Pending
+                      connectionId={item.connectionId}
+                      deleteHandler={deleteHandler}
+                      localizations={localizations}
+                      fetches={fetches}
+                  />
+              )}
+            </View>
+          </TouchableOpacity>
           </Body>
           {item.status === 'CONNECTED' && (
               <Right style={styles.verticalAlign}>
                 <ActionMenu
-                    title={`${titleActions(localizations)} ${item.traineeFullName}`}
+                    title={`${titleActions(
+                        localizations)} ${item.traineeFullName}`}
                     cancelBtnName={cancel(localizations)}
                     height={300}
                     ref={(c) => (this.menu = c)}

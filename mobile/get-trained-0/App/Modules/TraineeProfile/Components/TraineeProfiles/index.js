@@ -3,14 +3,16 @@ import PropTypes from 'prop-types'
 import { FlatList, TouchableOpacity } from 'react-native'
 import { SwipeRow, View, Text, Icon, Button, Spinner } from 'native-base'
 
+import style from './style'
+
 const Profile = ({ item, onSelectItem, fetchingItem, deleteHandler, deletingItem }) => {
   return (
     <SwipeRow
       disableRightSwipe={true}
       rightOpenValue={-75}
       body={
-        <TouchableOpacity onPress={() => onSelectItem(item)}>
-          <View style={{ paddingLeft: 20 }}>
+        <TouchableOpacity style={style.touchable} onPress={() => onSelectItem(item)}>
+          <View style={style.view}>
             {fetchingItem === item.traineeProfileId ? (
               <Spinner color="blue" />
             ) : (
