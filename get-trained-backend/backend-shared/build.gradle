@@ -37,7 +37,6 @@ dependencies {
     compile libs.spring_boot_jpa, { exclude group: "org.apache.tomcat", module: "tomcat-jdbc" }
     compile libs.hibernate_validator
     compile libs.envers
-    compile libs.json
     compile libs.csv
     compile libs.caffeine_cache
     compile libs.database_postgresql
