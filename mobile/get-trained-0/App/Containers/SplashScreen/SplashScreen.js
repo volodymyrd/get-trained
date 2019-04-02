@@ -3,7 +3,7 @@ import { View, Image } from 'react-native'
 import styles from './SplashScreenStyle'
 import connect from 'react-redux/es/connect/connect'
 import MainActions from '../../Stores/Main/Actions'
-import { LOGO_256 } from 'App/Images/'
+import { LOGO_HEAD } from 'App/Images/'
 
 class SplashScreen extends React.Component {
   componentDidMount() {
@@ -24,7 +24,7 @@ class SplashScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Image source={LOGO_256} />
+        <Image square style={styles.logo} source={LOGO_HEAD} />
       </View>
     )
   }

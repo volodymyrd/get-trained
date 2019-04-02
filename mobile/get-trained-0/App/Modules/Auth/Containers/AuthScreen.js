@@ -38,7 +38,7 @@ import {
 } from '../Metadata'
 import ApplicationStyles from 'App/Theme/ApplicationStyles'
 import styles from './AuthScreenStyle'
-import {LOGO_128} from "App/Images";
+import {LOGO} from "App/Images";
 import {Image, View} from "react-native";
 
 class AuthScreen extends React.Component {
@@ -126,7 +126,15 @@ class AuthScreen extends React.Component {
           </Header>
           <Content style={styles.content}>
             <View style={styles.logo}>
-              <Image source={LOGO_128}/>
+              <Image
+                     style={{
+                       height: 200,
+                       width: 300,
+                       //position: 'absolute',
+                       //alignSelf: 'center',
+                       //top: 20,
+                     }}
+                     source={LOGO}/>
             </View>
             {authStep === AuthStep.SIGN_IN
             && <SignIn txtEmail={txtEmail(localizations)}

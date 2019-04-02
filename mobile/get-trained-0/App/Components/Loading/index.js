@@ -1,12 +1,14 @@
 import React from 'react'
-import { View } from 'react-native'
+import { Image, View } from 'react-native'
 import { Spinner } from 'native-base'
+import { LOGO_HEAD } from 'App/Images/'
 import styles from './style'
 
 const Loading = () => {
   return (
     <View style={styles.container}>
-      <Spinner color="white" />
+      <Image square style={styles.logo} source={LOGO_HEAD} />
+      <Spinner color="black" />
     </View>
   )
 }

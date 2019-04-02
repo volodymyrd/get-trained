@@ -12,10 +12,11 @@ import {
   Text,
 } from 'native-base'
 import {toHome} from 'App/Utils/NavigationUtils'
+import {LOGO} from 'App/Images'
 import DashboardActions from '../../Stores/Actions'
-import Loading from "App/Components/Loading";
-import {MENU_MODULE} from "../../Metadata";
-import {getMenu} from "../../Components/Menu";
+import Loading from 'App/Components/Loading'
+import {MENU_MODULE} from '../../Metadata'
+import {getMenu} from '../../Components/Menu'
 
 class SideBar extends Component {
 
@@ -69,31 +70,28 @@ class SideBar extends Component {
     return (
         <Container>
           <Content>
-            <Image
-                source={{
-                  uri:
-                      'https://raw.githubusercontent.com/GeekyAnts/NativeBase-KitchenSink/master/assets/drawer-cover.png',
-                }}
-                style={{
-                  height: 120,
-                  width: '100%',
-                  alignSelf: 'stretch',
-                  position: 'absolute',
-                }}
-            />
+            {/*<Image*/}
+                {/*source={{*/}
+                  {/*uri:*/}
+                      {/*'https://raw.githubusercontent.com/GeekyAnts/NativeBase-KitchenSink/master/assets/drawer-cover.png',*/}
+                {/*}}*/}
+                {/*style={{*/}
+                  {/*height: 120,*/}
+                  {/*width: '100%',*/}
+                  {/*alignSelf: 'stretch',*/}
+                  {/*position: 'absolute',*/}
+                {/*}}*/}
+            {/*/>*/}
             <Image
                 square
                 style={{
-                  height: 80,
-                  width: 70,
+                  height: 100,
+                  width: 200,
                   position: 'absolute',
                   alignSelf: 'center',
                   top: 20,
                 }}
-                source={{
-                  uri:
-                      'https://raw.githubusercontent.com/GeekyAnts/NativeBase-KitchenSink/master/assets/logo.png',
-                }}
+                source={LOGO}
             />
             <View style={{
               marginTop: 120,
