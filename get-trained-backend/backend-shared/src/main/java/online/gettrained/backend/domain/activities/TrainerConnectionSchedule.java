@@ -8,15 +8,23 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import online.gettrained.backend.converters.TimeSlotSetConverter;
+import online.gettrained.backend.domain.AuditableBaseEntity;
 import online.gettrained.backend.domain.user.User;
 
 /**
  * Schedule (training calendar).
  */
-public class TrainerConnectionSchedule {
+@Entity
+@Table(name = "ACT_SCHEDULES",
+    indexes = {
+        @Index(name = "I_ACT_SCHEDULES_REF_CONNECTION_ID", columnList = "REF_CONNECTION_ID")})
+public class TrainerConnectionSchedule extends AuditableBaseEntity {
 
   @JsonIgnore
   @ManyToOne(fetch = LAZY)
@@ -32,11 +40,35 @@ public class TrainerConnectionSchedule {
   @Convert(converter = TimeSlotSetConverter.class)
   @Column(name = "MONDAY", columnDefinition = "TEXT")
   private Set<TimeSlot> monday;
+
+  @JsonInclude(NON_NULL)
+  @Convert(converter = TimeSlotSetConverter.class)
+  @Column(name = "TUESDAY", columnDefinition = "TEXT")
   private Set<TimeSlot> tuesday;
+
+  @JsonInclude(NON_NULL)
+  @Convert(converter = TimeSlotSetConverter.class)
+  @Column(name = "WEDNESDAY", columnDefinition = "TEXT")
   private Set<TimeSlot> wednesday;
+
+  @JsonInclude(NON_NULL)
+  @Convert(converter = TimeSlotSetConverter.class)
+  @Column(name = "THURSDAY", columnDefinition = "TEXT")
   private Set<TimeSlot> thursday;
+
+  @JsonInclude(NON_NULL)
+  @Convert(converter = TimeSlotSetConverter.class)
+  @Column(name = "FRIDAY", columnDefinition = "TEXT")
   private Set<TimeSlot> friday;
+
+  @JsonInclude(NON_NULL)
+  @Convert(converter = TimeSlotSetConverter.class)
+  @Column(name = "SATURDAY", columnDefinition = "TEXT")
   private Set<TimeSlot> saturday;
+
+  @JsonInclude(NON_NULL)
+  @Convert(converter = TimeSlotSetConverter.class)
+  @Column(name = "SUNDAY", columnDefinition = "TEXT")
   private Set<TimeSlot> sunday;
 
   public TrainerConnections getConnection() {
