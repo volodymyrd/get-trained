@@ -13,11 +13,16 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   content: {
-    marginTop: Dimensions.get('window').height / 20,
+    //  marginTop: Dimensions.get('window').height / 20,
   },
-  logo: {
+  logoView: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  logo: {
+    alignSelf: 'center',
+    height: 200,
+    width: 200,
   },
 })
