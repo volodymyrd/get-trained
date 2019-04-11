@@ -5,7 +5,7 @@ import static javax.persistence.FetchType.LAZY;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import java.util.Set;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -13,7 +13,8 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import online.gettrained.backend.converters.TimeSlotSetConverter;
+import javax.persistence.Transient;
+import online.gettrained.backend.converters.TimeSlotListConverter;
 import online.gettrained.backend.domain.AuditableBaseEntity;
 import online.gettrained.backend.domain.user.User;
 
@@ -22,8 +23,12 @@ import online.gettrained.backend.domain.user.User;
  */
 @Entity
 @Table(name = "ACT_SCHEDULES",
-    indexes = {
-        @Index(name = "I_ACT_SCHEDULES_REF_CONNECTION_ID", columnList = "REF_CONNECTION_ID")})
+    indexes = {@Index(
+        name = "I_ACT_SCHEDULES_REF_CONNECTION_ID",
+        columnList = "REF_CONNECTION_ID",
+        unique = true)
+    }
+)
 public class TrainerConnectionSchedule extends AuditableBaseEntity {
 
   @JsonIgnore
@@ -37,39 +42,43 @@ public class TrainerConnectionSchedule extends AuditableBaseEntity {
   private User trainee;
 
   @JsonInclude(NON_NULL)
-  @Convert(converter = TimeSlotSetConverter.class)
+  @Convert(converter = TimeSlotListConverter.class)
   @Column(name = "MONDAY", columnDefinition = "TEXT")
-  private Set<TimeSlot> monday;
+  private List<TimeSlot> monday;
 
   @JsonInclude(NON_NULL)
-  @Convert(converter = TimeSlotSetConverter.class)
+  @Convert(converter = TimeSlotListConverter.class)
   @Column(name = "TUESDAY", columnDefinition = "TEXT")
-  private Set<TimeSlot> tuesday;
+  private List<TimeSlot> tuesday;
 
   @JsonInclude(NON_NULL)
-  @Convert(converter = TimeSlotSetConverter.class)
+  @Convert(converter = TimeSlotListConverter.class)
   @Column(name = "WEDNESDAY", columnDefinition = "TEXT")
-  private Set<TimeSlot> wednesday;
+  private List<TimeSlot> wednesday;
 
   @JsonInclude(NON_NULL)
-  @Convert(converter = TimeSlotSetConverter.class)
+  @Convert(converter = TimeSlotListConverter.class)
   @Column(name = "THURSDAY", columnDefinition = "TEXT")
-  private Set<TimeSlot> thursday;
+  private List<TimeSlot> thursday;
 
   @JsonInclude(NON_NULL)
-  @Convert(converter = TimeSlotSetConverter.class)
+  @Convert(converter = TimeSlotListConverter.class)
   @Column(name = "FRIDAY", columnDefinition = "TEXT")
-  private Set<TimeSlot> friday;
+  private List<TimeSlot> friday;
 
   @JsonInclude(NON_NULL)
-  @Convert(converter = TimeSlotSetConverter.class)
+  @Convert(converter = TimeSlotListConverter.class)
   @Column(name = "SATURDAY", columnDefinition = "TEXT")
-  private Set<TimeSlot> saturday;
+  private List<TimeSlot> saturday;
 
   @JsonInclude(NON_NULL)
-  @Convert(converter = TimeSlotSetConverter.class)
+  @Convert(converter = TimeSlotListConverter.class)
   @Column(name = "SUNDAY", columnDefinition = "TEXT")
-  private Set<TimeSlot> sunday;
+  private List<TimeSlot> sunday;
+
+  @Transient
+  @JsonInclude(NON_NULL)
+  private Long traineeUserId;
 
   public TrainerConnections getConnection() {
     return connection;
@@ -87,59 +96,74 @@ public class TrainerConnectionSchedule extends AuditableBaseEntity {
     this.trainee = trainee;
   }
 
-  public Set<TimeSlot> getMonday() {
+  public List<TimeSlot> getMonday() {
     return monday;
   }
 
-  public void setMonday(Set<TimeSlot> monday) {
+  public void setMonday(List<TimeSlot> monday) {
     this.monday = monday;
   }
 
-  public Set<TimeSlot> getTuesday() {
+  public List<TimeSlot> getTuesday() {
     return tuesday;
   }
 
-  public void setTuesday(Set<TimeSlot> tuesday) {
+  public void setTuesday(List<TimeSlot> tuesday) {
     this.tuesday = tuesday;
   }
 
-  public Set<TimeSlot> getWednesday() {
+  public List<TimeSlot> getWednesday() {
     return wednesday;
   }
 
-  public void setWednesday(Set<TimeSlot> wednesday) {
+  public void setWednesday(List<TimeSlot> wednesday) {
     this.wednesday = wednesday;
   }
 
-  public Set<TimeSlot> getThursday() {
+  public List<TimeSlot> getThursday() {
     return thursday;
   }
 
-  public void setThursday(Set<TimeSlot> thursday) {
+  public void setThursday(List<TimeSlot> thursday) {
     this.thursday = thursday;
   }
 
-  public Set<TimeSlot> getFriday() {
+  public List<TimeSlot> getFriday() {
     return friday;
   }
 
-  public void setFriday(Set<TimeSlot> friday) {
+  public void setFriday(List<TimeSlot> friday) {
     this.friday = friday;
   }
 
-  public Set<TimeSlot> getSaturday() {
+  public List<TimeSlot> getSaturday() {
     return saturday;
   }
 
-  public void setSaturday(Set<TimeSlot> saturday) {
+  public void setSaturday(List<TimeSlot> saturday) {
     this.saturday = saturday;
   }
 
-  public Set<TimeSlot> getSunday() {
+  public List<TimeSlot> getSunday() {
     return sunday;
   }
 
-  public void setSunday(Set<TimeSlot> sunday) {
+  public void setSunday(List<TimeSlot> sunday) {
     this.sunday = sunday;
+  }
+
+  public Long getTraineeUserId() {
+    return traineeUserId;
+  }
+
+  public void setTraineeUserId(Long traineeUserId) {
+    this.traineeUserId = traineeUserId;
+  }
+
+  @Override
+  public String toString() {
+    return "TrainerConnectionSchedule{" +
+        "traineeUserId=" + traineeUserId +
+        "} " + super.toString();
   }
 }

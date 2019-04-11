@@ -8,7 +8,7 @@ import online.gettrained.backend.converters.LocalTimeDeserializer;
 /**
  * Represents a time interval for using in a JSON objects.
  */
-public final class TimeSlot {
+public final class TimeSlot implements Comparable<TimeSlot> {
 
   @JsonDeserialize(using = LocalTimeDeserializer.class)
   private LocalTime start;
@@ -63,5 +63,10 @@ public final class TimeSlot {
         "start=" + start +
         ", end=" + end +
         '}';
+  }
+
+  @Override
+  public int compareTo(TimeSlot o) {
+    return this.start.compareTo(o.start);
   }
 }

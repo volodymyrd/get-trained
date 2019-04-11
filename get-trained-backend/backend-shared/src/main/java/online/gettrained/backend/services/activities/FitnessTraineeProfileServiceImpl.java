@@ -8,7 +8,6 @@ import static online.gettrained.backend.utils.DateUtils.getShortDateFormat;
 import java.text.ParseException;
 import online.gettrained.backend.constraints.frontend.activities.FrontendTraineeProfileConstraint;
 import online.gettrained.backend.domain.activities.FitnessTraineeProfile;
-import online.gettrained.backend.domain.activities.Trainer;
 import online.gettrained.backend.domain.activities.TrainerConnections;
 import online.gettrained.backend.domain.profile.Profile;
 import online.gettrained.backend.domain.user.User;
@@ -46,9 +45,9 @@ public class FitnessTraineeProfileServiceImpl implements FitnessTraineeProfileSe
   public Profile getProfile(User trainerUser, long traineeUserId)
       throws NotFoundException {
     requireNonNull(trainerUser, "Parameter 'trainerUser' must be filled");
-    getConnection(trainerUser, traineeUserId);
+    activityService.getConnection(trainerUser, traineeUserId);
 
-    Profile profile = getTrainee(traineeUserId).getProfile();
+    Profile profile = activityService.getTrainee(traineeUserId).getProfile();
     if (profile.getBirthday() != null) {
       profile.setBirthdayStr(getShortDateFormat().format(profile.getBirthday()));
     }
@@ -62,9 +61,9 @@ public class FitnessTraineeProfileServiceImpl implements FitnessTraineeProfileSe
     requireNonNull(trainerUser, "Parameter 'trainerUser' must be filled");
     requireNonNull(profile.getUserId(), "Parameter 'profile.userId' must be filled");
 
-    getConnection(trainerUser, profile.getUserId());
+    activityService.getConnection(trainerUser, profile.getUserId());
 
-    User traineeUser = getTrainee(profile.getUserId());
+    User traineeUser = activityService.getTrainee(profile.getUserId());
     Profile oldProfile = traineeUser.getProfile();
     oldProfile.setHeight(profile.getHeight());
     oldProfile.setGender(profile.getGender());
@@ -100,9 +99,10 @@ public class FitnessTraineeProfileServiceImpl implements FitnessTraineeProfileSe
     checkArgument(!isNullOrEmpty(traineeProfile.getMeasure()),
         "Parameter 'traineeProfile.measure' must be filled");
 
-    TrainerConnections connection = getConnection(trainerUser, traineeProfile.getTraineeUserId());
+    TrainerConnections connection = activityService
+        .getConnection(trainerUser, traineeProfile.getTraineeUserId());
     if (traineeProfile.getTraineeProfileId() == null) {
-      traineeProfile.setTrainee(getTrainee(traineeProfile.getTraineeUserId()));
+      traineeProfile.setTrainee(activityService.getTrainee(traineeProfile.getTraineeUserId()));
       traineeProfile.setConnection(connection);
     } else {
       long traineeProfileId = traineeProfile.getTraineeProfileId();
@@ -142,7 +142,7 @@ public class FitnessTraineeProfileServiceImpl implements FitnessTraineeProfileSe
   public FitnessTraineeProfile getTraineeProfile(
       User trainerUser, long traineeUserId, long traineeProfileId) throws NotFoundException {
     requireNonNull(trainerUser, "Parameter 'trainerUser' must be filled");
-    TrainerConnections connection = getConnection(trainerUser, traineeUserId);
+    TrainerConnections connection = activityService.getConnection(trainerUser, traineeUserId);
     return populateFitnessTraineeProfile(
         traineeProfileRepository.findByIdAndConnection_Id(traineeProfileId, connection.getId())
             .orElseThrow(() -> new NotFoundException(
@@ -162,24 +162,7 @@ public class FitnessTraineeProfileServiceImpl implements FitnessTraineeProfileSe
   public void deleteTraineeProfile(
       User trainerUser, long traineeUserId, long traineeProfileId) throws NotFoundException {
     requireNonNull(trainerUser, "Parameter 'trainerUser' must be filled");
-    TrainerConnections connection = getConnection(trainerUser, traineeUserId);
+    TrainerConnections connection = activityService.getConnection(trainerUser, traineeUserId);
     traineeProfileRepository.deleteByIdAndConnection_Id(traineeProfileId, connection.getId());
-  }
-
-  private User getTrainee(long traineeUserId) throws NotFoundException {
-    return userService.findByIdWithProfile(traineeUserId)
-        .orElseThrow(() -> new NotFoundException("Not found a user with id:" + traineeUserId));
-  }
-
-  private TrainerConnections getConnection(User trainerUser, long traineeUserId)
-      throws NotFoundException {
-    Trainer trainer = activityService.findFitnessTrainer(trainerUser)
-        .orElseThrow(() ->
-            new NotFoundException(
-                "Not found a fitness trainer for user with id:" + trainerUser.getId()));
-    return activityService
-        .findActiveConnectionByTrainerIdAndTraineeUserId(trainer.getId(), traineeUserId)
-        .orElseThrow(
-            () -> new NotFoundException("Not found a connection for trainee:" + traineeUserId));
   }
 }

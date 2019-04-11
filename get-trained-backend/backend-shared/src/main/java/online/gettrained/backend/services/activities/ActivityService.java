@@ -57,4 +57,10 @@ public interface ActivityService {
   void requestTrainer(User user, long trainerId);
 
   Page<User> findAllTrainees(User user, FrontendActivityConstraint constraint);
+
+  User getTrainee(long traineeUserId) throws NotFoundException;
+
+  TrainerConnections getConnection(User trainerUser, long traineeUserId) throws NotFoundException;
+
+  TrainerConnections getConnectionById(User user, long connectionId) throws NotFoundException;
 }

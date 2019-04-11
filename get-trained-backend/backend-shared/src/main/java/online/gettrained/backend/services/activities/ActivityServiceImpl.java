@@ -259,20 +259,7 @@ public class ActivityServiceImpl implements ActivityService {
   public void acceptConnectionRequest(User user, long connectionId) throws NotFoundException {
     requireNonNull(user, "Parameter 'user' must be filled.");
 
-    TrainerConnections connections = trainerConnectionsRepository.findById(connectionId)
-        .orElseThrow(
-            () -> new NotFoundException("Not found a connection with id: " + connectionId));
-
-    if (connections.isDeleted()) {
-      throw new NotFoundException("Connection is deleted with id: " + connectionId);
-    }
-
-    if (!connections.getUserTrainer().getId().equals(user.getId())
-        && !connections.getTrainee().getId().equals(user.getId())) {
-      LOG.error("User with id:{} cannot accept a foreign connection with id:{}",
-          user.getId(), connectionId);
-      throw new IllegalArgumentException("User cannot accept a foreign connection.");
-    }
+    TrainerConnections connections = getConnectionById(user, connectionId);
 
     switch (connections.getStatus()) {
       case PENDING_ON_TRAINEE:
@@ -402,5 +389,44 @@ public class ActivityServiceImpl implements ActivityService {
   @Override
   public Page<User> findAllTrainees(User user, FrontendActivityConstraint constraint) {
     return null;
+  }
+
+  @Override
+  public User getTrainee(long traineeUserId) throws NotFoundException {
+    return userService.findByIdWithProfile(traineeUserId)
+        .orElseThrow(() -> new NotFoundException("Not found a user with id:" + traineeUserId));
+  }
+
+  @Override
+  public TrainerConnections getConnection(User trainerUser, long traineeUserId)
+      throws NotFoundException {
+    Trainer trainer = findFitnessTrainer(trainerUser)
+        .orElseThrow(() ->
+            new NotFoundException(
+                "Not found a fitness trainer for user with id:" + trainerUser.getId()));
+    return findActiveConnectionByTrainerIdAndTraineeUserId(trainer.getId(), traineeUserId)
+        .orElseThrow(
+            () -> new NotFoundException("Not found a connection for trainee:" + traineeUserId));
+  }
+
+  @Override
+  public TrainerConnections getConnectionById(User user, long connectionId)
+      throws NotFoundException {
+    TrainerConnections connections = trainerConnectionsRepository.findById(connectionId)
+        .orElseThrow(
+            () -> new NotFoundException("Not found a connection with id: " + connectionId));
+
+    if (connections.isDeleted()) {
+      throw new NotFoundException("Connection is deleted with id: " + connectionId);
+    }
+
+    if (!connections.getUserTrainer().getId().equals(user.getId())
+        && !connections.getTrainee().getId().equals(user.getId())) {
+      LOG.error("User with id:{} doesn't belong to connection with id:{}",
+          user.getId(), connectionId);
+      throw new NotFoundException("Connection doesn't belong to the user with id:" + user.getId());
+    }
+
+    return connections;
   }
 }
