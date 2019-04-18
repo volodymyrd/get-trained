@@ -23,6 +23,11 @@ public final class TimeSlot implements Comparable<TimeSlot> {
     this.end = end;
   }
 
+  public TimeSlot(String start, String end) {
+    this.start = LocalTime.parse(start);
+    this.end = LocalTime.parse(end);
+  }
+
   public LocalTime getStart() {
     return start;
   }

@@ -84,8 +84,6 @@ public class BaseIntegrationTest {
 
   @BeforeClass
   public static void setUpEnv() {
-    System.setProperty("testEnvironment", "true");
-    System.setProperty("environment", "none");
   }
 
   protected User user;

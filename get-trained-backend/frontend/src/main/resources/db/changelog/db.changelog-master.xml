@@ -28,4 +28,7 @@
     relativeToChangelogFile="true"/>
   <include file="patches/patch-0-dashboard.xml" relativeToChangelogFile="true"/>
   <include file="patches/patch-0-activities.xml" relativeToChangelogFile="true"/>
+
+  <!--Test data-->
+  <include file="tests/test-calendar.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

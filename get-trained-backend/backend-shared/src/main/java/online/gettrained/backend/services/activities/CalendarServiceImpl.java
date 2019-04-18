@@ -34,7 +34,7 @@ public class CalendarServiceImpl implements CalendarService {
   @Override
   public TrainerConnectionSchedule getSchedule(User user, long connectionId)
       throws NotFoundException {
-    TrainerConnections connections = activityService.getConnection(user, connectionId);
+    TrainerConnections connections = activityService.getConnectionById(user, connectionId);
     if (connections.getStatus() != CONNECTED) {
       throw new NotFoundException("Not found active connection with id:" + connectionId);
     }

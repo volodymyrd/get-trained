@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+  <changeSet id="1" author="Volodymyr Dotsenko">
+    <preConditions onFail="CONTINUE">
+      <changeLogPropertyDefined property="testEnvironment" value="TEST-CALENDAR"/>
+    </preConditions>
+    <comment>Test data for testing calendar features</comment>
+
+    <insert tableName="ACT_TRAINERS">
+      <column name="ID">-1</column>
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="DELETED" valueBoolean="false"/>
+      <column name="STATUS">VERIFIED</column>
+      <column name="VISIBILITY">PUBLIC</column>
+      <column name="REF_ACTIVITY_ID">-1</column>
+      <column name="REF_USER_ID">-2</column>
+    </insert>
+
+    <insert tableName="ACT_TRAINER_CONNECTIONS">
+      <column name="ID">-1</column>
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="DELETED" valueBoolean="false"/>
+      <column name="STATUS">CONNECTED</column>
+      <column name="REF_TRAINEE_USER_ID">-3</column>
+      <column name="REF_TRAINER_USER_ID">-2</column>
+      <column name="REF_TRAINER_ID">-1</column>
+    </insert>
+  </changeSet>
+</databaseChangeLog>

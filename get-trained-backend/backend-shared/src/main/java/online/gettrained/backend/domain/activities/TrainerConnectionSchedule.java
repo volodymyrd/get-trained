@@ -5,6 +5,7 @@ import static javax.persistence.FetchType.LAZY;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.google.common.collect.ImmutableList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -44,37 +45,37 @@ public class TrainerConnectionSchedule extends AuditableBaseEntity {
   @JsonInclude(NON_NULL)
   @Convert(converter = TimeSlotListConverter.class)
   @Column(name = "MONDAY", columnDefinition = "TEXT")
-  private List<TimeSlot> monday;
+  private List<TimeSlot> monday = ImmutableList.of();
 
   @JsonInclude(NON_NULL)
   @Convert(converter = TimeSlotListConverter.class)
   @Column(name = "TUESDAY", columnDefinition = "TEXT")
-  private List<TimeSlot> tuesday;
+  private List<TimeSlot> tuesday = ImmutableList.of();
 
   @JsonInclude(NON_NULL)
   @Convert(converter = TimeSlotListConverter.class)
   @Column(name = "WEDNESDAY", columnDefinition = "TEXT")
-  private List<TimeSlot> wednesday;
+  private List<TimeSlot> wednesday = ImmutableList.of();
 
   @JsonInclude(NON_NULL)
   @Convert(converter = TimeSlotListConverter.class)
   @Column(name = "THURSDAY", columnDefinition = "TEXT")
-  private List<TimeSlot> thursday;
+  private List<TimeSlot> thursday = ImmutableList.of();
 
   @JsonInclude(NON_NULL)
   @Convert(converter = TimeSlotListConverter.class)
   @Column(name = "FRIDAY", columnDefinition = "TEXT")
-  private List<TimeSlot> friday;
+  private List<TimeSlot> friday = ImmutableList.of();
 
   @JsonInclude(NON_NULL)
   @Convert(converter = TimeSlotListConverter.class)
   @Column(name = "SATURDAY", columnDefinition = "TEXT")
-  private List<TimeSlot> saturday;
+  private List<TimeSlot> saturday = ImmutableList.of();
 
   @JsonInclude(NON_NULL)
   @Convert(converter = TimeSlotListConverter.class)
   @Column(name = "SUNDAY", columnDefinition = "TEXT")
-  private List<TimeSlot> sunday;
+  private List<TimeSlot> sunday = ImmutableList.of();
 
   @Transient
   @JsonInclude(NON_NULL)
