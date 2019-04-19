@@ -60,6 +60,7 @@ public class BaseIntegrationTest {
 
   protected static final long TRAINER_USER_ID = -2;
   protected static final long TRAINEE_USER_ID = -3;
+  protected static final long TRAINEE_USER_ID_101 = -101;
 
   protected String TRAINEE_EMAIL = "trainee@get-trained.online";
 
@@ -84,6 +85,7 @@ public class BaseIntegrationTest {
 
   @BeforeClass
   public static void setUpEnv() {
+    System.setProperty("testEnvironmentCommon", "TEST-COMMON");
   }
 
   protected User user;

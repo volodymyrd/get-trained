@@ -30,5 +30,6 @@
   <include file="patches/patch-0-activities.xml" relativeToChangelogFile="true"/>
 
   <!--Test data-->
+  <include file="tests/test-common.xml" relativeToChangelogFile="true"/>
   <include file="tests/test-calendar.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

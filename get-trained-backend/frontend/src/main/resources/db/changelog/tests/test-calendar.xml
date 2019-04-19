@@ -9,7 +9,7 @@
 
   <changeSet id="1" author="Volodymyr Dotsenko">
     <preConditions onFail="CONTINUE">
-      <changeLogPropertyDefined property="testEnvironment" value="TEST-CALENDAR"/>
+      <changeLogPropertyDefined property="testEnvironmentCalendar" value="TEST-CALENDAR"/>
     </preConditions>
     <comment>Test data for testing calendar features</comment>
 
@@ -31,6 +31,17 @@
       <column name="DELETED" valueBoolean="false"/>
       <column name="STATUS">CONNECTED</column>
       <column name="REF_TRAINEE_USER_ID">-3</column>
+      <column name="REF_TRAINER_USER_ID">-2</column>
+      <column name="REF_TRAINER_ID">-1</column>
+    </insert>
+
+    <insert tableName="ACT_TRAINER_CONNECTIONS">
+      <column name="ID">-2</column>
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="DELETED" valueBoolean="false"/>
+      <column name="STATUS">CONNECTED</column>
+      <column name="REF_TRAINEE_USER_ID">-101</column>
       <column name="REF_TRAINER_USER_ID">-2</column>
       <column name="REF_TRAINER_ID">-1</column>
     </insert>

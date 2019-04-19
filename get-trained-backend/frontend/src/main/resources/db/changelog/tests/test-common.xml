@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+  <changeSet id="1" author="Volodymyr Dotsenko">
+    <preConditions onFail="CONTINUE">
+      <changeLogPropertyDefined property="testEnvironmentCommon" value="TEST-COMMON"/>
+    </preConditions>
+    <comment>Common Test data</comment>
+
+    <insert tableName="USR_PROFILES">
+      <column name="ID">-101</column>
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="FIRST_NAME">Trainee</column>
+      <column name="LAST_NAME">GetTrained 101</column>
+      <column name="FULL_NAME">Trainee GetTrained 101</column>
+    </insert>
+
+    <insert tableName="USR_USERS">
+      <column name="ID">-101</column>
+      <column name="DATE_CREATE" valueDate="${now}"/>
+      <column name="VERSION">0</column>
+      <column name="USER_NAME">trainee_get-trained101</column>
+      <column name="EMAIL">trainee101@get-trained.online</column>
+      <column name="PASSWORD">12345</column>
+      <column name="EXPIRED" valueDate="9999-12-31 00:00:00"/>
+      <column name="LOCKED" valueBoolean="false"/>
+      <column name="AGREED_WITH_TAC" valueBoolean="true"/>
+      <column name="STATUS">REGISTERED</column>
+      <column name="REF_PROFILE_ID">-101</column>
+    </insert>
+
+    <insert tableName="USR_USERS_ROLES">
+      <column name="REF_USER_ID">-101</column>
+      <column name="REF_ROLE_ID">-3</column>
+    </insert>
+  </changeSet>
+</databaseChangeLog>

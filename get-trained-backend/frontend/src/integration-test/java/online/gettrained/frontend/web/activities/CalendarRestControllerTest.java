@@ -57,7 +57,7 @@ public class CalendarRestControllerTest extends BaseIntegrationTest {
   @BeforeClass
   public static void setUpEnv() {
     BaseIntegrationTest.setUpEnv();
-    System.setProperty("testEnvironment", "TEST-CALENDAR");
+    System.setProperty("testEnvironmentCalendar", "TEST-CALENDAR");
   }
 
   @Test
