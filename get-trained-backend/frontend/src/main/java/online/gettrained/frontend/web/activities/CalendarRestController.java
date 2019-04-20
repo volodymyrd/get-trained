@@ -95,7 +95,7 @@ public class CalendarRestController {
     User user = authService.getCurrentUserOrException();
 
     try {
-      return ResponseEntity.ok(calendarService.getMergedSchedule(user));
+      return ResponseEntity.ok(calendarService.getTrainerCalendar(user));
     } catch (Exception e) {
       LOG.error("Error getting a calendar", e);
       return ResponseEntity.badRequest().body(new ErrorInfoDto(

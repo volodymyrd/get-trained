@@ -9,6 +9,7 @@ import static org.junit.Assert.assertTrue;
 import com.google.common.collect.ImmutableList;
 import java.util.List;
 import online.gettrained.backend.domain.activities.TimeSlot;
+import online.gettrained.backend.domain.activities.TrainerCalendar;
 import online.gettrained.backend.domain.activities.TrainerConnectionSchedule;
 import online.gettrained.frontend.BaseIntegrationTest;
 import org.junit.BeforeClass;
@@ -34,25 +35,36 @@ public class CalendarRestControllerTest extends BaseIntegrationTest {
 
   private final static List<TimeSlot> MONDAY = ImmutableList.of(new TimeSlot("09:00", "10:30"));
   private final static List<TimeSlot> MONDAY1 = ImmutableList.of();
+  private final static List<TimeSlot> MONDAY2 = ImmutableList.of(new TimeSlot("10:00", "11:30"));
   private final static List<TimeSlot> TUESDAY = ImmutableList.of(new TimeSlot("18:30", "20:15"));
   private final static List<TimeSlot> TUESDAY1 = ImmutableList.of(new TimeSlot("18:00", "20:20"));
+  private final static List<TimeSlot> TUESDAY2 = ImmutableList.of(new TimeSlot("19:00", "21:30"));
   private final static List<TimeSlot> WEDNESDAY = ImmutableList.of(new TimeSlot("10:20", "12:30"));
   private final static List<TimeSlot> WEDNESDAY1 = ImmutableList
       .of(new TimeSlot("10:20", "12:30"), new TimeSlot("18:30", "20:15"));
+  private final static List<TimeSlot> WEDNESDAY2 = ImmutableList
+      .of(new TimeSlot("13:30", "15:30"), new TimeSlot("21:30", "23:00"));
   private final static List<TimeSlot> THURSDAY = ImmutableList
       .of(new TimeSlot("08:30", "09:30"), new TimeSlot("18:00", "20:00"));
   private final static List<TimeSlot> THURSDAY1 = ImmutableList
       .of(new TimeSlot("08:30", "09:30"), new TimeSlot("17:00", "19:00"));
+  private final static List<TimeSlot> THURSDAY2 = ImmutableList
+      .of(new TimeSlot("10:30", "12:30"), new TimeSlot("18:00", "20:00"));
   private final static List<TimeSlot> FRIDAY = ImmutableList
       .of(new TimeSlot("09:00", "10:30"), new TimeSlot("18:00", "20:00"));
   private final static List<TimeSlot> FRIDAY1 = ImmutableList
       .of(new TimeSlot("09:00", "10:30"), new TimeSlot("18:00", "20:00"));
+  private final static List<TimeSlot> FRIDAY2 = ImmutableList
+      .of(new TimeSlot("11:00", "12:30"), new TimeSlot("19:00", "21:00"));
   private final static List<TimeSlot> SATURDAY = ImmutableList.of(new TimeSlot("17:00", "19:00"));
   private final static List<TimeSlot> SATURDAY1 = ImmutableList.of(new TimeSlot("17:00", "19:00"));
+  private final static List<TimeSlot> SATURDAY2 = ImmutableList.of(new TimeSlot("19:30", "22:00"));
   private final static List<TimeSlot> SUNDAY = ImmutableList
       .of(new TimeSlot("09:00", "10:30"), new TimeSlot("21:00", "23:00"));
   private final static List<TimeSlot> SUNDAY1 = ImmutableList
       .of(new TimeSlot("21:00", "23:00"));
+  private final static List<TimeSlot> SUNDAY2 = ImmutableList
+      .of(new TimeSlot("18:00", "19:00"));
 
   @BeforeClass
   public static void setUpEnv() {
@@ -111,6 +123,29 @@ public class CalendarRestControllerTest extends BaseIntegrationTest {
   }
 
   @Test
+  public void test_012_addSchedule() {
+    setUser(TRAINER_USER_ID);
+
+    validateSchedule(
+        calendarRestController.saveSchedule(getSchedule(
+            TRAINEE_USER_ID_101,
+            MONDAY2,
+            TUESDAY2,
+            WEDNESDAY2,
+            THURSDAY2,
+            FRIDAY2,
+            SATURDAY2,
+            SUNDAY2)),
+        MONDAY2,
+        TUESDAY2,
+        WEDNESDAY2,
+        THURSDAY2,
+        FRIDAY2,
+        SATURDAY2,
+        SUNDAY2);
+  }
+
+  @Test
   public void test_020_getScheduleByTrainer() {
     setUser(TRAINER_USER_ID);
     validateSchedule(
@@ -160,6 +195,15 @@ public class CalendarRestControllerTest extends BaseIntegrationTest {
         FRIDAY1,
         SATURDAY1,
         SUNDAY1);
+  }
+
+  @Test
+  public void test_050_getCalendar() {
+    ResponseEntity<?> response = calendarRestController.getCalendar();
+    assertEquals(HTTP_OK, response.getStatusCodeValue());
+    TrainerCalendar calendar = (TrainerCalendar) response.getBody();
+    assertNotNull(calendar);
+    System.out.println(calendar);
   }
 
   private TrainerConnectionSchedule getSchedule(

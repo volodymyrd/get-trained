@@ -3,10 +3,13 @@ package online.gettrained.backend.services.activities;
 import static java.util.Objects.requireNonNull;
 import static online.gettrained.backend.domain.activities.TrainerConnections.Status.CONNECTED;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import online.gettrained.backend.domain.activities.TraineeTimeSlot;
+import online.gettrained.backend.domain.activities.TrainerCalendar;
 import online.gettrained.backend.domain.activities.TrainerConnectionSchedule;
 import online.gettrained.backend.domain.activities.TrainerConnections;
 import online.gettrained.backend.domain.user.User;
@@ -77,10 +80,9 @@ public class CalendarServiceImpl implements CalendarService {
   }
 
   @Override
-  public TrainerConnectionSchedule getMergedSchedule(User trainerUser) throws NotFoundException {
+  public TrainerCalendar getTrainerCalendar(User trainerUser) {
     requireNonNull(trainerUser, "Parameter 'trainerUser' must be filled");
     int limitConnections = 100;
-    TrainerConnectionSchedule mergedSchedule = new TrainerConnectionSchedule();
     Page<TrainerConnections> page = activityService
         .findMyConnections(trainerUser, 0, limitConnections);
     List<TrainerConnectionSchedule> scheduleList = page.getData().stream()
@@ -95,38 +97,62 @@ public class CalendarServiceImpl implements CalendarService {
           .filter(Optional::isPresent)
           .map(Optional::get).collect(Collectors.toList()));
     }
+
+    List<TraineeTimeSlot> mondays = new ArrayList<>();
+    List<TraineeTimeSlot> tuesdays = new ArrayList<>();
+    List<TraineeTimeSlot> wednesdays = new ArrayList<>();
+    List<TraineeTimeSlot> thursdays = new ArrayList<>();
+    List<TraineeTimeSlot> fridays = new ArrayList<>();
+    List<TraineeTimeSlot> saturdays = new ArrayList<>();
+    List<TraineeTimeSlot> sundays = new ArrayList<>();
+
     scheduleList.forEach(s -> {
       if (s.getMonday() != null && !s.getMonday().isEmpty()) {
-        mergedSchedule.getMonday().addAll(s.getMonday());
+        mondays.addAll(s.getMonday().stream()
+            .map(e -> new TraineeTimeSlot(e, s.getConnection().getId(), s.getTrainee().getId()))
+            .collect(Collectors.toList()));
       }
       if (s.getTuesday() != null && !s.getTuesday().isEmpty()) {
-        mergedSchedule.getTuesday().addAll(s.getTuesday());
+        tuesdays.addAll(s.getTuesday().stream()
+            .map(e -> new TraineeTimeSlot(e, s.getConnection().getId(), s.getTrainee().getId()))
+            .collect(Collectors.toList()));
       }
       if (s.getWednesday() != null && !s.getWednesday().isEmpty()) {
-        mergedSchedule.getWednesday().addAll(s.getWednesday());
+        wednesdays.addAll(s.getWednesday().stream()
+            .map(e -> new TraineeTimeSlot(e, s.getConnection().getId(), s.getTrainee().getId()))
+            .collect(Collectors.toList()));
       }
       if (s.getThursday() != null && !s.getThursday().isEmpty()) {
-        mergedSchedule.getThursday().addAll(s.getThursday());
+        thursdays.addAll(s.getThursday().stream()
+            .map(e -> new TraineeTimeSlot(e, s.getConnection().getId(), s.getTrainee().getId()))
+            .collect(Collectors.toList()));
       }
       if (s.getFriday() != null && !s.getFriday().isEmpty()) {
-        mergedSchedule.getFriday().addAll(s.getFriday());
+        fridays.addAll(s.getFriday().stream()
+            .map(e -> new TraineeTimeSlot(e, s.getConnection().getId(), s.getTrainee().getId()))
+            .collect(Collectors.toList()));
       }
       if (s.getSaturday() != null && !s.getSaturday().isEmpty()) {
-        mergedSchedule.getSaturday().addAll(s.getSaturday());
+        saturdays.addAll(s.getSaturday().stream()
+            .map(e -> new TraineeTimeSlot(e, s.getConnection().getId(), s.getTrainee().getId()))
+            .collect(Collectors.toList()));
       }
       if (s.getSunday() != null && !s.getSunday().isEmpty()) {
-        mergedSchedule.getSunday().addAll(s.getSunday());
+        sundays.addAll(s.getSunday().stream()
+            .map(e -> new TraineeTimeSlot(e, s.getConnection().getId(), s.getTrainee().getId()))
+            .collect(Collectors.toList()));
       }
     });
 
-    Collections.sort(mergedSchedule.getMonday());
-    Collections.sort(mergedSchedule.getTuesday());
-    Collections.sort(mergedSchedule.getWednesday());
-    Collections.sort(mergedSchedule.getThursday());
-    Collections.sort(mergedSchedule.getFriday());
-    Collections.sort(mergedSchedule.getSaturday());
-    Collections.sort(mergedSchedule.getSunday());
+    Collections.sort(mondays);
+    Collections.sort(tuesdays);
+    Collections.sort(wednesdays);
+    Collections.sort(thursdays);
+    Collections.sort(fridays);
+    Collections.sort(saturdays);
+    Collections.sort(sundays);
 
-    return mergedSchedule;
+    return new TrainerCalendar(
+        mondays, tuesdays, wednesdays, thursdays, fridays, saturdays, sundays);
   }
 }
